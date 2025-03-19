@@ -62,7 +62,7 @@
                </li>
 
                <li class="nav-item {{ request()->is('administration/commandes*') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('/administration/stocks') }}">
+                    <a class="nav-link" href="{{ url('/administration/commandes') }}">
                          <span class="nav-icon">
                               <iconify-icon icon="solar:bag-smile-bold-duotone"></iconify-icon>
                          </span>

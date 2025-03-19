@@ -104,7 +104,8 @@ public function updateStatus(Request $request, $id)
         ]);
 
         $cart = json_decode($request->cart_data, true);
-        
+        dd($request); // Débogue le contenu de $cart
+
         // dd($cart); // Affichez la structure du panier
 
         if (!$cart || count($cart) === 0) {
@@ -126,7 +127,7 @@ public function updateStatus(Request $request, $id)
         foreach ($cart as $item) {
             OrderDetail::create([
                 'order_id' => $order->id,
-                'product_id' => $item['id'],
+                'product_id' => $item['product_id'],
                 'quantity' => $item['quantity'],
                 'price' => $item['price'],
             ]);

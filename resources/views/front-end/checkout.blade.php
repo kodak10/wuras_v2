@@ -14,6 +14,7 @@
             <input type="hidden" name="shipping_method" id="shipping_method">
             <input type="hidden" name="cart_data" id="cart_data">
             <input type="hidden" name="total_price" id="total_price">
+            <input type="hidden" name="id" id="id">
 
             <div class="row">
                 <aside class="col-lg-5 sticky-sidebar-wrapper m-auto" style="margin: auto">
@@ -87,6 +88,9 @@
             document.getElementById("cart_data").value = JSON.stringify(cart);
             document.getElementById("shipping_method").value = localStorage.getItem("shipping_method") || "flat_rate";
             document.getElementById("total_price").value = subtotal;
+
+            document.getElementById("id").value = productId;
+
         }
 
         updateOrderDisplay();
