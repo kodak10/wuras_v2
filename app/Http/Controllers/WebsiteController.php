@@ -130,43 +130,87 @@ class WebsiteController extends Controller
     //     return view('front-end.shop', compact('products', 'query', 'categories', 'categoryNames', 'promotion'));
     // }
 
-    public function magasin(Request $request)
-    {
-        // Récupérer toutes les catégories
-        $categories = Category::all();
+    // public function magasin(Request $request)
+    // {
+    //     // Récupérer toutes les catégories
+    //     $categories = Category::all();
     
-        // Récupérer les paramètres de tri et de nombre d'éléments
-        $orderBy = $request->input('orderby', 'date');
-        $count = $request->input('count', 12);
+    //     // Récupérer les paramètres de tri et de nombre d'éléments
+    //     $orderBy = $request->input('orderby', 'date');
+    //     $count = $request->input('count', 12);
     
-        // Récupérer les produits avec les filtres appliqués
-        $products = Product::with('category')
-            ->when($orderBy, function ($queryBuilder) use ($orderBy) {
-                if ($orderBy === 'price-low') {
-                    $queryBuilder->orderBy('price', 'asc');
-                } elseif ($orderBy === 'price-high') {
-                    $queryBuilder->orderBy('price', 'desc');
-                } else {
-                    $queryBuilder->orderBy('created_at', 'desc');
-                }
-            })
-            ->paginate($count);  // Limiter le nombre de produits selon "count"
+    //     // Récupérer les produits avec les filtres appliqués
+    //     $products = Product::with('category')
+    //         ->when($orderBy, function ($queryBuilder) use ($orderBy) {
+    //             if ($orderBy === 'price-low') {
+    //                 $queryBuilder->orderBy('price', 'asc');
+    //             } elseif ($orderBy === 'price-high') {
+    //                 $queryBuilder->orderBy('price', 'desc');
+    //             } else {
+    //                 $queryBuilder->orderBy('created_at', 'desc');
+    //             }
+    //         })
+    //         ->paginate($count);  // Limiter le nombre de produits selon "count"
     
-        // Si c'est une requête AJAX, renvoyer les produits et la pagination en JSON
-        if ($request->ajax()) {
-            $html = view('front-end.shop-list' , compact('products'))->render();
-            $pagination = $products->links('pagination::bootstrap-4')->render();
+    //     // Si c'est une requête AJAX, renvoyer les produits et la pagination en JSON
+    //     if ($request->ajax()) {
+    //         $html = view('front-end.shop-list' , compact('products'))->render();
+    //         $pagination = $products->links('pagination::bootstrap-4')->render();
             
-            return response()->json([
-                'products' => $html,
-                'pagination' => $pagination
-            ]);
-        }
+    //         return response()->json([
+    //             'products' => $html,
+    //             'pagination' => $pagination
+    //         ]);
+    //     }
     
-        // Retourner la vue avec les variables
-        return view('front-end.shop', compact('products', 'categories'));
+    //     // Retourner la vue avec les variables
+    //     return view('front-end.shop', compact('products', 'categories'));
+    // }
+    
+    public function magasin(Request $request)
+{
+    // Récupérer toutes les catégories
+    $categories = Category::all();
+
+    // Récupérer le nom de la catégorie depuis la requête, ou par défaut 'Ordinateur'
+    $categoryName = $request->input('category_name', 'Ordinateur');
+
+    // Récupérer les produits en fonction de la catégorie
+    $category = Category::where('name', $categoryName)->first();
+
+    // Si la catégorie existe, on applique le filtre
+    $productsQuery = Product::with('category')
+        ->when($category, function ($queryBuilder) use ($category) {
+            return $queryBuilder->where('category_id', $category->id);
+        })
+        ->when($request->input('orderby', 'date'), function ($queryBuilder) use ($request) {
+            if ($request->orderby === 'price-low') {
+                $queryBuilder->orderBy('price', 'asc');
+            } elseif ($request->orderby === 'price-high') {
+                $queryBuilder->orderBy('price', 'desc');
+            } else {
+                $queryBuilder->orderBy('created_at', 'desc');
+            }
+        });
+
+    // Récupérer les produits avec la pagination
+    $products = $productsQuery->paginate($request->input('count', 12));
+
+    // Si c'est une requête AJAX, renvoyer les produits et la pagination en JSON
+    if ($request->ajax()) {
+        $html = view('front-end.shop-list', compact('products'))->render();
+        $pagination = $products->links('pagination::bootstrap-4')->render();
+
+        return response()->json([
+            'products' => $html,
+            'pagination' => $pagination
+        ]);
     }
-    
+
+    // Retourner la vue avec les variables
+    return view('front-end.shop', compact('products', 'categories', 'category'));
+}
+
 
 
 
