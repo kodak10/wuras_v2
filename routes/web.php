@@ -4,6 +4,7 @@ use App\Http\Controllers\Administration\AdminController;
 use App\Http\Controllers\Administration\OrderController;
 use App\Http\Controllers\Administration\ParametreController;
 use App\Http\Controllers\Administration\ProductController;
+use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\WebsiteController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -25,9 +26,7 @@ Route::post('/checkout', [OrderController::class, 'store'])->name('checkout.stor
 Route::get('order/success', [OrderController::class, 'success'])->name('order.success');
 
 
-Route::get('/home', function () {
-    return view('Administration.pages.index');
-});
+
 
 Route::prefix('administration')->middleware(['auth', 'role:Administrateur'])->group(function () {
     Route::get('/', [AdminController::class, 'index']);
@@ -76,6 +75,14 @@ Route::prefix('administration')->middleware(['auth', 'role:Administrateur'])->gr
     Route::get('/ventes/recu', function () {
         return view('Administration.pages.commandes.recu');
     });
+});
+
+
+Route::prefix('home')->middleware(['auth', 'role:User'])->group(function () {
+    Route::get('/', [UserController::class, 'index']);
+    Route::post('/profile/update', [UserController::class, 'update'])->name('profile.update');
+    Route::get('/orders/{order}', [UserController::class, 'orderShow'])->name('orders.show');
+
 });
 
 Auth::routes();

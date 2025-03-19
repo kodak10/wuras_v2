@@ -115,7 +115,7 @@
                 </div>
             </div>
             @foreach ($computers as $product)
-            <div class="product text-center">
+            <div class="product text-center" data-id="{{ $product->id }}">
                 <figure class="product-media">
                     <a href="{{ route('products.details', ['slug' => $product->slug]) }}">
                         @php
@@ -135,14 +135,7 @@
                         <a href="#" class="btn-product-icon btn-compare" title="Ajouter à la comparaison"><i class="d-icon-compare"></i></a>
                     </div>
                     <div class="product-action">
-                        <a href="javascript:void(0);" class="btn-product btn-quickview" 
-                            data-id="{{ $product->id }}" 
-                            data-name="{{ $product->name }}"
-                            data-price="{{ $product->price }}"
-                            data-sku="{{ $product->sku }}"
-                            data-description="{{ $product->description }}"
-                            data-images="{{ json_encode($product->images) }}"
-                            title="Quick View">Aperçu</a>
+                        <a href="{{ route('products.details', ['slug' => $product->slug]) }}" class="btn-product" title="Quick View">Aperçu</a>
 
                         {{-- <a href="{{ route('products.show', $product->id) }}" class="btn-product btn-quickview" title="Quick View">Aperçu</a> --}}
                     </div>
@@ -262,7 +255,7 @@
                 </div>
             </div>
             @foreach ($EcransImprimantes as $product)
-            <div class="product text-center">
+            <div class="product text-center" data-id="{{ $product->id }}">
                 <figure class="product-media">
                     <a href="{{ route('products.details', ['slug' => $product->slug]) }}">
                         @php
@@ -281,7 +274,7 @@
                         <a href="#" class="btn-product-icon btn-compare" title="Ajouter à la comparaison"><i class="d-icon-compare"></i></a>
                     </div>
                     <div class="product-action">
-                        <a href="{{ route('products.show', $product->id) }}" class="btn-product btn-quickview" title="Quick View">Aperçu</a>
+                        <a href="{{ route('products.details', ['slug' => $product->slug]) }}" class="btn-product" title="Quick View">Aperçu</a>
                     </div>
                 </figure>
                 <div class="product-details">
@@ -356,7 +349,7 @@
                 </div>
             </div>
             @foreach ($accessoires as $product)
-            <div class="product text-center">
+            <div class="product text-center" data-id="{{ $product->id }}">
                 <figure class="product-media">
                     <a href="{{ route('products.details', ['slug' => $product->slug]) }}">
                         @php
@@ -375,7 +368,7 @@
                         <a href="#" class="btn-product-icon btn-compare" title="Ajouter à la comparaison"><i class="d-icon-compare"></i></a>
                     </div>
                     <div class="product-action">
-                        <a href="{{ route('products.show', $product->id) }}" class="btn-product btn-quickview" title="Quick View">Aperçu</a>
+                        <a href="{{ route('products.details', ['slug' => $product->slug]) }}" class="btn-product" title="Quick View">Aperçu</a>
                     </div>
                 </figure>
                 <div class="product-details">
@@ -419,7 +412,7 @@
                 }
             }
         }">
-            <div class="product text-center">
+            <div class="product text-center" data-id="{{ $product->id }}">
                 <figure class="product-media">
                     <a href="#">
                         <img src="images/demos/demo-market1/product/34.jpg" alt="product" width="260" height="293">
@@ -429,7 +422,7 @@
                         <a href="#" class="btn-product-icon btn-compare" title="Ajouter à la comparaison"><i class="d-icon-compare"></i></a>
                     </div>
                     <div class="product-action">
-                        <a href="{{ route('products.show', $product->id) }}" class="btn-product btn-quickview" title="Quick View">Aperçu</a>
+                        <a href="{{ route('products.details', ['slug' => $product->slug]) }}" class="btn-product" title="Quick View">Aperçu</a>
                     </div>
                 </figure>
                 <div class="product-details">
@@ -459,7 +452,7 @@
         <div class="row grid-type">
             <!-- Affichage du premier produit -->
             @if($firstProduct)
-            <div class="product-single-wrap">
+            <div class="product-single-wrap" data-id="{{ $firstProduct->id }}">
                 <div class="product product-single">
                     <div class="row product-gallery align-items-center mb-0">
                         <div class="col-md-6 p-relative mb-4 mb-md-0">

@@ -36,12 +36,12 @@
                                     @enderror
                                 </div>
                                 <div class="form-footer">
-                                    <div class="form-checkbox">
+                                    {{-- <div class="form-checkbox">
                                         <input type="checkbox" class="custom-checkbox"  id="remember" {{ old('remember') ? 'checked' : '' }} name="remember">
                                         <label class="form-control-label" for="signin-remember">Se Souvenir de moi
                                         </label>
-                                    </div>
-                                    <a href="{{ route('password.request') }}" class="lost-link">Mot de passe oublié ?</a>
+                                    </div> --}}
+                                    {{-- <a href="{{ route('password.request') }}" class="lost-link">Mot de passe oublié ?</a> --}}
                                 </div>
                                 <button class="btn btn-dark btn-block btn-rounded" type="submit">Se Connecter</button>
                             </form>
@@ -51,7 +51,7 @@
                             <form method="POST" action="{{ route('register') }}">
                                 @csrf
                                 <div class="form-group">
-                                    <input type="email" class="form-control"  name="email" placeholder="Adresse Email *" required="">
+                                    <input type="email" class="form-control"  name="email" value="{{ old('email') }}"  placeholder="Adresse Email *" required="">
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -59,7 +59,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <input type="number" class="form-control"  name="phone" placeholder="Numéro de téléphone *"value="{{ old('phone') }}" required>
+                                    <input type="number" class="form-control"  name="phone" placeholder="Numéro de téléphone *" value="{{ old('phone') }}" required>
                                     @error('phone')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>

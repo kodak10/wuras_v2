@@ -20,7 +20,7 @@
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
                                 <div class="form-group mb-3">
-                                    <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" placeholder="Adresse Email *" required="">
+                                    <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" placeholder="Adresse Email *" value="{{ old('email') }}" required="">
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -36,13 +36,15 @@
                                     @enderror
                                 </div>
                                 <div class="form-footer">
-                                    <div class="form-checkbox">
-                                        <input type="checkbox" class="custom-checkbox"  id="remember" {{ old('remember') ? 'checked' : '' }} name="remember">
-                                        <label class="form-control-label" for="signin-remember">Se Souvenir de moi
+                                    {{-- <div class="form-checkbox">
+                                        <input type="checkbox" class="custom-checkbox"  id="ogin-agree" {{ old('remember') ? 'checked' : '' }} name="remember">
+                                        <label class="form-control-label">Se Souvenir de moi
                                         </label>
-                                    </div>
-                                    <a href="{{ route('password.request') }}" class="lost-link">Mot de passe oublié ?</a>
+                                    </div> --}}
+                                    
+                                    {{-- <a href="{{ route('password.request') }}" class="lost-link">Mot de passe oublié ?</a> --}}
                                 </div>
+                                
                                 <button class="btn btn-dark btn-block btn-rounded" type="submit">Se Connecter</button>
                             </form>
                             
@@ -51,7 +53,7 @@
                             <form method="POST" action="{{ route('register') }}">
                                 @csrf
                                 <div class="form-group">
-                                    <input type="email" class="form-control"  name="email" placeholder="Adresse Email *" required="">
+                                    <input type="email" class="form-control"  name="email" value="{{ old('email') }}" placeholder="Adresse Email *" required="">
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>

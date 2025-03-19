@@ -9,16 +9,27 @@ class OrderDetail extends Model
 {
     use HasFactory;
 
+    // Définition des colonnes qui peuvent être affectées par l'utilisateur (mass-assignment)
     protected $fillable = ['order_id', 'product_id', 'quantity', 'price'];
 
+    /**
+     * Relation inverse avec la commande (Order).
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function order()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Order::class); // Un détail appartient à une commande
     }
 
+    /**
+     * Relation inverse avec le produit (Product).
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function product()
     {
-        // Relation avec le modèle Product (en supposant qu'il y a une colonne product_id)
-        return $this->belongsTo(Product::class, 'product_id');
+        return $this->belongsTo(Product::class);
     }
+    
 }

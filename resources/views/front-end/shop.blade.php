@@ -105,7 +105,7 @@
                                         <a href="#" class="btn-product-icon btn-compare" title="Ajouter à la comparaison"><i class="d-icon-compare"></i></a>
                                     </div>
                                     <div class="product-action">
-                                        <a href="{{ route('products.show', $product->id) }}" class="btn-product btn-quickview" title="Quick View">Aperçu</a>
+                                        <a href="{{ route('products.details', ['slug' => $product->slug]) }}" class="btn-product" title="Quick View">Aperçu</a>
                                     </div>
                                 </figure>
                                 <div class="product-details">

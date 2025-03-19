@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('parametres', function (Blueprint $table) {
             $table->id();
-        $table->string('name');
-        $table->string('numero_proprietaire');
-        $table->string('number_magasin');
-        $table->string('email')->unique();
-        $table->text('adresse');
-        $table->timestamps();
+            $table->string('name');
+            $table->string('numero_proprietaire');
+            $table->string('number_magasin');
+            $table->string('email')->unique();
+            $table->text('adresse');
+            $table->timestamps();
         });
     }
 

@@ -42,40 +42,26 @@
         
                     <h1 class="product-name">{{ $product->name }}</h1>
                     <div class="product-meta">
-                        SKU: <span class="product-sku">{{ $product->sku }}</span>
-                        BRAND: <span class="product-brand">{{ $product->marque }}</span>
+                        Marque: <span class="product-brand">{{ $product->marque }}</span>
                     </div>
                     <div class="product-price">
                         @if($product->discount)
-                            <ins class="new-price">{{ $product->price * (1 - $product->discount / 100) }} $</ins>
+                            <ins class="new-price">{{ $product->price * (1 - $product->discount / 100) }} FCFA</ins>
                             <del class="old-price">{{ $product->price }} $</del>
                         @else
                             <ins class="new-price">{{ $product->price }} $</ins>
                         @endif
                     </div>
-                    <div class="ratings-container">
-                        <div class="ratings-full">
-                            <span class="ratings" style="width:{{ $product->average_rating }}%"></span>
-                            <span class="tooltiptext tooltip-top"></span>
-                        </div>
-                        <a href="#product-tab-reviews" class="link-to-tab rating-reviews">( 11 reviews )</a>
-                    </div>
+                  
                     <p class="product-short-desc">{{ $product->description }}</p>
         
                     <div class="product-form product-variations product-color">
-                        <label>Color:</label>
-                        <div class="select-box">
-                            {{-- <select name="color" class="form-control">
-                                <option value="" selected="selected">Choose an Option</option>
-                                @foreach($product->colors as $color)
-                                    <option value="{{ $color }}">{{ ucfirst($color) }}</option>
-                                @endforeach
-                            </select> --}}
-                        </div>
+                        <label>Couleur:</label>
+                        
                     </div>
                     
                     <div class="product-variation-price">
-                        <span>{{ $product->price }} $</span>
+                        <span>{{ $product->price }} FCFA</span>
                     </div>
         
                     <hr class="product-divider">
@@ -87,7 +73,7 @@
                                 <input class="quantity form-control" type="number" min="1" max="1000000">
                                 <button class="quantity-plus d-icon-plus"></button>
                             </div>
-                            <button class="btn-product btn-cart text-normal ls-normal font-weight-semi-bold"><i class="d-icon-bag"></i>Add to Cart</button>
+                            <button class="btn-product btn-cart text-normal ls-normal font-weight-semi-bold"><i class="d-icon-bag"></i>Ajouter au Panier</button>
                         </div>
                     </div>
         
@@ -100,8 +86,7 @@
                             <a href="#" class="social-link social-pinterest fab fa-pinterest-p"></a>
                         </div>
                         <span class="divider d-lg-show"></span>
-                        <a href="#" class="btn-product btn-wishlist mr-6"><i class="d-icon-heart"></i>Add to wishlist</a>
-                        <a href="#" class="btn-product btn-compare"><i class="d-icon-compare"></i>Add to compare</a>
+                        <a href="#" class="btn-product btn-compare"><i class="d-icon-compare"></i>Ajouter à comparer</a>
                     </div>
                 </div>
             </div>

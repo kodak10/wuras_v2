@@ -29,7 +29,7 @@
 </div>
 @endsection
 
-@section('scripts')
+@push('scripts')
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         let compareList = JSON.parse(localStorage.getItem("compareList")) || [];
@@ -91,4 +91,4 @@
         };
     });
 </script>
-@endsection
+@endpush

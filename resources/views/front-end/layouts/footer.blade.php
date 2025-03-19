@@ -78,7 +78,7 @@
                         <h4 class="widget-title">Compte</h4>
                         <ul class="widget-body">
                             <li>
-                                <a href="#">Mon Compte</a>
+                                <a href="/home">Mon Compte</a>
                             </li>
                             <li>
                                 <a href="{{ route('panier') }}">Panier</a>
