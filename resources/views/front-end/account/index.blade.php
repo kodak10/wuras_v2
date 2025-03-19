@@ -66,43 +66,34 @@
                                 class="d-icon-arrow-right"></i></a>
                     </div>
                     <div class="tab-pane" id="orders">
-                        <table class="table mb-0">
-                            <thead class="bg-light bg-opacity-50">
+                        <table class="order-table">
+                            <thead>
                                 <tr>
-                                    <th class="border-0 py-2">Produit</th>
-                                    <th class="border-0 py-2">Quantité</th>
-                                    <th class="border-0 py-2">Prix</th>
-                                    <th class="text-end border-0 py-2">Total</th>
+                                    <th class="pl-2">Order</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Total</th>
+                                    <th class="pr-2">Actions</th>
                                 </tr>
-                            </thead> <!-- end thead -->
+                            </thead>
                             <tbody>
-                                @forelse ($orders as $order)
-                                    @foreach ($order->details as $detail)
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-3">
-                                                    <div class="rounded bg-light avatar d-flex align-items-center justify-content-center">
-                                                        @if($detail->product && $detail->product->image_path)
-                                                            <img src="{{ asset('storage/' . $detail->product->image_path) }}" alt="" class="avatar">
-                                                        @else
-                                                            <img src="assets/images/product/p-1.png" alt="" class="avatar">
-                                                        @endif
-                                                    </div>
-                                                    <div>
-                                                        <a href="#!" class="text-dark fw-medium fs-15">{{ $detail->product->name }}</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>{{ $detail->quantity }}</td>
-                                            <td>${{ number_format($detail->price, 2) }}</td>
-                                            <td class="text-end">${{ number_format($detail->quantity * $detail->price, 2) }}</td>
-                                        </tr>
-                                    @endforeach
-                                @empty
-                                    <tr><td colspan="4">Aucune commande trouvée</td></tr>
-                                @endforelse
+                                @foreach($orders as $order)
+                                    <tr>
+                                        <td class="order-number"><a href="{{ route('orders.show', $order->id) }}">#{{ $order->order_number }}</a></td>
+                                        <td class="order-date"><span>{{ $order->created_at->format('F d, Y') }}</span></td>
+                                        <td class="order-status"><span>{{ $order->status }}</span></td>
+                                        <td class="order-total">
+                                            <span>{{ number_format($order->total_price, 2, '.', '') }} pour {{ $order->details->sum('quantity') }} produits</span>
+                                        </td>
+                                        <td class="order-action">
+                                            <a href="{{ route('orders.show', $order->id) }}" class="btn btn-primary btn-link btn-underline">Detail</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
-                        </table> <!-- end table -->
+                        </table>
+                        
+                        
                         
                         
                     </div>

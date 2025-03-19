@@ -112,6 +112,7 @@ public function updateStatus(Request $request, $id)
             return redirect()->back()->withErrors(['cart' => 'Votre panier est vide.']);
         }
 
+        // dd($request->shipping_address);
         // Créer la commande
         $order = Order::create([
             'user_id' => Auth::id(),

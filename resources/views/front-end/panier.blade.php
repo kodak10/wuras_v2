@@ -76,19 +76,21 @@
                         </table>
                         
                         <!-- Section de livraison qui sera affichée si l'utilisateur sélectionne "Livraison" -->
-                        <div class="shipping-address mt-3" id="shipping-address" style="display: none;">
-                           
+                        <div class="shipping-address mt-3" name="shipping_adresse" id="shipping-address" style="display: none;">
                             <div class="select-box">
-                                <select name="country" class="form-control" id="commune">
+                                <select name="commune" class="form-control" id="commune" onchange="updateShippingAddress()">
                                     <option selected>Lieu</option>
-                                    <option value="us">Abobo</option>
-                                    <option value="uk">Cocody</option>
-                                    <option value="uk">Bassam</option>
-                                    <option value="">Intérieur du Pays</option>
+                                    <option value="Abobo">Abobo</option>
+                                    <option value="Cocody">Cocody</option>
+                                    <option value="Bassam">Bassam</option>
+                                    <option value="Intérieur du Pays">Intérieur du Pays</option>
                                 </select>
                             </div>
-                            <input type="text" class="form-control" name="code" placeholder="Quartier" id="quartier"/>
+                            <input type="text" class="form-control" name="quartier" placeholder="Quartier" id="quartier" onkeyup="updateShippingAddress()"/>
                             <input type="text" class="form-control" name="phone" placeholder="Numéro de téléphone" id="phone" />
+                        
+                            <!-- Champ caché ou visible qui contient l'adresse complète -->
+                            <input type="hidden" name="shipping_adresse" id="shipping_adresse" />
                         </div>
             
                         <table class="total">
@@ -285,5 +287,18 @@
             });
         });
     });
+</script>
+
+<script>
+    function updateShippingAddress() {
+        var commune = document.getElementById('commune').value;
+        var quartier = document.getElementById('quartier').value;
+        
+        // Créez l'adresse complète en combinant la commune et le quartier
+        var fullAddress = commune + (quartier ? ', ' + quartier : '');
+
+        // Mettre à jour le champ shipping_adresse
+        document.getElementById('shipping_adresse').value = fullAddress;
+    }
 </script>
 @endpush
