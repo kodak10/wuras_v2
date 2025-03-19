@@ -152,7 +152,7 @@
                         <!-- End of Products  -->
                         <div class="cart-total">
                             <label>Sous Total:</label>
-                            <span class="cart-price">00</span>
+                            <span class="sous-price">00</span>
                         </div>
                         <!-- End of Cart Total -->
                         <div class="cart-action">

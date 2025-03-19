@@ -456,16 +456,19 @@
             function updateCartDisplay() {
                 let cartCount = document.querySelector(".cart-count");
                 let cartPrice = document.querySelector(".cart-price");
+                let carSousTotal = document.querySelector(".sous-price")
                 let cartDropdown = document.querySelector(".cart-dropdown .products");
     
                 if (cart.length === 0) {
                     cartCount.textContent = "0";
                     cartPrice.textContent = "0 FCFA";
+                    carSousTotal.textContent = "0 FCFA";
                     cartDropdown.innerHTML = "<p>Votre panier est vide.</p>";
                 } else {
                     let totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
                     cartCount.textContent = cart.length;
                     cartPrice.textContent = totalPrice.toFixed(2) + " FCFA";
+                    carSousTotal.textContent = totalPrice.toFixed(2) + " FCFA";
     
                     cartDropdown.innerHTML = cart.map(item => `
                         <div class="product product-cart">

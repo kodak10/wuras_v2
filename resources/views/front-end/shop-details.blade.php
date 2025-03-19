@@ -27,7 +27,7 @@
                     </div>
                     <div class="product-label-group">
                         @if($product->discount)
-                            <label class="product-label label-sale">{{ $product->discount }}% OFF</label>
+                            <label class="product-label label-sale">{{ $product->discount }} Reduction</label>
                         @endif
                         @if($product->is_new) <!-- Si le produit est marqué comme 'nouveau' -->
                             <label class="product-label label-new">new</label>
@@ -37,7 +37,10 @@
             </div>
         
             <div class="col-md-6">
-                <div class="product-details">
+                <div class="product-details" data-id="{{ $product->id }}" 
+                    data-name="{{ $product->name }}" 
+                    data-price="{{ $product->price }}" 
+                    data-image="{{ $imageUrl }}">
                    
         
                     <h1 class="product-name">{{ $product->name }}</h1>
@@ -47,7 +50,7 @@
                     <div class="product-price">
                         @if($product->discount)
                             <ins class="new-price">{{ $product->price * (1 - $product->discount / 100) }} FCFA</ins>
-                            <del class="old-price">{{ $product->price }} $</del>
+                            <del class="old-price">{{ $product->price }} FCFA</del>
                         @else
                             <ins class="new-price">{{ $product->price }} $</ins>
                         @endif
@@ -60,10 +63,7 @@
                         
                     </div>
                     
-                    <div class="product-variation-price">
-                        <span>{{ $product->price }} FCFA</span>
-                    </div>
-        
+                   
                     <hr class="product-divider">
         
                     <div class="product-form product-qty">
@@ -73,7 +73,7 @@
                                 <input class="quantity form-control" type="number" min="1" max="1000000">
                                 <button class="quantity-plus d-icon-plus"></button>
                             </div>
-                            <button class="btn-product btn-cart text-normal ls-normal font-weight-semi-bold"><i class="d-icon-bag"></i>Ajouter au Panier</button>
+                            <button class="text-normal ls-normal font-weight-semi-bold btn-product-icon btn-cart"><i class="d-icon-bag"></i>Ajouter au Panier</button>
                         </div>
                     </div>
         
@@ -86,7 +86,7 @@
                             <a href="#" class="social-link social-pinterest fab fa-pinterest-p"></a>
                         </div>
                         <span class="divider d-lg-show"></span>
-                        <a href="#" class="btn-product btn-compare"><i class="d-icon-compare"></i>Ajouter à comparer</a>
+                        <a href="#" class="btn-product-icon btn-compare"><i class="d-icon-compare"></i>Ajouter à comparer</a>
                     </div>
                 </div>
             </div>

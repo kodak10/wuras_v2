@@ -116,11 +116,17 @@
                                         <a href="{{ route('products.details', ['slug' => $product->slug]) }}">{{ $product->name }}</a>
                                     </h3>
                                     <div class="product-price">
-                                        <ins class="new-price">{{ number_format($product->price, 0, '.', '') }} FCFA</ins>
-                                        @if ($product->old_price)
-                                            <del class="old-price">{{ number_format($product->old_price, 0, '.', '') }} FCFA</del>
+                                        @if ($product->discount && $product->discount > 1)
+                                            <ins class="new-price">{{ number_format($product->price - ($product->price * $product->discount ), 0, '.', '') }} FCFA</ins>
+                                            <del class="old-price">{{ number_format($product->price, 0, '.', '') }} FCFA</del>
+                                        @else
+                                            <ins class="new-price">{{ number_format($product->price, 0, '.', '') }} FCFA</ins>
+                                            @if ($product->price)
+                                                <del class="old-price">{{ number_format($product->price, 0, '.', '') }} FCFA</del>
+                                            @endif
                                         @endif
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>
