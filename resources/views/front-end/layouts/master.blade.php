@@ -185,9 +185,15 @@
                 <!-- Si l'utilisateur est authentifié -->
                 @auth
                     @if(Auth::user()->hasRole('Administrateur'))
-                    <li class="{{ Request::is('mon-compte*') ? 'active' : '' }}">
-                        <a href="/administration">Administration</a>
-                    </li>
+                        <li class="{{ Request::is('mon-compte*') ? 'active' : '' }}">
+                            <a href="/administration">Administration</a>
+                        </li>
+                    @endif
+
+                    @if(Auth::user()->hasRole('User'))
+                        <li class="{{ Request::is('mon-compte*') ? 'active' : '' }}">
+                            <a href="/home">Mon Compte</a>
+                        </li>
                     @endif
                    
                     

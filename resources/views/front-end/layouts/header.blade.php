@@ -13,6 +13,13 @@
                             <i class="d-icon-home"></i> Administration
                         </a>
                     @endif
+                    
+                    @if(Auth::user()->hasRole('User'))
+                        <a href="/home" class="help d-lg-show">
+                            <i class="d-icon-home"></i> Mon Compte
+                        </a>
+                    @endif
+                   
                    
                     <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                         @csrf
