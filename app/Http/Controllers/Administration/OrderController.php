@@ -127,7 +127,7 @@ public function updateStatus(Request $request, $id)
         foreach ($cart as $item) {
             OrderDetail::create([
                 'order_id' => $order->id,
-                'product_id' => $item['product_id'],
+                'product_id' => $item['id'],
                 'quantity' => $item['quantity'],
                 'price' => $item['price'],
             ]);
