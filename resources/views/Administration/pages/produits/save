@@ -1,0 +1,213 @@
+@extends('Administration.layouts.master')
+
+@section('content')
+<div class="container-xxl">
+
+    <div class="row">
+
+         <div class="col-xl-12 col-lg-12 ">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                             <h4 class="card-title">Vignette du produit</h4>
+                        </div>
+                        <div class="card-body">
+                             <!-- File Upload -->
+                             <form action="/" method="post" class="dropzone" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
+                                  <div class="fallback">
+                                       <input name="file" type="file" multiple />
+                                  </div>
+                                  <div class="dz-message needsclick">
+                                       <i class="bx bx-cloud-upload fs-48 text-primary"></i>
+                                       <h3 class="mt-4">Drop your images here, or <span class="text-primary">click to browse</span></h3>
+                                       <span class="text-muted fs-13">
+                                            1600 x 1200 (4:3) recommended. PNG, JPG and GIF files are allowed
+                                       </span>
+                                  </div>
+                             </form>
+                        </div>
+                   </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                             <h4 class="card-title">Images additionelles du produit</h4>
+                        </div>
+                        <div class="card-body">
+                             <!-- File Upload -->
+                             <form action="/" method="post" class="dropzone" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
+                                  <div class="fallback">
+                                       <input name="file" type="file" multiple />
+                                  </div>
+                                  <div class="dz-message needsclick">
+                                       <i class="bx bx-cloud-upload fs-48 text-primary"></i>
+                                       <h3 class="mt-4">Drop your images here, or <span class="text-primary">click to browse</span></h3>
+                                       <span class="text-muted fs-13">
+                                            1600 x 1200 (4:3) recommended. PNG, JPG and GIF files are allowed
+                                       </span>
+                                  </div>
+                             </form>
+                        </div>
+                   </div>
+                </div>
+            </div>
+             
+              <div class="card">
+                   <div class="card-header">
+                        <h4 class="card-title">Informations sur le produit</h4>
+                   </div>
+                   <div class="card-body">
+                        <div class="row">
+                             <div class="col-lg-6">
+                                  <form>
+                                       <div class="mb-3">
+                                            <label for="product-name" class="form-label">Nom du produit</label>
+                                            <input type="text" name="name" class="form-control" placeholder="Nom du produit">
+                                       </div>
+                                  </form>
+                             </div>
+                             <div class="col-lg-6">
+                                  <form>
+                                       <label for="product-categories" class="form-label">Catégories de produits</label>
+                                       <select class="form-control" name="categorie"  data-choices data-choices-groups data-placeholder="Select Categories" name="choices-single-groups">
+                                            <option value="">Choisissez une catégorie</option>
+                                            <option value="Fashion">Fashion</option>
+                                           
+                                       </select>
+                                  </form>
+                             </div>
+                        </div>
+                        <div class="row">
+                             <div class="col-lg-4">
+                                  <form>
+                                       <div class="mb-3">
+                                            <label for="product-brand" class="form-label">Marque</label>
+                                            <input type="text" name="marque" class="form-control" placeholder="Nom de la marque">
+                                       </div>
+                                  </form>
+                             </div>
+                             <div class="col-lg-4">
+                                  <form>
+                                       <div class="mb-3">
+                                            <label for="product-weight" class="form-label">Poids</label>
+                                            <input type="text" id="product-weight" class="form-control" placeholder="En Kg">
+                                       </div>
+                                  </form>
+                             </div>
+                             <div class="col-lg-4">
+                                  <form>
+                                       <label for="gender" class="form-label">Genre</label>
+                                       <select class="form-control" name="genre" data-choices data-choices-groups data-placeholder="Select Gender">
+                                            <option value="">Sélectionner</option>
+                                            <option value="Men">Genre</option>
+                                            
+                                       </select>
+                                  </form>
+                             </div>
+                        </div>
+                        <div class="row mb-4">
+                             
+                             <div class="col-lg-5">
+                                  <div class="mt-3">
+                                       <h5 class="text-dark fw-medium">Couleurs :</h5>
+                                       <div class="d-flex flex-wrap gap-2" role="group" aria-label="Basic checkbox toggle button group">
+                                            <input type="checkbox" class="btn-check" id="color-dark1">
+                                            <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="color-dark1"> <i class="bx bxs-circle fs-18 text-dark"></i></label>
+
+                                            <input type="checkbox" class="btn-check" id="color-yellow1">
+                                            <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="color-yellow1"> <i class="bx bxs-circle fs-18 text-warning"></i></label>
+
+                                            <input type="checkbox" class="btn-check" id="color-white1">
+                                            <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="color-white1"> <i class="bx bxs-circle fs-18 text-white"></i></label>
+
+                                            <input type="checkbox" class="btn-check" id="color-red1">
+                                            <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="color-red1"> <i class="bx bxs-circle fs-18 text-primary"></i></label>
+
+                                            <input type="checkbox" class="btn-check" id="color-green1">
+                                            <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="color-green1"> <i class="bx bxs-circle fs-18 text-success"></i></label>
+
+                                            <input type="checkbox" class="btn-check" id="color-blue1">
+                                            <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="color-blue1"> <i class="bx bxs-circle fs-18 text-danger"></i></label>
+
+                                            <input type="checkbox" class="btn-check" id="color-sky1">
+                                            <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="color-sky1"> <i class="bx bxs-circle fs-18 text-info"></i></label>
+
+                                            <input type="checkbox" class="btn-check" id="color-gray1">
+                                            <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="color-gray1"> <i class="bx bxs-circle fs-18 text-secondary"></i></label>
+
+                                       </div>
+                                  </div>
+                             </div>
+                        </div>
+                        <div class="row">
+                             <div class="col-lg-12">
+                                  <div class="mb-3">
+                                       <label for="description" class="form-label">Description</label>
+                                       <textarea class="form-control bg-light-subtle" name="description" rows="7" placeholder="Short description about the product"></textarea>
+                                  </div>
+                             </div>
+                        </div>
+                        <div class="row">
+                            
+                             <div class="col-lg-6">
+                                  <form>
+                                       <div class="mb-3">
+                                            <label for="product-stock" class="form-label">Stock</label>
+                                            <input type="number" name="stock" class="form-control" placeholder="Quantité">
+                                       </div>
+
+                                  </form>
+                             </div>
+                             <div class="col-lg-6">
+                                  <label for="product-stock" class="form-label">Tag</label>
+                                  <select class="form-control" name="tags" data-choices data-choices-removeItem name="choices-multiple-remove-button" multiple>
+                                       <option value="Fashion" selected>Fashion</option>
+                                       
+                                  </select>
+                             </div>
+                        </div>
+                   </div>
+              </div>
+              <div class="card">
+                   <div class="card-header">
+                        <h4 class="card-title">Détails des prix</h4>
+                   </div>
+                   <div class="card-body">
+                        <div class="row">
+                             <div class="col-lg-6">
+                                  <form>
+                                       <label for="product-price" class="form-label">Prix</label>
+                                       <div class="input-group mb-3">
+                                            <span class="input-group-text fs-20"><i class='bx bx-dollar'></i></span>
+                                            <input type="number" name="price" class="form-control" placeholder="000">
+                                       </div>
+                                  </form>
+                             </div>
+                             <div class="col-lg-6">
+                                  <form>
+                                       <label for="product-discount" class="form-label">Remise</label>
+                                       <div class="input-group mb-3">
+                                            <span class="input-group-text fs-20"><i class='bx bxs-discount'></i></span>
+                                            <input type="number" name="discount" class="form-control" placeholder="000">
+                                       </div>
+                                  </form>
+                             </div>
+                             
+                        </div>
+                   </div>
+              </div>
+              <div class="p-3 bg-light mb-3 rounded">
+                   <div class="row justify-content-end g-2">
+                        <div class="col-lg-2">
+                             <a href="#!" class="btn btn-outline-secondary w-100">Créer un produit</a>
+                        </div>
+                        <div class="col-lg-2">
+                             <a href="#!" class="btn btn-primary w-100">Annuler</a>
+                        </div>
+                   </div>
+              </div>
+         </div>
+    </div>
+</div>
+@endsection
