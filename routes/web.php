@@ -38,7 +38,10 @@ Route::prefix('administration')->middleware(['auth', 'role:Administrateur'])->gr
     // Ressource pour les produits
     Route::resource('products', ProductController::class);
     Route::delete('images/{image}', [ProductController::class, 'ImageDestroy'])->name('images.destroy');
-    Route::put('/products/{product}/update-thumbnail', [ProductController::class, 'updateThumbnail'])->name('product.updateThumbnail');
+
+    Route::put('/products/{id}/add-images', [ProductController::class, 'addImages'])->name('product.addImages');
+
+    Route::put('/products/{id}/update-thumbnail', [ProductController::class, 'updateThumbnail'])->name('product.updateThumbnail');
 
     Route::get('stocks', [ProductController::class, 'stock'])->name('products.stock');
     Route::put('stocks', [ProductController::class, 'updateStock'])->name('products.updateStock');

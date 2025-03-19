@@ -127,8 +127,13 @@
                     </div>
                 </div>
                 <div class="card-footer border-top">
-                    {{ $orders->links() }}
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-end mb-0">
+                            {{ $orders->links('pagination::bootstrap-4') }}
+                        </ul>
+                    </nav>
                 </div>
+                
             </div>
         </div>
     </div>

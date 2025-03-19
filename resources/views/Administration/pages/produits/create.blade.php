@@ -9,7 +9,7 @@
                <div class="col-lg-6">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Vignette du produit</h4>
+                            <h4 class="card-title">Vignette du produit <span class="text-danger">*</span></h4>
                         </div>
                         <div class="card-body">
                             <input type="file" name="thumbnail" class="form-control">
@@ -45,16 +45,19 @@
                        <div class="card-body">
                             <div class="row">
                                  <div class="col-lg-6">
-                                      <div class="mb-3">
-                                           <label for="product-name" class="form-label">Nom du produit</label>
-                                           <input type="text" name="name" class="form-control" placeholder="Nom du produit" value="{{ old('name') }}">
-                                           @error('name')
-                                               <div class="text-danger">{{ $message }}</div>
-                                           @enderror
-                                      </div>
+                                   <div class="mb-3">
+                                        <label for="product-name" class="form-label">
+                                            Nom du produit <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" name="name" class="form-control" placeholder="Nom du produit" value="{{ old('name') }}">
+                                        @error('name')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    
                                  </div>
                                  <div class="col-lg-6">
-                                   <label for="product-category" class="form-label">Catégorie</label>
+                                   <label for="product-category" class="form-label">Catégorie <span class="text-danger">*</span></label>
                                    <select name="category_id" class="form-control" required>
                                        <option value="">Sélectionnez une catégorie</option>
                                        @foreach($categories as $category)
@@ -70,7 +73,7 @@
                             <div class="row">
                                  <div class="col-lg-4">
                                       <div class="mb-3">
-                                           <label for="product-brand" class="form-label">Marque</label>
+                                           <label for="product-brand" class="form-label">Marque <span class="text-danger">*</span></label>
                                            <input type="text" name="marque" class="form-control" placeholder="Nom de la marque" value="{{ old('marque') }}">
                                            @error('marque')
                                                <div class="text-danger">{{ $message }}</div>
@@ -119,7 +122,7 @@
                             <div class="row">
                                  <div class="col-lg-6">
                                       <div class="mb-3">
-                                           <label for="product-stock" class="form-label">Stock</label>
+                                           <label for="product-stock" class="form-label">Stock <span class="text-danger">*</span></label>
                                            <input type="number" name="stock" class="form-control" placeholder="Quantité" value="{{ old('stock') }}">
                                            @error('stock')
                                                <div class="text-danger">{{ $message }}</div>
@@ -146,7 +149,7 @@
                             <div class="row">
                                  <div class="col-lg-6">
                                       <div class="mb-3">
-                                           <label for="product-price" class="form-label">Prix</label>
+                                           <label for="product-price" class="form-label">Prix <span class="text-danger">*</span></label>
                                            <div class="input-group mb-3">
                                                 <span class="input-group-text fs-20"><i class='bx bx-dollar'></i></span>
                                                 <input type="number" name="price" class="form-control" placeholder="000" value="{{ old('price') }}">

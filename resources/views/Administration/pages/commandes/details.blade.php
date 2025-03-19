@@ -2,6 +2,8 @@
 
 @section('content')
 <div class="container-xxl">
+    <a class="btn btn-outline-secondary bg-outline" href="{{ route('commandes.index') }}"><iconify-icon icon="solar:arrow-left-line-duotone"></iconify-icon>
+         Retour</a>
     <div class="row">
          <div class="col-xl-9 col-lg-8">
               <div class="row">
@@ -22,6 +24,20 @@
                                               
                                              </h4>
                                         </div>
+
+                                        
+                                        <div>
+                                            @if($order->shipping_method === 'free-shipping')
+                                                <span class="badge bg-primary">À retirer au magasin</span>
+                                            @else
+                                                <span class="badge bg-success">Livraison / Expédition</span>
+                                                <p>{{ $order->shipping_address }}</p>
+                                            @endif
+                                        </div>
+                                        
+                                       
+
+
                                     
                                        <div>
                                              <a href="#!" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editStatusModal_{{ $order->id }}">Editer les statuts</a>
@@ -155,10 +171,15 @@
                                                 <tr>
                                                     <td>
                                                         <div class="d-flex align-items-center gap-2">
+                                                            @php
+                                                                // Récupérer l'image principale (vignette) associée au produit
+                                                                $thumbnail = $orderDetail->product->images()->where('is_thumbnail', true)->first();
+                                                                $imageUrl = $thumbnail ? asset('storage/' . $thumbnail->path) : asset('images/default.png'); // Image par défaut si pas d'image
+                                                            @endphp
+                                            
                                                             <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
-                                                                <img src="{{ asset('assets/images/product/' . $orderDetail->product->image) }}" alt="{{ $orderDetail->product->name }}" class="avatar-md">
+                                                                <img src="{{ $imageUrl }}" alt="{{ $orderDetail->product->name }}" class="avatar-md">
                                                             </div>
-                                                            
                                                         </div>
                                                     </td>
                                                    
@@ -235,8 +256,6 @@
                    </div>
                    <div class="card-body">
                     <div class="d-flex align-items-center gap-2">
-                        <!-- Avatar de l'utilisateur -->
-                        <img src="{{ $order->user->avatar ?? 'assets/images/users/avatar-1.jpg' }}" alt="" class="avatar rounded-3 border border-light border-3">
                         <div>
                             <p class="mb-1">{{ $order->user->name }}</p>
                             <a href="mailto:{{ $order->user->email }}" class="link-primary fw-medium">{{ $order->user->email }}</a>

@@ -70,15 +70,14 @@
                    <div class="dropdown topbar-item">
                         <a type="button" class="topbar-button" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                              <span class="d-flex align-items-center">
-                                  <img class="rounded-circle" width="32" src="assets/images/users/avatar-1.jpg" alt="avatar-3">
+                                   {{ Auth::user()->name }}
                              </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
                              <!-- item-->
-                             <h6 class="dropdown-header">Bienvenue {{ Auth::user()->name }}!</h6>
-                             <a class="dropdown-item" href="#">
+                             {{-- <a class="dropdown-item" href="#">
                                   <i class="bx bx-user-circle text-muted fs-18 align-middle me-1"></i><span class="align-middle">Profil</span>
-                             </a>
+                             </a> --}}
                             
 
                              <div class="dropdown-divider my-1"></div>

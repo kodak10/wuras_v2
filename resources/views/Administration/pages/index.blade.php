@@ -21,16 +21,7 @@
                                </div>
                            </div>
                        </div>
-                       <div class="card-footer py-2 bg-light bg-opacity-50">
-                           <div class="d-flex align-items-center justify-content-between">
-                               <div>
-                                   <span class="text-success"> 
-                                       <i class="bx bxs-up-arrow fs-12"></i> {{ number_format($orderGrowthWeek, 2) }}%
-                                   </span>
-                                   <span class="text-muted ms-1 fs-12">La semaine dernière</span>
-                               </div>
-                           </div>
-                       </div>
+                       
                    </div>
                </div>
            
@@ -50,16 +41,7 @@
                                </div>
                            </div>
                        </div>
-                       <div class="card-footer py-2 bg-light bg-opacity-50">
-                           <div class="d-flex align-items-center justify-content-between">
-                               <div>
-                                   <span class="text-success"> 
-                                       <i class="bx bxs-up-arrow fs-12"></i> {{ number_format($paidOrderGrowthWeek, 2) }}%
-                                   </span>
-                                   <span class="text-muted ms-1 fs-12">La semaine dernière</span>
-                               </div>
-                           </div>
-                       </div>
+                       
                    </div>
                </div>
            

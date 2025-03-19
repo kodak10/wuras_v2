@@ -45,7 +45,7 @@ class ProductController extends Controller
             'discount' => 'nullable|numeric',
             'colors' => 'nullable|array',
             'tags' => 'nullable|array',
-            'thumbnail' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
     
@@ -137,22 +137,7 @@ class ProductController extends Controller
         $product->discount = $request->input('discount');
         $product->colors = $colorsString;
     
-        // Traitement de la vignette (image principale)
-        if ($request->hasFile('thumbnail')) {
-            // Supprimer l'ancienne vignette si elle existe
-            $thumbnail = $product->images()->where('is_thumbnail', true)->first();
-            if ($thumbnail && Storage::exists('public/' . $thumbnail->path)) {
-                Storage::delete('public/' . $thumbnail->path); // Supprimer l'ancienne vignette
-            }
-            // Enregistrer la nouvelle vignette
-            $thumbnailPath = $request->file('thumbnail')->store('products/thumbnails', 'public');
-            $image = Image::create([
-                'path' => $thumbnailPath,
-                'is_thumbnail' => true,
-            ]);
-            // Lier l'image à ce produit via la table pivot
-            $product->images()->syncWithoutDetaching([$image->id]);
-        }
+       
     
         
     
@@ -215,37 +200,59 @@ class ProductController extends Controller
     return redirect()->back()->with('error', 'Image non trouvée');
 }
 
-public function updateThumbnail(Request $request, Product $product)
+public function updateThumbnail(Request $request, $id)
 {
+    // Validation de l'image
     $request->validate([
-        'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
 
-    // Récupérer l'ancienne vignette
-    $oldThumbnail = $product->images()->wherePivot('is_thumbnail', true)->first();
+    // Trouver le produit
+    $product = Product::findOrFail($id);
 
-    // Supprimer l'ancienne image du stockage si elle existe
+    // Trouver et supprimer l'ancienne vignette
+    $oldThumbnail = $product->images()->where('is_thumbnail', true)->first();
     if ($oldThumbnail) {
+        // Supprimer le fichier de stockage
         Storage::disk('public')->delete($oldThumbnail->path);
-        // Supprimer l'ancienne relation pivot
+        // Supprimer l'entrée de la base de données
         $product->images()->detach($oldThumbnail->id);
+        $oldThumbnail->delete();
     }
 
-    // Enregistrer la nouvelle vignette
-    $thumbnailPath = $request->file('thumbnail')->store('products/thumbnails', 'public');
-    
-    // Créer une nouvelle entrée dans la table images
-    $newImage = Image::create([
-        'path' => $thumbnailPath,
-    ]);
+    // Ajouter la nouvelle vignette
+    $path = $request->file('thumbnail')->store('products', 'public');
+    $newThumbnail = Image::create(['path' => $path, 'is_thumbnail' => true]);
 
-    // Associer la nouvelle image comme vignette dans la table pivot
-    $product->images()->attach($newImage->id, ['is_thumbnail' => true]);
+    // Associer la nouvelle vignette au produit
+    $product->images()->attach($newThumbnail->id);
 
-    return redirect()->route('products.edit', $product->id)
-        ->with('success', 'Vignette mise à jour avec succès');
+    return redirect()->back()->with('success', 'Vignette mise à jour avec succès !');
 }
 
+
+
+public function addImages(Request $request, $id)
+{
+    // Validation des images
+    $request->validate([
+        'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    // Trouver le produit
+    $product = Product::findOrFail($id);
+
+    // Gestion des images additionnelles
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $image) {
+            $path = $image->store('products', 'public');
+            $img = Image::create(['path' => $path, 'is_thumbnail' => false]);
+            $product->images()->attach($img->id);
+        }
+    }
+
+    return redirect()->back()->with('success', 'Images ajoutées avec succès !');
+}
 
 
 

@@ -14,7 +14,7 @@
                     <div class="col-lg-6">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">Vignette du produit</h4>
+                                    <h4 class="card-title">Vignette du produit <span class="text-danger">*</span></h4>
                                 </div>
                                 <div class="card-body">
                                     @php
@@ -28,16 +28,18 @@
                                         </div>
                                         
 
-                                        <!-- Formulaire pour mettre à jour la vignette -->
+                                       <!-- Formulaire pour mettre à jour la vignette -->
                                         <form action="{{ route('product.updateThumbnail', $product->id) }}" method="POST" enctype="multipart/form-data">
                                             @csrf
                                             @method('PUT')
-                                            <input type="file" class="form-control mt-2" name="thumbnail" id="product-thumbnail">
+                                            <input type="file" class="form-control mt-2" name="thumbnail" id="product-thumbnail" required>
                                             <button type="submit" class="btn btn-primary mt-2">Mettre à jour la vignette</button>
                                         </form>
+
                                         @error('thumbnail')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
+
                                     </div>
                                 </div>
                             </div>
@@ -53,14 +55,24 @@
                                 
                                     
             
-                                    <!-- Image additionnelles -->
+                                   <!-- Images supplémentaires -->
                                     <div class="mb-3">
-                                    <label for="product-images" class="form-label">Ajouter des images</label>
-                                    <input type="file" class="form-control" name="images[]" id="product-images" multiple>
-                                    @error('images.*')
+                                        <label for="product-images" class="form-label">Ajouter des images supplémentaires</label>
+                                        
+                                        <form action="{{ route('product.addImages', $product->id) }}" method="POST" enctype="multipart/form-data">
+                                            @csrf
+                                            @method('PUT')
+                                            
+                                            <input type="file" class="form-control mt-2" name="images[]" id="product-images" multiple required>
+                                            
+                                            <button type="submit" class="btn btn-primary mt-2">Ajouter les images</button>
+                                        </form>
+
+                                        @error('images')
                                             <div class="text-danger">{{ $message }}</div>
-                                    @enderror
+                                        @enderror
                                     </div>
+
             
                                     <div class="mb-3">
                                     <h5>Images existantes :</h5>
@@ -69,7 +81,7 @@
                                         @if (!$image->is_thumbnail)
                                             <div class="col-lg-4">
                                                 <div class="card">
-                                                    <img src="{{ asset('storage/' . $image->path) }}" alt="Image produit" class="img-fluid">
+                                                    <img src="{{ asset('storage/' . $image->path) }}" alt="Image produit" class="img-fluid" style="height:100px">
                                                     <form action="{{ route('images.destroy', $image->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette image ?');">
                                                         @csrf
                                                         @method('DELETE')
@@ -79,7 +91,7 @@
                                             </div>
                                         @endif
                                     @endforeach
-                                    
+                                       
                                     </div>
                                     </div>
             
@@ -103,7 +115,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label for="product-name" class="form-label">Nom du produit</label>
+                                        <label for="product-name" class="form-label">Nom du produit <span class="text-danger">*</span></label>
                                         <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Nom du produit" value="{{ old('name', $product->name) }}">
                                         @error('name')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -111,7 +123,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <label for="product-categories" class="form-label">Catégorie du produit</label>
+                                    <label for="product-categories" class="form-label">Catégorie du produit <span class="text-danger">*</span></label>
                                     <select class="form-control @error('category_id') is-invalid @enderror" name="category_id" data-choices data-choices-groups data-placeholder="Sélectionnez une catégorie">
                                         <option value="">Choisissez une catégorie</option>
                                         @foreach ($categories as $category)
@@ -129,7 +141,7 @@
                             <div class="row">
                                 <div class="col-lg-4">
                                     <div class="mb-3">
-                                        <label for="product-brand" class="form-label">Marque</label>
+                                        <label for="product-brand" class="form-label">Marque <span class="text-danger">*</span></label>
                                         <input type="text" id="product-brand" name="brand" class="form-control @error('brand') is-invalid @enderror" placeholder="Nom de la marque" value="{{ old('brand', $product->marque) }}">
                                         @error('brand')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -181,7 +193,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label for="product-stock" class="form-label">Stock</label>
+                                        <label for="product-stock" class="form-label">Stock <span class="text-danger">*</span></label>
                                         <input type="number" id="product-stock" name="stock" class="form-control @error('stock') is-invalid @enderror" placeholder="Quantité" value="{{ old('stock', $product->stock) }}">
                                         @error('stock')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -213,7 +225,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <label for="product-price" class="form-label">Prix</label>
+                                    <label for="product-price" class="form-label">Prix <span class="text-danger">*</span></label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text fs-20"><i class='bx bx-dollar'></i></span>
                                         <input type="number" id="product-price" name="price" class="form-control @error('price') is-invalid @enderror" placeholder="000" value="{{ old('price', $product->price) }}">
