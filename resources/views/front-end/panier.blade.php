@@ -93,7 +93,6 @@
                                     <option value="Attécoubé">Attécoubé</option>
                                     <option value="Koumassi">Koumassi</option>
                                     <option value="Songon">Songon</option>
-
                                     <option value="Intérieur du Pays">Intérieur du Pays</option>
                                 </select>
                             </div>

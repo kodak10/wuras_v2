@@ -115,13 +115,30 @@
         
                     <div class="product-footer">
                         <div class="social-links mr-4">
-                            <a href="#" class="social-link social-facebook fab fa-facebook-f"></a>
-                            <a href="#" class="social-link social-twitter fab fa-twitter"></a>
-                            <a href="#" class="social-link social-pinterest fab fa-pinterest-p"></a>
+                            <!-- Lien pour partager sur Facebook -->
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}" 
+                               class="social-link social-facebook fab fa-facebook-f" target="_blank" 
+                               title="Partager sur Facebook"></a>
+                    
+                            <!-- Lien pour partager sur Twitter -->
+                            <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($product->name) }}" 
+                               class="social-link social-twitter fab fa-twitter" target="_blank" 
+                               title="Partager sur Twitter"></a>
+                    
+                            <!-- Lien pour partager sur Pinterest -->
+                            <a href="https://pinterest.com/pin/create/button/?url={{ urlencode(request()->fullUrl()) }}&media=&description={{ urlencode($product->name) }}" 
+                               class="social-link social-pinterest fab fa-pinterest-p" target="_blank" 
+                               title="Partager sur Pinterest"></a>
+                    
+                            <!-- Lien pour partager sur WhatsApp -->
+                            <a href="https://api.whatsapp.com/send?text={{ urlencode($product->name) }}%20{{ urlencode(request()->fullUrl()) }}" 
+                               class="social-link social-whatsapp fab fa-whatsapp" target="_blank" 
+                               title="Partager sur WhatsApp"></a>
                         </div>
                         <span class="divider d-lg-show"></span>
                         {{-- <a href="#" class="btn-product-icon btn-compare"><i class="d-icon-compare"></i>Ajouter à comparer</a> --}}
                     </div>
+                    
                 </div>
             </div>
         </div>
