@@ -1,9 +1,13 @@
 @extends('front-end.layouts.master')
 
 @section('content')
+<div class="page-header">
+    <div class="container">
+        <h1 class="page-title mb-0">Mon Compte</h1>
+    </div>
+</div>
     <div class="page-content mt-4 mb-10 pb-6">
         <div class="container">
-            <h2 class="title title-center mb-10">Mon Compte</h2>
             <div class="tab tab-vertical gutter-lg">
                 <ul class="nav nav-tabs mb-4 col-lg-3 col-md-4" role="tablist">
                     <li class="nav-item">
@@ -47,7 +51,7 @@
                             Depuis le tableau de bord de votre compte, 
                             vous pouvez consulter vos <a href="#orders" class="link-to-tab text-primary">
                                 commandes récentes
-                                <br>et modifier votre mot de passe et les détails de votre compte</a>.
+                                <br></a> et <a href="#account">et modifier votre mot de passe et les détails de votre compte</a>
                         </p>
                         @if(session('success'))
                             <div class="alert alert-success text-white mb-3">{{ session('success') }}</div>
@@ -66,35 +70,70 @@
                                 class="d-icon-arrow-right"></i></a>
                     </div>
                     <div class="tab-pane" id="orders">
-                        <table class="order-table">
+                       
+                        
+                        <table class="shop-table account-orders-table mb-6 ">
                             <thead>
                                 <tr>
-                                    <th class="pl-2">Order</th>
-                                    <th>Date</th>
-                                    <th>Status</th>
-                                    <th>Total</th>
-                                    <th class="pr-2">Actions</th>
+                                    <th class="order-id">N°</th>
+                                    <th class="order-date">Date</th>
+                                    <th class="order-status">Statut</th>
+                                    <th class="order-total">Quantité</th>
+                                    <th class="order-total">Coût</th>
+                                    <th class="order-actions">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($orders as $order)
+                                @forelse($orders as $order)
                                     <tr>
-                                        <td class="order-number"><a href="{{ route('orders.show', $order->id) }}">#{{ $order->order_number }}</a></td>
-                                        <td class="order-date"><span>{{ $order->created_at->format('F d, Y') }}</span></td>
-                                        <td class="order-status"><span>{{ $order->status }}</span></td>
+                                        <td class="order-id">{{ $order->order_number }}</td>
+                                        <td class="order-date">{{ $order->created_at->format('d F, Y H:i:s') }}</td>
+                                        <td class="order-status">
+                                            @switch($order->status)
+                                                @case('en attente')
+                                                    <span class="badge badge-warning">En <A:link></A:link>ttente</span>
+                                                    @break
+                                        
+                                                @case('confirmée')
+                                                    <span class="badge badge-info">Disponible au magasin</span>
+                                                    @break
+                                        
+                                                @case('expédiée')
+                                                    <span class="badge badge-primary">Expédiée</span>
+                                                    @break
+                                        
+                                                @case('livrée')
+                                                    <span class="badge badge-success">Récupérée</span>
+                                                    @break
+                                        
+                                                @case('annulée')
+                                                    <span class="badge badge-danger">Annulée</span>
+                                                    @break
+                                        
+                                                @default
+                                                    <span class="badge badge-secondary">Statut inconnu</span>
+                                            @endswitch
+                                        </td>
+                                        
                                         <td class="order-total">
-                                            <span>{{ number_format($order->total_price, 2, '.', '') }} pour {{ $order->details->sum('quantity') }} produits</span>
+                                            <span class="order-quantity">{{ $order->details->sum('quantity') }}</span> article(s)
+                                        </td>
+                                        <td class="order-total">
+                                            <span class="order-price">{{ $order->details->sum(fn($detail) => $detail->quantity * $detail->price) }}</span> FCFA
                                         </td>
                                         <td class="order-action">
-                                            <a href="{{ route('orders.show', $order->id) }}" class="btn btn-primary btn-link btn-underline">Detail</a>
+                                            <a href="{{ route('orders.show', $order->id) }}"
+                                                class="btn btn-outline btn-default btn-block btn-sm btn-rounded">Voir</a>
                                         </td>
                                     </tr>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="text-center">Aucune commande trouvée.</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
+                            
                         </table>
-                        
-                        
-                        
                         
                     </div>
                     

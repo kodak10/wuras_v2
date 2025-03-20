@@ -85,6 +85,7 @@ Route::prefix('home')->middleware(['auth', 'role:User'])->group(function () {
     Route::get('/', [UserController::class, 'index']);
     Route::post('/profile/update', [UserController::class, 'update'])->name('profile.update');
     Route::get('/orders/{order}', [UserController::class, 'orderShow'])->name('orders.show');
+    Route::get('order/{orderId}/receipt/download', [UserController::class, 'downloadReceipt'])->name('order.downloadReceipt');
 
 });
 

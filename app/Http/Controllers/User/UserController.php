@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Order;
 use App\Models\Parametre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class UserController extends Controller
 {
@@ -58,7 +60,22 @@ class UserController extends Controller
         // Charger le premier paramètre
         $parametre = Parametre::first();
     
-        return view('front-end.account.recu', compact('order', 'parametre'));
+        return view('front-end.account.order-details', compact('order', 'parametre'));
     }
+
+    public function downloadReceipt($orderId)
+{
+    //$categories = Category::with('product.images')->get();
+    
+
+    // Récupérer la commande avec les détails et l'utilisateur
+    $order = Order::with(['details.product', 'user'])->findOrFail($orderId);
+
+    // Générer le PDF avec les données de la commande
+    $pdf = Pdf::loadView('front-end.account.recu', compact('order',));
+
+    // Retourner le PDF pour téléchargement
+    return $pdf->download('receipt_' . $orderId . '.pdf');
+}
     
 }

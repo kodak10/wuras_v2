@@ -142,4 +142,6 @@ public function updateStatus(Request $request, $id)
     {
         return view('front-end.sucess'); // Assurez-vous d'avoir une vue "order.success"
     }
+
+    
 }
