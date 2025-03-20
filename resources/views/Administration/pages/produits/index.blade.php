@@ -78,7 +78,7 @@
                                                        </div>
                                               
                                                       <div>
-                                                           <a href="{{ route('products.show', $product->id) }}" class="text-dark fw-medium fs-15">{{ $product->name }}</a>
+                                                           <a href="#" class="text-dark fw-medium fs-15">{{ $product->name }}</a>
                                                       </div>
                                                  </div>
                                             </td>
