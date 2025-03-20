@@ -258,8 +258,6 @@
     <!-- Main JS File -->
     <script src="{{ asset('front/js/main.min.js') }} "></script>
 
-    {{-- {{ dd(session()->all()) }} --}}
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @if(session('successOrder'))
