@@ -436,11 +436,7 @@
                             </figure>
                             <div class="product-detail">
                                 <a href="#" class="product-name">${item.name}</a>
-                                <p class="product-category"><strong>Catégorie:</strong> ${item.category || 'N/A'}</p>
-                                <p class="product-price"><strong>Prix:</strong> ${item.price || 'N/A'}</p>
-                                <p class="product-marque"><strong>Poids:</strong> ${item.marque || 'N/A'}</p>
-                                <p class="product-stock"><strong>Stock:</strong> ${item.stock || 'N/A'}</p>
-                                <p class="product-color"><strong>Couleur:</strong> ${item.color || 'N/A'}</p>
+                                
                             </div>
                         </div>
                     `).join("");

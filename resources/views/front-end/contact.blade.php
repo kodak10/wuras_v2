@@ -23,9 +23,9 @@
                                     <a href="tel:0749667007">07 49 66 70 07</a>
                                 </p>
     
-                                <h4 class="mb-2 text-capitalize">Email</h4>
+                                <h4 class="mb-2 text-capitalize">Abidjan, Adjamé Liberté Hassan 220 logement non loin du rond point</h4>
                                 <p class="mb-4">
-                                    <a href="#">Email@gmail.com</a><br>
+                                    <a href="#">Contact@wuras.ci</a><br>
                                     </a>
                                 </p>
                             </div>
