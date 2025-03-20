@@ -478,8 +478,8 @@
         <div class="row grid-type">
             <!-- Affichage du premier produit -->
             @if($firstProduct)
-            <div class="product-single-wrap" data-id="{{ $firstProduct->id }}">
-                <div class="product product-single">
+            <div class="product-single-wrap" >
+                <div class="product product-single" data-id="{{ $firstProduct->id }}">
                     <div class="row product-gallery align-items-center mb-0">
                         <div class="col-md-6 p-relative mb-4 mb-md-0">
                             <div class="">
