@@ -83,6 +83,17 @@
                                     <option value="Abobo">Abobo</option>
                                     <option value="Cocody">Cocody</option>
                                     <option value="Bassam">Bassam</option>
+                                    <option value="Yopougon">Yopougon</option>
+                                    <option value="Plateau">Plateau</option>
+                                    <option value="Adjamé">Adjamé</option>
+                                    <option value="Koumassi">Koumassi</option>
+                                    <option value="Marcory">Marcory</option>
+                                    <option value="Treichville">Treichville</option>
+                                    <option value="Port-Bouët">Port-Bouët</option>
+                                    <option value="Attécoubé">Attécoubé</option>
+                                    <option value="Koumassi">Koumassi</option>
+                                    <option value="Songon">Songon</option>
+
                                     <option value="Intérieur du Pays">Intérieur du Pays</option>
                                 </select>
                             </div>
