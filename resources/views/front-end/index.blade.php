@@ -145,8 +145,14 @@
                         <a href="{{ route('products.details', ['slug' => $product->slug]) }}">{{ $product->name }}</a>
                     </h4>
                     <div class="product-price">
-                        <ins class="new-price">{{ number_format($product->price, 0, '.', '') }} FCFA</ins>
-                        <del class="old-price">{{ number_format($product->price, 0, '.', '') }} FCFA</del>
+                        @if($product->discount && $product->discount > 0)
+                            <!-- Afficher le prix barré et le nouveau prix si la réduction est valide -->
+                            <ins class="new-price">{{ number_format($product->price - $product->discount, 2) }} FCFA</ins>
+                            <del class="old-price">{{ number_format($product->price, 2) }} FCFA</del>
+                        @else
+                            <!-- Afficher uniquement le prix normal si la réduction n'est pas valide -->
+                            <ins class="new-price">{{ number_format($product->price, 2) }} FCFA</ins>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -282,8 +288,15 @@
                         <a href="{{ route('products.details', ['slug' => $product->slug]) }}">{{ $product->name }}</a>
                     </h4>
                     <div class="product-price">
-                        <ins class="new-price">{{ number_format($product->price, 0, '.', '') }} FCFA</ins>
-                        <del class="old-price">{{ number_format($product->price, 0, '.', '') }} FCFA</del>                    </div>
+                        @if($product->discount && $product->discount > 0)
+                            <!-- Afficher le prix barré et le nouveau prix si la réduction est valide -->
+                            <ins class="new-price">{{ number_format($product->price - $product->discount, 2) }} FCFA</ins>
+                            <del class="old-price">{{ number_format($product->price, 2) }} FCFA</del>
+                        @else
+                            <!-- Afficher uniquement le prix normal si la réduction n'est pas valide -->
+                            <ins class="new-price">{{ number_format($product->price, 2) }} FCFA</ins>
+                        @endif
+                    </div>
                 </div>
             </div>
             @endforeach
@@ -376,9 +389,15 @@
                         <a href="{{ route('products.details', ['slug' => $product->slug]) }}">{{ $product->name }}</a>
                     </h4>
                     <div class="product-price">
-                        <ins class="new-price">{{ number_format($product->price, 0, '.', '') }} FCFA</ins>
-                        <del class="old-price">{{ number_format($product->price, 0, '.', '') }} FCFA</del>                    </div>
-                    
+                        @if($product->discount && $product->discount > 0)
+                            <!-- Afficher le prix barré et le nouveau prix si la réduction est valide -->
+                            <ins class="new-price">{{ number_format($product->price - $product->discount, 2) }} FCFA</ins>
+                            <del class="old-price">{{ number_format($product->price, 2) }} FCFA</del>
+                        @else
+                            <!-- Afficher uniquement le prix normal si la réduction n'est pas valide -->
+                            <ins class="new-price">{{ number_format($product->price, 2) }} FCFA</ins>
+                        @endif
+                    </div>
                 </div>
             </div>
             @endforeach
@@ -430,8 +449,15 @@
                         <a href="#">Fashionable Hand Bag</a>
                     </h3>
                     <div class="product-price">
-                        <ins class="new-price">{{ number_format($product->price, 0, '.', '') }} FCFA</ins>
-                        <del class="old-price">{{ number_format($product->price, 0, '.', '') }} FCFA</del>                    </div>
+                        @if($product->discount && $product->discount > 0)
+                            <!-- Afficher le prix barré et le nouveau prix si la réduction est valide -->
+                            <ins class="new-price">{{ number_format($product->price - $product->discount, 2) }} FCFA</ins>
+                            <del class="old-price">{{ number_format($product->price, 2) }} FCFA</del>
+                        @else
+                            <!-- Afficher uniquement le prix normal si la réduction n'est pas valide -->
+                            <ins class="new-price">{{ number_format($product->price, 2) }} FCFA</ins>
+                        @endif
+                    </div>
                     
                 </div>
             </div>
@@ -482,8 +508,19 @@
                         <div class="col-md-6">
                             <div class="product-details pb-0 pl-0">
                                 <h2 class="product-name font-weight-semi-bold"><a href="{{ route('products.details', $firstProduct->slug) }}">{{ $firstProduct->name }}</a></h2>
-                                <div class="product-price mb-2">
+                                {{-- <div class="product-price mb-2">
                                     <span class="price">{{ $firstProduct->price }} FCFA</span>
+                                </div> --}}
+
+                                <div class="product-price mb-2">
+                                    @if($firstProduct->discount && $firstProduct->discount > 0)
+                                        <!-- Afficher le prix barré et le nouveau prix si la réduction est valide -->
+                                        <ins class="new-price">{{ number_format($firstProduct->price - $firstProduct->discount, 2) }} FCFA</ins>
+                                        <del class="old-price">{{ number_format($firstProduct->price, 2) }} FCFA</del>
+                                    @else
+                                        <!-- Afficher uniquement le prix normal si la réduction n'est pas valide -->
+                                        <ins class="new-price">{{ number_format($firstProduct->price, 2) }} FCFA</ins>
+                                    @endif
                                 </div>
                                 
                                 <div class="product-form product-color">

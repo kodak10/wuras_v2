@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="page-content mb-10 pb-6">
-    <div class="container">
+    <div class="container mt-5">
         <div class="product product-single row mb-7">
             <div class="col-md-6 sticky-sidebar-wrapper">
                 <div class="product-gallery pg-vertical sticky-sidebar" data-sticky-options="{'minWidth': 767}">
@@ -37,10 +37,7 @@
             </div>
         
             <div class="col-md-6">
-                <div class="product-details" data-id="{{ $product->id }}" 
-                    data-name="{{ $product->name }}" 
-                    data-price="{{ $product->price }}" 
-                    data-image="{{ $imageUrl }}">
+                <div class="product-details " data-id="{{ $product->id }}">
                    
         
                     <h1 class="product-name">{{ $product->name }}</h1>
@@ -48,11 +45,13 @@
                         Marque: <span class="product-brand">{{ $product->marque }}</span>
                     </div>
                     <div class="product-price">
-                        @if($product->discount)
-                            <ins class="new-price">{{ $product->price * (1 - $product->discount / 100) }} FCFA</ins>
-                            <del class="old-price">{{ $product->price }} FCFA</del>
+                        @if($product->discount && $product->discount > 0)
+                            <!-- Afficher le prix barré et le nouveau prix si la réduction est valide -->
+                            <ins class="new-price">{{ number_format($product->price - $product->discount, 2) }} FCFA</ins>
+                            <del class="old-price">{{ number_format($product->price, 2) }} FCFA</del>
                         @else
-                            <ins class="new-price">{{ $product->price }} $</ins>
+                            <!-- Afficher uniquement le prix normal si la réduction n'est pas valide -->
+                            <ins class="new-price">{{ number_format($product->price, 2) }} FCFA</ins>
                         @endif
                     </div>
                   
@@ -86,7 +85,7 @@
                             <a href="#" class="social-link social-pinterest fab fa-pinterest-p"></a>
                         </div>
                         <span class="divider d-lg-show"></span>
-                        <a href="#" class="btn-product-icon btn-compare"><i class="d-icon-compare"></i>Ajouter à comparer</a>
+                        {{-- <a href="#" class="btn-product-icon btn-compare"><i class="d-icon-compare"></i>Ajouter à comparer</a> --}}
                     </div>
                 </div>
             </div>
