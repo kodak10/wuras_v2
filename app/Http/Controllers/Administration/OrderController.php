@@ -133,9 +133,10 @@ public function updateStatus(Request $request, $id)
                 'price' => $item['price'],
             ]);
         }
-
+        //dd(session()->all());
         // Rediriger avec un message de succès
-        return redirect()->route('order.success')->with('success', 'Commande enregistrée avec succès.');
+        return redirect()->route('website')->with('successOrder', 'Commande enregistrée avec succès.');
+
     }
 
     public function success()

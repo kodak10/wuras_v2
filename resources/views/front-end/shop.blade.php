@@ -11,7 +11,7 @@
                     <div class="sticky-sidebar" data-sticky-options="{'top': 10}">
                         <div class="filter-actions mb-4">
                             <a href="#" class="sidebar-toggle-btn toggle-remain btn btn-outline btn-primary btn-icon-right btn-rounded">Filter<i class="d-icon-arrow-left"></i></a>
-                            <a href="#" class="filter-clean">Tous éffacer</a>
+                            {{-- <a href="{{ route('magasin') }}" class="text-dark">Tout éffacer</a> --}}
                         </div>
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">Toutes les Catégories</h3>
@@ -47,7 +47,7 @@
                 </div>
             </aside>
             <div class="col-lg-9 main-content">
-                <nav class="toolbox sticky-toolbox sticky-content fix-top">
+                {{-- <nav class="toolbox sticky-toolbox sticky-content fix-top">
                     <div class="toolbox-left">
                         <a href="#" class="toolbox-item left-sidebar-toggle btn btn-sm btn-outline btn-primary btn-rounded btn-icon-right d-lg-none">Filtrer<i class="d-icon-arrow-right"></i></a>
                         <div class="toolbox-item toolbox-sort select-box text-dark">
@@ -74,8 +74,8 @@
                             <a href="shop-1.html" class="d-icon-mode-grid btn-layout active"></a>
                         </div>
                     </div>
-                </nav>
-                <div class="row cols-2 cols-sm-4 product-wrapper">
+                </nav> --}}
+                <div class="row cols-2 cols-sm-4 product-wrapper mt-5">
                     @foreach ($products as $product)
                         @php
                             // Récupérer l'image principale (vignette) associée au produit

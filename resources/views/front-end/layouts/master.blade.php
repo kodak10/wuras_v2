@@ -258,136 +258,21 @@
     <!-- Main JS File -->
     <script src="{{ asset('front/js/main.min.js') }} "></script>
 
+    {{-- {{ dd(session()->all()) }} --}}
 
-    {{-- <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-            let compareList = JSON.parse(localStorage.getItem("compareList")) || [];
-        
-            updateCartDisplay();
-            updateCompareDisplay();
-        
-            document.querySelectorAll(".btn-cart").forEach(button => {
-                button.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    let productElement = this.closest(".product");
-                    let productId = productElement.dataset.id;
-                    let productName = productElement.querySelector(".product-name a").textContent;
-                    let productPrice = parseFloat(productElement.querySelector(".new-price").textContent.replace(/\D/g, ''));
-                    let productImage = productElement.querySelector("img").src;
-        
-                    let existingProduct = cart.find(item => item.id === productId);
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-                    console.log('ID du produit:', productId);
-
-                    if (existingProduct) {
-                        existingProduct.quantity++;
-                    } else {
-                        cart.push({ id: productId, name: productName, price: productPrice, image: productImage, quantity: 1 });
-                    }
-        
-                    localStorage.setItem("cart", JSON.stringify(cart));
-                    updateCartDisplay();
-                });
-            });
-        
-            document.querySelectorAll(".btn-compare").forEach(button => {
-                button.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    let productElement = this.closest(".product");
-                    let productId = productElement.dataset.id;
-                    let productName = productElement.querySelector(".product-name a").textContent;
-                    let productImage = productElement.querySelector("img").src;
-        
-                    if (!compareList.some(item => item.id === productId)) {
-                        compareList.push({ id: productId, name: productName, image: productImage });
-                        document.cookie = "compareList=" + JSON.stringify(compareList) + "; path=/";
-                        localStorage.setItem("compareList", JSON.stringify(compareList));
-                        updateCompareDisplay();
-                    }
-                });
-            });
-            
-        
-            function updateCartDisplay() {
-                let cartCount = document.querySelector(".cart-count");
-                let cartPrice = document.querySelector(".cart-price");
-                let cartDropdown = document.querySelector(".cart-dropdown .products");
-        
-                if (cart.length === 0) {
-                    cartCount.textContent = "0";
-                    cartPrice.textContent = "0 FCFA";
-                    cartDropdown.innerHTML = "<p>Votre panier est vide.</p>";
-                } else {
-                    let totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-                    cartCount.textContent = cart.length;
-                    cartPrice.textContent = totalPrice.toFixed(2) + " FCFA";
-        
-                    cartDropdown.innerHTML = cart.map(item => `
-                        <div class="product product-cart">
-                            <figure class="product-media">
-                                <a href="#"><img src="${item.image}" width="80" height="88"></a>
-                                <button class="btn btn-link btn-close" onclick="removeFromCart('${item.id}')">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </figure>
-                            <div class="product-detail">
-                                <a href="#" class="product-name">${item.name}</a>
-                                <div class="price-box">
-                                    <span class="product-quantity">${item.quantity}</span>
-                                    <span class="product-price">${item.price} FCFA</span>
-                                </div>
-                            </div>
-                        </div>
-                    `).join("");
-                }
-            }
-        
-            window.removeFromCart = function(productId) {
-                cart = cart.filter(item => item.id !== productId);
-                localStorage.setItem("cart", JSON.stringify(cart));
-                updateCartDisplay();
-            };
-        
-            function updateCompareDisplay() {
-                let compareDropdown = document.querySelector(".compare-dropdown .products");
-        
-                if (compareList.length === 0) {
-                    compareDropdown.innerHTML = "<p>Aucun produit en comparaison.</p>";
-                } else {
-                    compareDropdown.innerHTML = compareList.map(item => `
-                        <div class="product product-compare">
-                            <figure class="product-media">
-                                <a href="#"><img src="${item.image}" width="80" height="88"></a>
-                                <button class="btn btn-link btn-close" onclick="removeFromCompare('${item.id}')">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </figure>
-                            <div class="product-detail">
-                                <a href="#" class="product-name">${item.name}</a>
-                            </div>
-                        </div>
-                    `).join("");
-                }
-            }
-        
-            window.removeFromCompare = function(productId) {
-                compareList = compareList.filter(item => item.id !== productId);
-                document.cookie = "compareList=" + JSON.stringify(compareList) + "; path=/";
-                localStorage.setItem("compareList", JSON.stringify(compareList));
-                updateCompareDisplay();
-            };
-        
-            window.updateQuantity = function(productId, change) {
-                let product = cart.find(item => item.id == productId);
-                if (product) {
-                    product.quantity = Math.max(1, product.quantity + change);
-                    localStorage.setItem("cart", JSON.stringify(cart));
-                    updateCartDisplay();
-                }
-            };
+    @if(session('successOrder'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Succès!',
+            text: '{!! session('successOrder') !!}',
+            confirmButtonText: 'Ok'  // Pas de point-virgule ici
         });
-    </script> --}}
+    </script>
+@endif
+
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -545,9 +430,11 @@
         });
     </script>
     
-        
+   
         @stack('scripts')
         
+        
+
 </body>
 
 </html>

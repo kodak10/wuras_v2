@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/', [WebsiteController::class, 'index']);
+Route::get('/', [WebsiteController::class, 'index'])->name('website');
 Route::get('/magasin', [WebsiteController::class, 'magasin'])->name('magasin');
 Route::get('/magasin/{slug}', [WebsiteController::class, 'productDetails'])->name('products.details');
 Route::get('/politique-de-confidentialite', [WebsiteController::class, 'politique'])->name('politique');
