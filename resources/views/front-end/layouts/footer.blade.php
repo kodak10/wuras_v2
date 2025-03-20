@@ -38,11 +38,11 @@
                             </li>
                             <li>
                                 <label>Email:</label>
-                                <a href="">email@gmail.com</a>
+                                <a href="">Contact@wuras.ci</a>
                             </li>
                             <li>
                                 <label>Adresse:</label>
-                                <a href="#">Adresse</a>
+                                <a href="#">Abidjan, Adjamé Liberté Hassan 220 logement non loin du rond point</a>
                             </li>
                             <li>
                                 <label>JOURS / HEURES D'OUVERTURE :</label>
