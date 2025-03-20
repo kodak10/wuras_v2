@@ -135,9 +135,9 @@
                         <a href="#" class="btn-product-icon btn-compare" title="Ajouter à la comparaison"><i class="d-icon-compare"></i></a>
                     </div>
                     <div class="product-action">
-                        <a href="{{ route('products.details', ['slug' => $product->slug]) }}" class="btn-product" title="Quick View">Aperçu</a>
+                        <a href="{{ route('products.details', ['slug' => $product->slug]) }}" class="btn-product" title="Aperçu">Aperçu</a>
 
-                        {{-- <a href="{{ route('products.show', $product->id) }}" class="btn-product btn-quickview" title="Quick View">Aperçu</a> --}}
+                        {{-- <a href="{{ route('products.show', $product->id) }}" class="btn-product btn-quickview" title="Aperçu">Aperçu</a> --}}
                     </div>
                 </figure>
                 <div class="product-details">
@@ -280,7 +280,7 @@
                         <a href="#" class="btn-product-icon btn-compare" title="Ajouter à la comparaison"><i class="d-icon-compare"></i></a>
                     </div>
                     <div class="product-action">
-                        <a href="{{ route('products.details', ['slug' => $product->slug]) }}" class="btn-product" title="Quick View">Aperçu</a>
+                        <a href="{{ route('products.details', ['slug' => $product->slug]) }}" class="btn-product" title="Aperçu">Aperçu</a>
                     </div>
                 </figure>
                 <div class="product-details">
@@ -381,7 +381,7 @@
                         <a href="#" class="btn-product-icon btn-compare" title="Ajouter à la comparaison"><i class="d-icon-compare"></i></a>
                     </div>
                     <div class="product-action">
-                        <a href="{{ route('products.details', ['slug' => $product->slug]) }}" class="btn-product" title="Quick View">Aperçu</a>
+                        <a href="{{ route('products.details', ['slug' => $product->slug]) }}" class="btn-product" title="Aperçu">Aperçu</a>
                     </div>
                 </figure>
                 <div class="product-details">
@@ -441,7 +441,7 @@
                         <a href="#" class="btn-product-icon btn-compare" title="Ajouter à la comparaison"><i class="d-icon-compare"></i></a>
                     </div>
                     <div class="product-action">
-                        <a href="{{ route('products.details', ['slug' => $product->slug]) }}" class="btn-product" title="Quick View">Aperçu</a>
+                        <a href="{{ route('products.details', ['slug' => $product->slug]) }}" class="btn-product" title="Aperçu">Aperçu</a>
                     </div>
                 </figure>
                 <div class="product-details">
@@ -483,20 +483,21 @@
                     <div class="row product-gallery align-items-center mb-0">
                         <div class="col-md-6 p-relative mb-4 mb-md-0">
                             <div class="">
-                                <figure class="product-image">
-
-                                    @php
-                                    // Récupérer l'image principale (vignette) associée au produit
-                                    $thumbnail = $product->images()->where('is_thumbnail', true)->first();
-                                @endphp
-
-                                @if($thumbnail)
-
-                                    {{-- <img src="{{ asset('storage/' . $firstProduct->thumbnail->path) }}" alt="{{ $product->name }}" width="280" height="315"> --}}
-                                @else
-                                    <p>Pas d'image disponible</p>
-                                @endif
-
+                                <figure class="product-media">
+                                    <a href="{{ route('products.details', ['slug' => $product->slug]) }}">
+                                        @php
+                                        // Récupérer l'image principale (vignette) associée au produit
+                                        $thumbnail = $product->images()->where('is_thumbnail', true)->first();
+                                    @endphp
+                
+                                    @if($thumbnail)
+                                        <img src="{{ asset('storage/' . $thumbnail->path) }}" alt="{{ $product->name }}" width="280" height="315">
+                                    @else
+                                        <p>Pas d'image disponible</p>
+                                    @endif
+                                    </a>
+                                    
+                                    
                                 </figure>
                             </div>
                             <div class="countdown-container d-flex align-items-center font-weight-semi-bold text-white x-50 w-100 justify-content-center flex-wrap">

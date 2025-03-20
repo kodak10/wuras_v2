@@ -4,13 +4,13 @@
 
 <div class="page-content mb-10 pb-6">
     <div class="container mt-5">
-        <div class="product product-single row mb-7">
+        <div class="product product-single row mb-7"  data-id="{{ $product->id }}">
             <div class="col-md-6 sticky-sidebar-wrapper">
                 <div class="product-gallery pg-vertical sticky-sidebar" data-sticky-options="{'minWidth': 767}">
                     <div class="product-single-carousel owl-carousel owl-theme owl-nav-inner row cols-1 gutter-no">
-                        @foreach($product->images as $image) <!-- Afficher toutes les images du produit -->
+                        @foreach($product->images as $image)
                             <figure class="product-image">
-                                <img src="{{ asset('storage/' . $image->path) }}" data-zoom-image="{{ asset('storage/' . $image->path) }}" alt="{{ $product->name }}" width="800" height="900">
+                                <img src="{{ asset('storage/' . $image->path) }}" data-zoom-image="{{ asset('storage/' . $image->path) }}" alt="{{ $product->name }}" width="800">
                             </figure>
                         @endforeach
                     </div>
@@ -18,7 +18,7 @@
                         <div class="product-thumbs">
                             @foreach($product->images as $image) <!-- Miniatures des images -->
                                 <div class="product-thumb @if($loop->first) active @endif">
-                                    <img src="{{ asset('storage/' . $image->path) }}" alt="product thumbnail" width="109" height="122">
+                                    <img src="{{ asset('storage/' . $image->path) }}" alt="product thumbnail" width="109" style="height:120px">
                                 </div>
                             @endforeach
                         </div>
@@ -37,10 +37,13 @@
             </div>
         
             <div class="col-md-6">
-                <div class="product-details " data-id="{{ $product->id }}">
+                <div class="product-detail " >
                    
-        
-                    <h1 class="product-name">{{ $product->name }}</h1>
+                    {{-- <h4 class="product-name" style="display: hidden">
+                        <a href="{{ route('products.details', ['slug' => $product->slug]) }}">{{ $product->name }}</a>
+                    </h4> --}}
+
+                    <h1 class="product-name"><a href="#">{{ $product->name }}</a></h1>
                     <div class="product-meta">
                         Marque: <span class="product-brand">{{ $product->marque }}</span>
                     </div>
@@ -55,12 +58,42 @@
                         @endif
                     </div>
                   
-                    <p class="product-short-desc">{{ $product->description }}</p>
+                    <p class="product-short-desc"><span>Description :</span> <br> {{ $product->description }}</p>
         
-                    <div class="product-form product-variations product-color">
-                        <label>Couleur:</label>
+                    <div class="product-variations">
+                        <span class="mr-3">Couleurs :</span>
                         
+                        @php
+                            // Fonction pour obtenir le code couleur
+                            function getColorCode($color) {
+                                $colorCodes = [
+                                    'dark' => '#343a40',
+                                    'yellow' => '#ffc107',
+                                    'white' => '#ffffff',
+                                    'red' => '#dc3545',
+                                    'green' => '#28a745',
+                                    'blue' => '#007bff',
+                                    'sky' => '#00b8d8',
+                                    'gray' => '#6c757d',
+                                ];
+                                return $colorCodes[$color] ?? '#000000'; // Retourne noir par défaut si la couleur n'existe pas
+                            }
+                        @endphp
+                        
+                        @foreach (['dark', 'yellow', 'white', 'red', 'green', 'blue', 'sky', 'gray'] as $color)
+                            @if (in_array($color, explode(',', $product->colors ?? '')))
+                                <a class="color" href="#" 
+                                   style="background-color: {{ getColorCode($color) }};"
+                                   title="{{ ucfirst($color) }}"
+                                   >
+                                </a>
+                            @endif
+                        @endforeach
                     </div>
+                    
+                    
+                    
+                    
                     
                    
                     <hr class="product-divider">
@@ -72,7 +105,9 @@
                                 <input class="quantity form-control" type="number" min="1" max="1000000">
                                 <button class="quantity-plus d-icon-plus"></button>
                             </div>
-                            <button class="text-normal ls-normal font-weight-semi-bold btn-product-icon btn-cart"><i class="d-icon-bag"></i>Ajouter au Panier</button>
+                            <a href="#" class="btn-product-icon btn-cart" title="Ajouter au panier"><i class="d-icon-bag"></i>Ajouter au Panier</a>
+
+                            {{-- <button class="text-normal ls-normal font-weight-semi-bold btn-product-icon btn-cart"><i class="d-icon-bag"></i>Ajouter au Panier</button> --}}
                         </div>
                     </div>
         
@@ -92,7 +127,7 @@
         </div>
         
 
-        <div class="tab tab-nav-simple product-tabs">
+        {{-- <div class="tab tab-nav-simple product-tabs">
             <ul class="nav nav-tabs justify-content-center" role="tablist">
                 
                
@@ -104,7 +139,6 @@
             <div class="tab-content">
                 
                 
-              
                 <div class="tab-pane active" id="product-tab-reviews">
                     <div class="row">
                         <div class="col-lg-4 mb-6">
@@ -385,10 +419,10 @@
                     <!-- End Reply -->
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <section class="pt-3 mt-10">
-            <h2 class="title justify-content-center">Related Products</h2>
+            <h2 class="title justify-content-center">De la meme categorie</h2>
 
             <div class="owl-carousel owl-theme owl-nav-full row cols-2 cols-md-3 cols-lg-4" data-owl-options="{
                 'items': 5,
@@ -410,145 +444,57 @@
                     }
                 }
             }">
-                <div class="product">
-                    <figure class="product-media">
-                        <a href="product-1.html">
-                            <img src="images/product/featured1.jpg" alt="product" width="280" height="315">
-                        </a>
-                        <div class="product-label-group">
-                            <label class="product-label label-new">new</label>
-                        </div>
-                        <div class="product-action-vertical">
-                            <a href="#" class="btn-product-icon btn-cart" data-toggle="modal" data-target="#addCartModal" title="Add to cart"><i class="d-icon-bag"></i></a>
-                            <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                        </div>
-                        <div class="product-action">
-                            <a href="#" class="btn-product btn-quickview" title="Quick View">Quick View</a>
-                        </div>
-                    </figure>
-                    <div class="product-details">
-                        <div class="product-cat">
-                            <a href="shop-grid-3col.html">Clothing</a>
-                        </div>
-                        <h3 class="product-name">
-                            <a href="product-1.html">Solid Pattern in Summer Dress</a>
-                        </h3>
-                        <div class="product-price">
-                            <span class="price">$140.00</span>
-                        </div>
-                        <div class="ratings-container">
-                            <div class="ratings-full">
-                                <span class="ratings" style="width:100%"></span>
-                                <span class="tooltiptext tooltip-top"></span>
+                @foreach($relatedProducts as $relatedProduct)
+                    <div class="product" data-id="{{ $product->id }}">
+                        <figure class="product-media">
+                            <a href="{{ route('products.details', ['slug' => $relatedProduct->slug]) }}">
+                                @php
+                                    // Récupérer l'image principale (vignette) associée au produit
+                                    $thumbnail = $relatedProduct->images()->where('is_thumbnail', true)->first();
+                                @endphp
+        
+                                @if($thumbnail)
+                                    <img src="{{ asset('storage/' . $thumbnail->path) }}" alt="{{ $relatedProduct->name }}" width="280" height="315" style="height: 150px">
+                                @else
+                                    <p>Pas d'image disponible</p>
+                                @endif
+                            </a>
+                            <div class="product-label-group">
+                                <label class="product-label label-new">Nouveauté</label>
+                                @if ($product->discount)
+                                    <label class="product-label label-sale">{{ number_format($product->discount, 0, '.', '') }} en réduction</label>
+                                @endif
                             </div>
-                            <a href="#" class="rating-reviews">( <span class="review-count">12</span>
-                                COMMENTAIRE
-                                )</a>
+                            <div class="product-action-vertical">
+                                <a href="#" class="btn-product-icon btn-cart" data-toggle="modal" data-target="#addCartModal" title="Add to cart"><i class="d-icon-bag"></i></a>
+                                <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
+                            </div>
+                            <div class="product-action">
+                                <a href="{{ route('products.details', ['slug' => $product->slug]) }}" class="btn-product" title="Aperçu">Aperçu</a>
+                            </div>
+                        </figure>
+                        <div class="product-details">
+                            <div class="product-cat">
+                                <a href="#">{{ $relatedProduct->category->name }}</a>
+                            </div>
+                            <h3 class="product-name">
+                                <a href="{{ route('products.details', ['slug' => $relatedProduct->slug]) }}">{{ $relatedProduct->name }}</a>
+                            </h3>
+                            <div class="product-price">
+                                @if($relatedProduct->discount && $relatedProduct->discount > 0)
+                                    <!-- Afficher le prix barré et le nouveau prix si la réduction est valide -->
+                                    <ins class="new-price">{{ number_format($relatedProduct->price - $relatedProduct->discount, 2) }} FCFA</ins>
+                                    <del class="old-price">{{ number_format($relatedProduct->price, 2) }} FCFA</del>
+                                @else
+                                    <!-- Afficher uniquement le prix normal si la réduction n'est pas valide -->
+                                    <ins class="new-price">{{ number_format($relatedProduct->price, 2) }} FCFA</ins>
+                                @endif
+                            </div>
+                            
                         </div>
                     </div>
-                </div>
-                <div class="product">
-                    <figure class="product-media">
-                        <a href="product-1.html">
-                            <img src="images/product/featured2.jpg" alt="product" width="280" height="315">
-                        </a>
-                        <div class="product-label-group">
-                            <label class="product-label label-sale">27% off</label>
-                        </div>
-                        <div class="product-action-vertical">
-                            <a href="#" class="btn-product-icon btn-cart" data-toggle="modal" data-target="#addCartModal" title="Add to cart"><i class="d-icon-bag"></i></a>
-                            <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                        </div>
-                        <div class="product-action">
-                            <a href="#" class="btn-product btn-quickview" title="Quick View">Quick View</a>
-                        </div>
-                    </figure>
-                    <div class="product-details">
-                        <div class="product-cat">
-                            <a href="shop-grid-3col.html">Bags & Backpacks</a>
-                        </div>
-                        <h3 class="product-name">
-                            <a href="product-1.html">Mackintosh Poket Backpack</a>
-                        </h3>
-                        <div class="product-price">
-                            <ins class="new-price">$125.99</ins><del class="old-price">$160.99</del>
-                        </div>
-                        <div class="ratings-container">
-                            <div class="ratings-full">
-                                <span class="ratings" style="width:60%"></span>
-                                <span class="tooltiptext tooltip-top"></span>
-                            </div>
-                            <a href="#" class="rating-reviews">( <span class="review-count">6</span> reviews
-                                )</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="product">
-                    <figure class="product-media">
-                        <a href="product-1.html">
-                            <img src="images/product/featured3.jpg" alt="product" width="280" height="315">
-                        </a>
-                        <div class="product-action-vertical">
-                            <a href="#" class="btn-product-icon btn-cart" data-toggle="modal" data-target="#addCartModal" title="Add to cart"><i class="d-icon-bag"></i></a>
-                            <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                        </div>
-                        <div class="product-action">
-                            <a href="#" class="btn-product btn-quickview" title="Quick View">Quick View</a>
-                        </div>
-                    </figure>
-                    <div class="product-details">
-                        <div class="product-cat">
-                            <a href="shop-grid-3col.html">Clothing</a>
-                        </div>
-                        <h3 class="product-name">
-                            <a href="product-1.html">Fashionable Orginal Trucker</a>
-                        </h3>
-                        <div class="product-price">
-                            <span class="price">$78.64</span>
-                        </div>
-                        <div class="ratings-container">
-                            <div class="ratings-full">
-                                <span class="ratings" style="width:40%"></span>
-                                <span class="tooltiptext tooltip-top"></span>
-                            </div>
-                            <a href="#" class="rating-reviews">( <span class="review-count">2</span> reviews
-                                )</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="product">
-                    <figure class="product-media">
-                        <a href="product-1.html">
-                            <img src="images/product/featured4.jpg" alt="product" width="280" height="315">
-                        </a>
-                        <div class="product-action-vertical">
-                            <a href="#" class="btn-product-icon btn-cart" data-toggle="modal" data-target="#addCartModal" title="Add to cart"><i class="d-icon-bag"></i></a>
-                            <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                        </div>
-                        <div class="product-action">
-                            <a href="#" class="btn-product btn-quickview" title="Quick View">Quick View</a>
-                        </div>
-                    </figure>
-                    <div class="product-details">
-                        <div class="product-cat">
-                            <a href="shop-grid-3col.html">Clothing</a>
-                        </div>
-                        <h3 class="product-name">
-                            <a href="product-1.html">Women Red Fur Overcoat</a>
-                        </h3>
-                        <div class="product-price">
-                            <span class="price">$184.00</span>
-                        </div>
-                        <div class="ratings-container">
-                            <div class="ratings-full">
-                                <span class="ratings" style="width:80%"></span>
-                                <span class="tooltiptext tooltip-top"></span>
-                            </div>
-                            <a href="#" class="rating-reviews">( <span class="review-count">6</span> reviews
-                                )</a>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
+               
             </div>
         </section>
     </div>

@@ -88,7 +88,7 @@
                                 data-id="{{ $product->id }}" >
                 
                                 <figure class="product-media">
-                                    <a href="{{ route('products.show', $product->id) }}">
+                                    <a href="{{ route('products.details', ['slug' => $product->slug]) }}">
                                         <img src="{{ $imageUrl }}" alt="{{ $product->name }}" width="280" height="315">
                                     </a>
                                     <div class="product-label-group">
@@ -102,7 +102,7 @@
                                         <a href="#" class="btn-product-icon btn-compare" title="Ajouter à la comparaison"><i class="d-icon-compare"></i></a>
                                     </div>
                                     <div class="product-action">
-                                        <a href="{{ route('products.details', ['slug' => $product->slug]) }}" class="btn-product" title="Quick View">Aperçu</a>
+                                        <a href="{{ route('products.details', ['slug' => $product->slug]) }}" class="btn-product" title="Aperçu">Aperçu</a>
                                     </div>
                                 </figure>
                                 <div class="product-details">

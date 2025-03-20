@@ -52,6 +52,10 @@ class ProductController extends Controller
         // Générer le slug à partir du nom du produit
         $slug = Str::slug($request->input('name'));
     
+        // Récupérer et formater les couleurs sélectionnées
+        $colors = $request->input('colors', []);
+        $colorsString = implode(',', $colors);
+
         // Créer un produit avec les données et le slug
         $product = Product::create([
             'category_id' => $request->category_id,
@@ -62,7 +66,9 @@ class ProductController extends Controller
             'stock' => $request->stock,
             'price' => $request->price,
             'discount' => $request->discount,
-            'slug' => $slug
+            'slug' => $slug,
+            'colors' => $colorsString, 
+
         ]);
     
         // Gestion de la vignette (image principale)

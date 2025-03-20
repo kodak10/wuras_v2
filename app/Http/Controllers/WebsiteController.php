@@ -171,6 +171,13 @@ public function magasin(Request $request)
         // Récupérer le produit par son slug
         $product = Product::where('slug', $slug)->firstOrFail();
 
+        $relatedProducts = Product::where('category_id', $product->category_id)
+                            ->where('id', '!=', $product->id)
+                            
+                            ->get();
+
+        $colors = explode(',', $product->colors);
+
         // Récupérer la liste des produits récemment consultés depuis la session
         $recentProducts = session()->get('recent_products', []);
 
@@ -187,7 +194,7 @@ public function magasin(Request $request)
             session()->put('recent_products', $recentProducts);
         }
 
-        return view('front-end.shop-details', compact('product'));
+        return view('front-end.shop-details', compact('product', 'colors', 'relatedProducts'));
     }
 
    
