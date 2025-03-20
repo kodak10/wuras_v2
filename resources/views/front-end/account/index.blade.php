@@ -72,7 +72,7 @@
                     <div class="tab-pane" id="orders">
                        
                         
-                        <table class="shop-table account-orders-table mb-6 ">
+                        <table class="shop-table account-orders-table mb-6">
                             <thead>
                                 <tr>
                                     <th class="order-id">N°</th>
@@ -91,7 +91,7 @@
                                         <td class="order-status">
                                             @switch($order->status)
                                                 @case('en attente')
-                                                    <span class="badge badge-warning">En <A:link></A:link>ttente</span>
+                                                    <span class="badge badge-warning">En attente</span>
                                                     @break
                                         
                                                 @case('confirmée')
@@ -123,17 +123,24 @@
                                         </td>
                                         <td class="order-action">
                                             <a href="{{ route('orders.show', $order->id) }}"
-                                                class="btn btn-outline btn-default btn-block btn-sm btn-rounded">Voir</a>
+                                                class="btn btn-outline btn-default btn-block btn-sm btn-rounded">
+                                                Voir
+                                            </a>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="text-center">Aucune commande trouvée.</td>
+                                        <td colspan="6" class="text-center">Aucune commande trouvée.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
-                            
                         </table>
+                        
+                        <!-- Pagination -->
+                        <div class="d-flex justify-content-center mt-4">
+                            {{ $orders->links('pagination::bootstrap-5') }}
+                        </div>
+                        
                         
                     </div>
                     

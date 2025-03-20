@@ -14,12 +14,20 @@ use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class UserController extends Controller
 {
+    // public function index()
+    // {
+    //     $orders = Order::where('user_id', Auth::id())->latest()->get();
+
+    //     return view('front-end.account.index', compact('orders'));
+    // }
+
     public function index()
     {
-        $orders = Order::where('user_id', Auth::id())->latest()->get();
+        $orders = Order::where('user_id', Auth::id())->latest()->paginate(6);
 
         return view('front-end.account.index', compact('orders'));
     }
+
 
     public function update(Request $request)
     {
