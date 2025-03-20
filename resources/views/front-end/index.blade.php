@@ -542,9 +542,10 @@
                                         <a href="#" class="product-variation-clean">Clean All</a>
                                     </div>
                                 </div>
-                                <div class="product-variation-price">
+                                {{-- <div class="product-variation-price">
                                     <span>${{ $firstProduct->price }}</span>
-                                </div>
+                                </div> --}}
+                                
                                 <div class="product-form product-qty mb-0">
                                     <div class="product-form-group">
                                         <div class="input-group mr-2 mb-0">
