@@ -78,7 +78,7 @@
                         <p><a href="tel:0749667007">0749667007</a></p>
                     </div>
                 </div>
-                {{-- <span class="divider mr-4"></span>
+                <span class="divider mr-4"></span>
                 <div class="dropdown compare-dropdown off-canvas mr-xl-7 mr-4">
                     <a href="#" class="compare compare-toggle mr-0" title="compare">
                         <i class="d-icon-compare"></i>
@@ -117,7 +117,7 @@
                         <!-- End of Products  -->
                     </div>
                     <!-- End Dropdown Box -->
-                </div> --}}
+                </div>
                
                 <span class="divider"></span>
                 <div class="dropdown cart-dropdown type2 off-canvas mr-0 mr-lg-2">

@@ -85,10 +85,7 @@
                 
                         <div class="product-wrap">
                             <div class="product" 
-                                data-id="{{ $product->id }}" 
-                                data-name="{{ $product->name }}" 
-                                data-price="{{ $product->price }}" 
-                                data-image="{{ $imageUrl }}">
+                                data-id="{{ $product->id }}" >
                 
                                 <figure class="product-media">
                                     <a href="{{ route('products.show', $product->id) }}">
