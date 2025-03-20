@@ -169,14 +169,14 @@
             row.innerHTML = `
                 <td class="product-thumbnail">
                     <figure>
-                        <a href="product-simple.html">
+                        <a href="#">
                             <img src="${item.image}" width="100" height="100" alt="product">
                         </a>
                     </figure>
                 </td>
                 <td class="product-name">
                     <div class="product-name-section">
-                        <a href="product-simple.html">${item.name}</a>
+                        <a href="#">${item.name}</a>
                     </div>
                 </td>
                 <td class="product-price">

@@ -19,7 +19,7 @@
                 <div class="compare-col compare-field">Prix</div>
             </div>
 
-            <!-- Ligne pour les types -->
+            <!-- Ligne pour les category -->
             <div class="compare-row">
                 <div class="compare-col compare-field">Catégorie</div>
             </div>
@@ -41,7 +41,7 @@
 
             <!-- Ligne pour les tailles -->
             <div class="compare-row">
-                <div class="compare-col compare-field">Poid</div>
+                <div class="compare-col compare-field">Marque: </div>
             </div>
         </div>
     </div>
@@ -58,12 +58,11 @@
             products: document.querySelector(".compare-header"),
             titles: document.querySelectorAll(".compare-row")[1],
             prices: document.querySelectorAll(".compare-row")[2],
-            types: document.querySelectorAll(".compare-row")[3],
-            availability: document.querySelectorAll(".compare-row")[4],
-            descriptions: document.querySelectorAll(".compare-row")[5],
-           
+            category: document.querySelectorAll(".compare-row")[3],
+            stock: document.querySelectorAll(".compare-row")[4],
+            description: document.querySelectorAll(".compare-row")[5],
             colors: document.querySelectorAll(".compare-row")[6],
-            sizes: document.querySelectorAll(".compare-row")[7]
+            marque: document.querySelectorAll(".compare-row")[7]
         };
 
         function updateCompareDisplay() {
@@ -81,7 +80,7 @@
                 // Ajouter une colonne pour chaque produit dans chaque ligne correspondante
                 rows.products.innerHTML += `
                     <div class="compare-col">
-                        <div class="product product-classic text-center">
+                        <div class="product product-classic text-center"  data-id="${item.id}" >
                             <figure class="product-media">
                                 <a href="${item.url}">
                                     <img src="${item.image}" alt="${item.name}" width="100">
@@ -90,11 +89,12 @@
 
                             <div class="product-details">
                                     <div class="product-action">
-                                        <a href="#" class="btn-product-icon btn-left btn-moving to-left" title="Exchange left"><i class="d-icon-angle-left"></i></a>
-                                        <a href="#" class="btn-product-icon btn-default btn-cart " title="Add to cart" data-toggle="modal" data-target="#addCartModal"><i class="d-icon-bag"></i></a>
-                                        <a href="#" class="btn-product-icon btn-default btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                        <a href="#" class="btn-product-icon btn-default" title="Add to close"><i class="d-icon-close"></i></a>
-                                        <a href="#" class="btn-product-icon btn-right btn-moving to-right" title="Exchange right"><i class="d-icon-angle-right"></i></a>
+                                        <a href="#" class="btn-product-icon btn-cart" title="Ajouter au panier"><i class="d-icon-bag"></i></a>
+
+                                        <a href="#" class="btn-product-icon btn-default btn-remove" title="Remove from comparison" onclick="removeFromCompare('${item.id}')">
+                                            <i class="d-icon-close"></i>
+                                        </a>
+
                                     </div>
                                 </div>
                         </div>
@@ -103,17 +103,18 @@
 
                 rows.titles.innerHTML += `<div class="compare-col">${item.name}</div>`;
                 rows.prices.innerHTML += `<div class="compare-col">${item.price}</div>`;
-                rows.types.innerHTML += `<div class="compare-col">${item.type}</div>`;
-                rows.availability.innerHTML += `<div class="compare-col">${item.stock > 0 ? 'En stock' : 'Rupture de stock'}</div>`;
-                rows.descriptions.innerHTML += `<div class="compare-col">${item.description ?? 'Aucune description'}</div>`;
+                rows.category.innerHTML += `<div class="compare-col">${item.category}</div>`;
+                rows.stock.innerHTML += `<div class="compare-col">${item.stock}</div>`;
+                rows.description.innerHTML += `<div class="compare-col">${item.description ?? 'Aucune description'}</div>`;
                 
                 rows.colors.innerHTML += `<div class="compare-col">${item.color ?? 'N/A'}</div>`;
-                rows.sizes.innerHTML += `<div class="compare-col">${item.size ?? 'N/A'}</div>`;
+                rows.marque.innerHTML += `<div class="compare-col">${item.marque}</div>`;
             });
         }
 
         updateCompareDisplay();
 
+        
         window.removeFromCompare = function (productId) {
             compareList = compareList.filter(item => item.id !== productId);
             localStorage.setItem("compareList", JSON.stringify(compareList));

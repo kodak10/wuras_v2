@@ -85,7 +85,13 @@
                 
                         <div class="product-wrap">
                             <div class="product" 
-                                data-id="{{ $product->id }}" >
+                                data-id="{{ $product->id }}" 
+                                data-category="{{ $product->category ? $product->category->name : 'N/A' }}" 
+                                data-price="{{ $product->price }}" 
+                                data-marque="{{ $product->marque }}" 
+                                data-stock="{{ $product->stock }}"
+                                data-description="{{ $product->description }}"
+                                >
                 
                                 <figure class="product-media">
                                     <a href="{{ route('products.details', ['slug' => $product->slug]) }}">

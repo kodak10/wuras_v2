@@ -274,11 +274,14 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+
+
             let cart = JSON.parse(localStorage.getItem("cart")) || [];
             let compareList = JSON.parse(localStorage.getItem("compareList")) || [];
     
             updateCartDisplay();
             updateCompareDisplay();
+            
     
             document.querySelectorAll(".btn-cart").forEach(button => {
                 button.addEventListener("click", function (e) {
@@ -313,32 +316,6 @@
                     // Sauvegarder les données dans le localStorage
                     localStorage.setItem("cart", JSON.stringify(cart));
                     updateCartDisplay();
-                });
-            });
-    
-            document.querySelectorAll(".btn-compare").forEach(button => {
-                button.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    let productElement = this.closest(".product");
-    
-                    let productId = productElement.dataset.id;
-                    let productName = productElement.querySelector(".product-name a").textContent;
-                    let productImage = productElement.querySelector("img").src;
-    
-                    // Debug: Afficher les informations du produit pour la comparaison
-                    console.log('ID du produit à comparer:', productId);
-                    console.log('Nom du produit à comparer:', productName);
-                    console.log('Image du produit à comparer:', productImage);
-    
-                    if (!compareList.some(item => item.id === productId)) {
-                        compareList.push({ id: productId, name: productName, image: productImage });
-                        document.cookie = "compareList=" + JSON.stringify(compareList) + "; path=/";
-                        localStorage.setItem("compareList", JSON.stringify(compareList));
-                        updateCompareDisplay();
-                        console.log('Produit ajouté à la liste de comparaison');
-                    } else {
-                        console.log('Produit déjà dans la liste de comparaison');
-                    }
                 });
             });
     
@@ -378,44 +355,16 @@
                     `).join("");
                 }
             }
-    
+
+            
             window.removeFromCart = function(productId) {
                 cart = cart.filter(item => item.id !== productId);
                 localStorage.setItem("cart", JSON.stringify(cart));
                 updateCartDisplay();
                 console.log('Produit supprimé du panier:', productId);
             };
-    
-            function updateCompareDisplay() {
-                let compareDropdown = document.querySelector(".compare-dropdown .products");
-    
-                if (compareList.length === 0) {
-                    compareDropdown.innerHTML = "<p>Aucun produit en comparaison.</p>";
-                } else {
-                    compareDropdown.innerHTML = compareList.map(item => `
-                        <div class="product product-compare">
-                            <figure class="product-media">
-                                <a href="#"><img src="${item.image}" width="80" height="88"></a>
-                                <button class="btn btn-link btn-close" onclick="removeFromCompare('${item.id}')">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </figure>
-                            <div class="product-detail">
-                                <a href="#" class="product-name">${item.name}</a>
-                            </div>
-                        </div>
-                    `).join("");
-                }
-            }
-    
-            window.removeFromCompare = function(productId) {
-                compareList = compareList.filter(item => item.id !== productId);
-                document.cookie = "compareList=" + JSON.stringify(compareList) + "; path=/";
-                localStorage.setItem("compareList", JSON.stringify(compareList));
-                updateCompareDisplay();
-                console.log('Produit supprimé de la comparaison:', productId);
-            };
-    
+
+
             window.updateQuantity = function(productId, change) {
                 let product = cart.find(item => item.id == productId);
                 if (product) {
@@ -425,6 +374,92 @@
                     console.log('Quantité mise à jour pour le produit:', productId, 'Nouvelle quantité:', product.quantity);
                 }
             };
+
+
+            // Comparaison
+           
+            document.querySelectorAll(".btn-compare").forEach(button => {
+                button.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    let productElement = this.closest(".product");
+
+                    let productId = productElement.dataset.id;
+                    let productName = productElement.querySelector(".product-name a").textContent;
+                    let productImage = productElement.querySelector("img").src;
+                    let productCategory = productElement.dataset.category;  // Récupération de la catégorie
+                    let productPrice = productElement.dataset.price;  // Récupération du prix
+                    let productMarque = productElement.dataset.marque;  // Récupération du poids
+                    let productStock = productElement.dataset.stock;  // Récupération du stock
+                    let productColor = productElement.dataset.color;  // Récupération des couleurs
+                    let productDescription = productElement.dataset.description;  // Récupération du stock
+
+                    if (!compareList.some(item => item.id === productId)) {
+                        compareList.push({
+                            id: productId,
+                            name: productName,
+                            image: productImage,
+                            category: productCategory,
+                            price: productPrice,
+                            marque: productMarque,
+                            stock: productStock,
+                            color: productColor,
+                            productDescription: productDescription
+                        });
+
+                        document.cookie = "compareList=" + JSON.stringify(compareList) + "; path=/";
+                        localStorage.setItem("compareList", JSON.stringify(compareList));
+                        updateCompareDisplay();
+                    }
+                });
+            });
+
+
+    
+            function updateCompareDisplay() {
+                let compareDropdown = document.querySelector(".compare-dropdown .products");
+
+                if (!compareDropdown) {
+                    console.warn("Élément .compare-dropdown .products introuvable.");
+                    return;
+                }
+
+                if (compareList.length === 0) {
+                    compareDropdown.innerHTML = "<p>Aucun produit en comparaison.</p>";
+                } else {
+                    compareDropdown.innerHTML = compareList.map(item => `
+                        <div class="product product-compare">
+                            <figure class="product-media">
+                                <a href="#"><img src="${item.image}" width="80" height="88" alt="${item.name}"></a>
+                                <button class="btn btn-link btn-close" onclick="removeFromCompare('${item.id}')">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </figure>
+                            <div class="product-detail">
+                                <a href="#" class="product-name">${item.name}</a>
+                                <p class="product-category"><strong>Catégorie:</strong> ${item.category || 'N/A'}</p>
+                                <p class="product-price"><strong>Prix:</strong> ${item.price || 'N/A'}</p>
+                                <p class="product-marque"><strong>Poids:</strong> ${item.marque || 'N/A'}</p>
+                                <p class="product-stock"><strong>Stock:</strong> ${item.stock || 'N/A'}</p>
+                                <p class="product-color"><strong>Couleur:</strong> ${item.color || 'N/A'}</p>
+                            </div>
+                        </div>
+                    `).join("");
+                }
+            }
+
+
+
+    
+            window.removeFromCompare = function(productId) {
+                compareList = compareList.filter(item => item.id !== productId);
+                document.cookie = "compareList=" + JSON.stringify(compareList) + "; path=/";
+                localStorage.setItem("compareList", JSON.stringify(compareList));
+                updateCompareDisplay();
+                console.log('Produit supprimé de la comparaison:', productId);
+            };
+
+    
+           
         });
     </script>
     

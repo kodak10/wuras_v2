@@ -115,7 +115,14 @@
                 </div>
             </div>
             @foreach ($computers as $product)
-            <div class="product text-center" data-id="{{ $product->id }}">
+            <div class="product text-center" data-id="{{ $product->id }}"
+                data-category="{{ $product->category ? $product->category->name : 'N/A' }}" 
+                data-price="{{ $product->price }}" 
+                data-marque="{{ $product->marque }}" 
+                data-stock="{{ $product->stock }}"
+                data-description="{{ $product->description }}"
+                
+                >
                 <figure class="product-media">
                     <a href="{{ route('products.details', ['slug' => $product->slug]) }}">
                         @php
@@ -261,7 +268,13 @@
                 </div>
             </div>
             @foreach ($EcransImprimantes as $product)
-            <div class="product text-center" data-id="{{ $product->id }}">
+            <div class="product text-center" data-id="{{ $product->id }}"
+                data-category="{{ $product->category ? $product->category->name : 'N/A' }}" 
+                data-price="{{ $product->price }}" 
+                data-marque="{{ $product->marque }}" 
+                data-stock="{{ $product->stock }}"
+                data-description="{{ $product->description }}"
+                >
                 <figure class="product-media">
                     <a href="{{ route('products.details', ['slug' => $product->slug]) }}">
                         @php
@@ -362,7 +375,13 @@
                 </div>
             </div>
             @foreach ($accessoires as $product)
-            <div class="product text-center" data-id="{{ $product->id }}">
+            <div class="product text-center" data-id="{{ $product->id }}"
+                data-category="{{ $product->category ? $product->category->name : 'N/A' }}" 
+                data-price="{{ $product->price }}" 
+                data-marque="{{ $product->marque }}" 
+                data-stock="{{ $product->stock }}"
+                data-description="{{ $product->description }}"
+                >
                 <figure class="product-media">
                     <a href="{{ route('products.details', ['slug' => $product->slug]) }}">
                         @php
@@ -431,7 +450,13 @@
                 }
             }
         }">
-            <div class="product text-center" data-id="{{ $product->id }}">
+            <div class="product text-center" data-id="{{ $product->id }}" 
+                data-category="{{ $product->category ? $product->category->name : 'N/A' }}" 
+                data-price="{{ $product->price }}" 
+                data-marque="{{ $product->marque }}" 
+                data-stock="{{ $product->stock }}"
+                data-description="{{ $product->description }}"
+                >
                 <figure class="product-media">
                     <a href="#">
                         <img src="images/demos/demo-market1/product/34.jpg" alt="product" width="260" height="293">
@@ -479,23 +504,39 @@
             <!-- Affichage du premier produit -->
             @if($firstProduct)
             <div class="product-single-wrap" >
-                <div class="product product-single" data-id="{{ $firstProduct->id }}">
+                <div class="product" data-id="{{ $firstProduct->id }}"
+                    data-category="{{ $firstProduct->category ? $product->category->name : 'N/A' }}" 
+                    data-price="{{ $firstProduct->price }}" 
+                    data-marque="{{ $firstProduct->marque }}" 
+                    data-stock="{{ $firstProduct->stock }}"
+                    data-description="{{ $firstProduct->description }}"
+                    >
                     <div class="row product-gallery align-items-center mb-0">
                         <div class="col-md-6 p-relative mb-4 mb-md-0">
                             <div class="">
                                 <figure class="product-media">
-                                    <a href="{{ route('products.details', ['slug' => $product->slug]) }}">
+                                    {{-- <a href="{{ route('products.details', ['slug' => $product->slug]) }}"> --}}
+                                        {{-- @php
+                                            // Récupérer l'image principale (vignette) associée au produit
+                                            $thumbnail = $product->images()->where('is_thumbnail', true)->first();
+                                        @endphp
+                    
+                                        @if($thumbnail)
+                                            <img src="{{ asset('storage/' . $thumbnail->path) }}" alt="{{ $product->name }}" width="280" height="315">
+                                        @else
+                                            <p>Pas d'image disponible</p>
+                                        @endif --}}
+
                                         @php
-                                        // Récupérer l'image principale (vignette) associée au produit
-                                        $thumbnail = $product->images()->where('is_thumbnail', true)->first();
-                                    @endphp
-                
-                                    @if($thumbnail)
-                                        <img src="{{ asset('storage/' . $thumbnail->path) }}" alt="{{ $product->name }}" width="280" height="315">
-                                    @else
-                                        <p>Pas d'image disponible</p>
-                                    @endif
-                                    </a>
+                                            // Récupérer l'image principale (vignette) associée au produit
+                                            $thumbnail = $firstProduct->images()->where('is_thumbnail', true)->first();
+                                            $imageUrl = $thumbnail ? asset('storage/' . $thumbnail->path) : asset('images/default.png'); // Image par défaut si pas d'image
+                                        @endphp
+
+                                        <a href="{{ route('products.details', ['slug' => $firstProduct->slug]) }}">                                        
+                                            <img src="{{ $imageUrl }}" alt="{{ $firstProduct->name }}" width="280" height="315">
+                                        </a>
+                                        {{-- </a> --}}
                                     
                                     
                                 </figure>
@@ -553,7 +594,7 @@
                                             <input class="quantity form-control" type="number" min="1" max="1000000" title="quantity">
                                             <button class="quantity-plus d-icon-plus" title="quantity"></button>
                                         </div>
-                                        <a href="#" class="btn-product-icon btn-cart" title="Ajouter au panier"><i class="d-icon-bag"></i>Ajouter au Panier</a>
+                                        <a href="#" class="btn-product-icon btn-cart" title="Ajouter au panier"><i class="d-icon-bag"></i>Ajouter</a>
 
                                         {{-- <button class="btn-product btn-cart text-normal ls-normal font-weight-semi-bold mb-0"><i class="d-icon-bag"></i></button> --}}
                                     </div>
@@ -592,8 +633,14 @@
                             <a href="{{ route('products.details', $product->slug) }}">{{ $product->name }}</a>
                         </h3>
                         <div class="product-price">
-                            <ins class="new-price">{{ number_format($product->price, 0, '.', '') }} FCFA</ins> <br>
-                            <del class="old-price">{{ number_format($product->price, 0, '.', '') }} FCFA</del>
+                            @if($product->discount && $product->discount > 0)
+                                <!-- Afficher le prix barré et le nouveau prix si la réduction est valide -->
+                                <ins class="new-price">{{ number_format($product->price - $product->discount, 2) }} FCFA</ins>
+                                <del class="old-price">{{ number_format($product->price, 2) }} FCFA</del>
+                            @else
+                                <!-- Afficher uniquement le prix normal si la réduction n'est pas valide -->
+                                <ins class="new-price">{{ number_format($product->price, 2) }} FCFA</ins>
+                            @endif
                         </div>
                         {{-- <div class="product-price">
                             <span class="price">${{ $product->price }}</span>
