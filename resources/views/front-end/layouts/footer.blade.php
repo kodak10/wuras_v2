@@ -13,11 +13,16 @@
                     <p>Obtenez toutes les dernières informations sur offres et ventes.</p>
                 </div>
                 <div class="col-lg-5 widget-newsletter">
-                    <form action="#" class="input-wrapper-inline mx-auto mx-lg-0">
-                        <input type="email" class="form-control" name="email" id="email" placeholder="Adresse e-mail ici..." required="">
+                    <form action="{{ route('newsletter.subscribe') }}" method="POST" class="input-wrapper-inline mx-auto mx-lg-0">
+                        @csrf <!-- Protection CSRF -->
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Adresse e-mail ici..." required>
                         <button class="btn btn-primary btn-rounded ml-2" type="submit">S'abonner<i class="d-icon-arrow-right"></i></button>
                     </form>
+                    @if(session('success'))
+                        <div class="alert alert-success mt-3 text-white">{{ session('success') }}</div>
+                    @endif
                 </div>
+                
             </div>
         </div>
         <!-- End FooterTop -->

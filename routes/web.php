@@ -80,6 +80,8 @@ Route::prefix('administration')->middleware(['auth', 'role:Administrateur'])->gr
     });
 });
 
+Route::post('/newsletter/subscribe', [WebsiteController::class, 'subscribe'])->name('newsletter.subscribe');
+
 
 Route::prefix('home')->middleware(['auth', 'role:User'])->group(function () {
     Route::get('/', [UserController::class, 'index']);
