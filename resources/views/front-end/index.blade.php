@@ -552,7 +552,9 @@
                                             <input class="quantity form-control" type="number" min="1" max="1000000" title="quantity">
                                             <button class="quantity-plus d-icon-plus" title="quantity"></button>
                                         </div>
-                                        <button class="btn-product btn-cart text-normal ls-normal font-weight-semi-bold mb-0"><i class="d-icon-bag"></i>Ajouter au Panier</button>
+                                        <a href="#" class="btn-product-icon btn-cart" title="Ajouter au panier"><i class="d-icon-bag"></i>Ajouter au Panier</a>
+
+                                        {{-- <button class="btn-product btn-cart text-normal ls-normal font-weight-semi-bold mb-0"><i class="d-icon-bag"></i></button> --}}
                                     </div>
                                 </div>
                             </div>
