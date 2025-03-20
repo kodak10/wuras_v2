@@ -24,7 +24,7 @@
                                
                             </ul>
                         </div>
-                        <div class="widget widget-collapsible">
+                        {{-- <div class="widget widget-collapsible">
                             <h3 class="widget-title">Trirer Par Prix</h3>
                             <div class="widget-body mt-3">
                                 <form action="#">
@@ -39,7 +39,7 @@
                                     </div>
                                 </form>
                             </div>
-                        </div>
+                        </div> --}}
                        
                        
                         
