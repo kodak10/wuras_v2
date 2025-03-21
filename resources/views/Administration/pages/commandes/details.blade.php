@@ -186,6 +186,7 @@
                                                             <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
                                                                 <img src="{{ $imageUrl }}" alt="{{ $orderDetail->product->name }}" class="avatar-md">
                                                             </div>
+                                                            {{ $orderDetail->product->name }}
                                                         </div>
                                                     </td>
                                                    
