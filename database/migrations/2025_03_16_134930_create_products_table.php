@@ -19,8 +19,8 @@ return new class extends Migration
             $table->enum('genre', ['Men', 'Women', 'Unisex'])->nullable();
             $table->text('description')->nullable();
             $table->integer('stock')->default(0); // Quantité en stock
-            $table->decimal('price', 8, 2);
-            $table->decimal('discount', 8, 2)->nullable();
+            $table->decimal('price', 8, 0);
+            $table->decimal('discount', 8, 0)->nullable();
             $table->json('colors')->nullable(); // Couleurs sélectionnées
             $table->json('tags')->nullable(); // Tags sélectionnés
             $table->timestamps();

@@ -42,7 +42,7 @@
                                         </label>
                                     </div> --}}
                                     
-                                    {{-- <a href="{{ route('password.request') }}" class="lost-link">Mot de passe oublié ?</a> --}}
+                                    <a href="{{ route('password.request') }}" class="lost-link">Mot de passe oublié ?</a>
                                 </div>
                                 
                                 <button class="btn btn-dark btn-block btn-rounded" type="submit">Se Connecter</button>

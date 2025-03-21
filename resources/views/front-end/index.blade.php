@@ -153,13 +153,20 @@
                     </h4>
                     <div class="product-price">
                         @if($product->discount && $product->discount > 0)
-                            <!-- Afficher le prix barré et le nouveau prix si la réduction est valide -->
-                            <ins class="new-price">{{ number_format($product->price - $product->discount, 2) }} FCFA</ins>
-                            <del class="old-price">{{ number_format($product->price, 2) }} FCFA</del>
+                            <!-- Calcul du nouveau prix après la réduction -->
+                            <ins class="new-price">
+                                {{ number_format((float)$product->price - (float)$product->discount, 0, '.', '') }} FCFA
+                            </ins>
+                            <del class="old-price">
+                                {{ number_format((float)$product->price, 0, '.', '') }} FCFA
+                            </del>
+                        
+
                         @else
                             <!-- Afficher uniquement le prix normal si la réduction n'est pas valide -->
-                            <ins class="new-price">{{ number_format($product->price, 2) }} FCFA</ins>
-                        @endif
+                            <ins class="new-price">{{ number_format($product->price, 0, '.', '') }}
+                                FCFA</ins>
+                        @endif                   
                     </div>
                 </div>
             </div>
@@ -305,10 +312,10 @@
                         @if($product->discount && $product->discount > 0)
                             <!-- Afficher le prix barré et le nouveau prix si la réduction est valide -->
                             <ins class="new-price">{{ number_format($product->price - $product->discount, 2) }} FCFA</ins>
-                            <del class="old-price">{{ number_format($product->price, 2) }} FCFA</del>
+                            <del class="old-price">{{ number_format($product->price, 0) }} FCFA</del>
                         @else
                             <!-- Afficher uniquement le prix normal si la réduction n'est pas valide -->
-                            <ins class="new-price">{{ number_format($product->price, 2) }} FCFA</ins>
+                            <ins class="new-price">{{ number_format($product->price, 0) }} FCFA</ins>
                         @endif
                     </div>
                 </div>
@@ -411,13 +418,20 @@
                     </h4>
                     <div class="product-price">
                         @if($product->discount && $product->discount > 0)
-                            <!-- Afficher le prix barré et le nouveau prix si la réduction est valide -->
-                            <ins class="new-price">{{ number_format($product->price - $product->discount, 2) }} FCFA</ins>
-                            <del class="old-price">{{ number_format($product->price, 2) }} FCFA</del>
+                            <!-- Calcul du nouveau prix après la réduction -->
+                            <ins class="new-price">
+                                {{ number_format((float)$product->price - (float)$product->discount, 0, '.', '') }} FCFA
+                            </ins>
+                            <del class="old-price">
+                                {{ number_format((float)$product->price, 0, '.', '') }} FCFA
+                            </del>
+                        
+
                         @else
                             <!-- Afficher uniquement le prix normal si la réduction n'est pas valide -->
-                            <ins class="new-price">{{ number_format($product->price, 2) }} FCFA</ins>
-                        @endif
+                            <ins class="new-price">{{ number_format($product->price, 0, '.', '') }}
+                                FCFA</ins>
+                        @endif                    
                     </div>
                 </div>
             </div>
@@ -452,43 +466,7 @@
                 }
             }
         }">
-            {{-- <div class="product text-center" data-id="{{ $product->id }}" 
-                data-category="{{ $product->category ? $product->category->name : 'N/A' }}" 
-                data-price="{{ $product->price }}" 
-                data-marque="{{ $product->marque }}" 
-                data-stock="{{ $product->stock }}"
-                data-description="{{ $product->description }}"
-                data-slug="{{ $product->slug }}"
-                >
-                <figure class="product-media">
-                    <a href="#">
-                        <img src="images/demos/demo-market1/product/34.jpg" alt="product" width="260" height="293">
-                    </a>
-                    <div class="product-action-vertical">
-                        <a href="#" class="btn-product-icon btn-cart" title="Ajouter au panier"><i class="d-icon-bag"></i></a>
-                        <a href="#" class="btn-product-icon btn-compare" title="Ajouter à la comparaison"><i class="d-icon-compare"></i></a>
-                    </div>
-                    <div class="product-action">
-                        <a href="{{ route('products.details', ['slug' => $product->slug]) }}" class="btn-product" title="Aperçu">Aperçu</a>
-                    </div>
-                </figure>
-                <div class="product-details">
-                    <h3 class="product-name">
-                        <a href="#">Fashionable Hand Bag</a>
-                    </h3>
-                    <div class="product-price">
-                        @if($product->discount && $product->discount > 0)
-                            <!-- Afficher le prix barré et le nouveau prix si la réduction est valide -->
-                            <ins class="new-price">{{ number_format($product->price - $product->discount, 2) }} FCFA</ins>
-                            <del class="old-price">{{ number_format($product->price, 2) }} FCFA</del>
-                        @else
-                            <!-- Afficher uniquement le prix normal si la réduction n'est pas valide -->
-                            <ins class="new-price">{{ number_format($product->price, 2) }} FCFA</ins>
-                        @endif
-                    </div>
-                    
-                </div>
-            </div> --}}
+           
             @foreach($topProducts as $product)
             <div class="product text-center" data-id="{{ $product->id }}"
                  data-category="{{ $product->category ? $product->category->name : 'N/A' }}"
@@ -501,14 +479,14 @@
                     <a href="{{ route('products.details', ['slug' => $product->slug]) }}">
                         @php
                         // Récupérer l'image principale (vignette) associée au produit
-                        $thumbnail = $product->images()->where('is_thumbnail', true)->first();
-                    @endphp
+                            $thumbnail = $product->images()->where('is_thumbnail', true)->first();
+                        @endphp
 
-                    @if($thumbnail)
-                        <img src="{{ asset('storage/' . $thumbnail->path) }}" alt="{{ $product->name }}" width="280" height="315">
-                    @else
-                        <p>Pas d'image disponible</p>
-                    @endif
+                        @if($thumbnail)
+                            <img src="{{ asset('storage/' . $thumbnail->path) }}" alt="{{ $product->name }}" width="280" height="315">
+                        @else
+                            <p>Pas d'image disponible</p>
+                        @endif
                     </a>
                     <div class="product-action-vertical">
                         <a href="#" class="btn-product-icon btn-cart" title="Ajouter au panier"><i class="d-icon-bag"></i></a>
@@ -524,11 +502,20 @@
                     </h3>
                     <div class="product-price">
                         @if($product->discount && $product->discount > 0)
-                            <ins class="new-price">{{ number_format($product->price - $product->discount, 2) }} FCFA</ins>
-                            <del class="old-price">{{ number_format($product->price, 2) }} FCFA</del>
+                            <!-- Calcul du nouveau prix après la réduction -->
+                            <ins class="new-price">
+                                {{ number_format((float)$product->price - (float)$product->discount, 0, '.', '') }} FCFA
+                            </ins>
+                            <del class="old-price">
+                                {{ number_format((float)$product->price, 0, '.', '') }} FCFA
+                            </del>
+                        
+
                         @else
-                            <ins class="new-price">{{ number_format($product->price, 2) }} FCFA</ins>
-                        @endif
+                            <!-- Afficher uniquement le prix normal si la réduction n'est pas valide -->
+                            <ins class="new-price">{{ number_format($product->price, 0, '.', '') }}
+                                FCFA</ins>
+                        @endif                                       
                     </div>
                 </div>
             </div>
@@ -563,17 +550,7 @@
                         <div class="col-md-6 p-relative mb-4 mb-md-0">
                             <div class="w-100">
                                 <figure class="product-media">
-                                    {{-- <a href="{{ route('products.details', ['slug' => $product->slug]) }}"> --}}
-                                        {{-- @php
-                                            // Récupérer l'image principale (vignette) associée au produit
-                                            $thumbnail = $product->images()->where('is_thumbnail', true)->first();
-                                        @endphp
-                    
-                                        @if($thumbnail)
-                                            <img src="{{ asset('storage/' . $thumbnail->path) }}" alt="{{ $product->name }}" width="280" height="315">
-                                        @else
-                                            <p>Pas d'image disponible</p>
-                                        @endif --}}
+                                   
 
                                         @php
                                             // Récupérer l'image principale (vignette) associée au produit
@@ -584,7 +561,7 @@
                                         <a href="{{ route('products.details', ['slug' => $firstProduct->slug]) }}">                                        
                                             <img class="w-100" src="{{ $imageUrl }}" alt="{{ $firstProduct->name }}" width="280" height="315">
                                         </a>
-                                        {{-- </a> --}}
+                                        
                                     
                                     
                                 </figure>
@@ -606,10 +583,10 @@
                                     @if($firstProduct->discount && $firstProduct->discount > 0)
                                         <!-- Afficher le prix barré et le nouveau prix si la réduction est valide -->
                                         <ins class="new-price">{{ number_format($firstProduct->price - $firstProduct->discount, 2) }} FCFA</ins>
-                                        <del class="old-price">{{ number_format($firstProduct->price, 2) }} FCFA</del>
+                                        <del class="old-price">{{ number_format($firstProduct->price, 0) }} FCFA</del>
                                     @else
                                         <!-- Afficher uniquement le prix normal si la réduction n'est pas valide -->
-                                        <ins class="new-price">{{ number_format($firstProduct->price, 2) }} FCFA</ins>
+                                        <ins class="new-price">{{ number_format($firstProduct->price, 0) }} FCFA</ins>
                                     @endif
                                 </div>
                                 
@@ -622,13 +599,13 @@
                                         </div>
                                     </div>
                                 </div>
+                                <label class="text-dark">Description:</label>
                                 <div class="product-form product-size">
-                                    <label>Description:</label>
+                                    
                                     <div class="product-form-group">
                                         <div class="product-variations">
                                             {{ \Illuminate\Support\Str::limit($firstProduct->description, 80, '...') }}
                                         </div>
-                                        <a href="#" class="product-variation-clean">Clean All</a>
                                     </div>
                                 </div>
                                 {{-- <div class="product-variation-price">
@@ -659,41 +636,40 @@
             <div class="product-wrap">
             
                 <div class="product product-list-sm">
-                    <a href="{{ route('products.details', $product->slug) }}" class="product-media">
-                        <figure class="product-image">
-
-                            @php
-                            // Récupérer l'image principale (vignette) associée au produit
+                    <a href="{{ route('products.details', ['slug' => $product->slug]) }}">
+                        @php
+                        // Récupérer l'image principale (vignette) associée au produit
                             $thumbnail = $product->images()->where('is_thumbnail', true)->first();
                         @endphp
 
                         @if($thumbnail)
-
-                            {{-- <img src="{{ asset('storage/' . $firstProduct->thumbnail->path) }}" alt="{{ $product->name }}" width="280" height="315"> --}}
+                            <img src="{{ asset('storage/' . $thumbnail->path) }}" alt="{{ $product->name }}" width="280" height="315">
                         @else
                             <p>Pas d'image disponible</p>
                         @endif
-
-                        </figure>
                     </a>
-                    <div class="product-details">
+                    <div class="product-details ml-3">
                         <h3 class="product-name">
                             <a href="{{ route('products.details', $product->slug) }}">{{ $product->name }}</a>
                         </h3>
                         <div class="product-price">
                             @if($product->discount && $product->discount > 0)
-                                <!-- Afficher le prix barré et le nouveau prix si la réduction est valide -->
-                                <ins class="new-price">{{ number_format($product->price - $product->discount, 2) }} FCFA</ins>
-                                <del class="old-price">{{ number_format($product->price, 2) }} FCFA</del>
+                                <!-- Calcul du nouveau prix après la réduction -->
+                                <ins class="new-price">
+                                    {{ number_format((float)$product->price - (float)$product->discount, 0, '.', '') }} FCFA
+                                </ins> <br>
+                                <del class="old-price">
+                                    {{ number_format((float)$product->price, 0, '.', '') }} FCFA
+                                </del>
+                            
+
                             @else
                                 <!-- Afficher uniquement le prix normal si la réduction n'est pas valide -->
-                                <ins class="new-price">{{ number_format($product->price, 2) }} FCFA</ins>
+                                <ins class="new-price">{{ number_format($product->price, 0, '.', '') }}
+                                    FCFA</ins>
                             @endif
                         </div>
-                        {{-- <div class="product-price">
-                            <span class="price">${{ $product->price }}</span>
-                        </div> --}}
-                        
+                       
                     </div>
                 </div>
             

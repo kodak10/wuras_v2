@@ -345,8 +345,8 @@
                 } else {
                     let totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
                     cartCount.textContent = cart.length;
-                    cartPrice.textContent = totalPrice.toFixed(2) + " FCFA";
-                    carSousTotal.textContent = totalPrice.toFixed(2) + " FCFA";
+                    cartPrice.textContent = totalPrice.toFixed(0) + " FCFA";
+                    carSousTotal.textContent = totalPrice.toFixed(0) + " FCFA";
     
                     cartDropdown.innerHTML = cart.map(item => `
                         <div class="product product-cart">
@@ -477,6 +477,8 @@
            
         });
     </script>
+    
+
     
    
         @stack('scripts')

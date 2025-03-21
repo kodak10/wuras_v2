@@ -41,7 +41,7 @@
                                         <label class="form-control-label" for="signin-remember">Se Souvenir de moi
                                         </label>
                                     </div> --}}
-                                    {{-- <a href="{{ route('password.request') }}" class="lost-link">Mot de passe oublié ?</a> --}}
+                                    <a href="{{ route('password.request') }}" class="lost-link">Mot de passe oublié ?</a>
                                 </div>
                                 <button class="btn btn-dark btn-block btn-rounded" type="submit">Se Connecter</button>
                             </form>
@@ -80,6 +80,7 @@
                                         <label class="form-control-label" for="register-agree">J'accepte la politique de confidentialité</label>
                                     </div>
                                 </div>
+                                
                                 <button class="btn btn-dark btn-block btn-rounded" type="submit">S'Inscrire</button>
                             </form>
                             

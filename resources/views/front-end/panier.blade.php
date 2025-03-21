@@ -201,7 +201,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                 </td>
                 <td class="product-subtotal">
-                    <span class="amount subtotal">${subtotal.toFixed(2)} FCFA</span>
+                    <span class="amount subtotal">${subtotal.toFixed(0)} FCFA</span>
                 </td>
                 <td class="product-close">
                     <a href="#" class="product-remove" data-id="${item.id}">
@@ -212,7 +212,7 @@ document.addEventListener("DOMContentLoaded", function () {
             cartItems.appendChild(row);
         });
 
-        subtotalPriceElement.textContent = totalPrice.toFixed(2) + " FCFA";
+        subtotalPriceElement.textContent = totalPrice.toFixed(0) + " FCFA";
     }
 
     function updateQuantity(productId, change) {

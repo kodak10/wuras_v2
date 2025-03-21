@@ -42,7 +42,7 @@
                             </li>
                             <li>
                                 <label>Adresse:</label>
-                                <a href="#">Abidjan, Adjamé Liberté Hassan 220 logement non loin du rond point</a>
+                                <a href="#">Abidjan, Adjamé Liberté Hassan 220 <br> logement non loin du rond point</a>
                             </li>
                             <li>
                                 <label>JOURS / HEURES D'OUVERTURE :</label>

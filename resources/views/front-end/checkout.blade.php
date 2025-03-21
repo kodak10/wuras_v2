@@ -84,12 +84,12 @@
 
         cart.forEach(item => {
             let row = document.createElement("tr");
-            row.innerHTML = `<td>${item.name} × ${item.quantity}</td><td>${(item.price * item.quantity).toFixed(2)} FCFA</td>`;
+            row.innerHTML = `<td>${item.name} × ${item.quantity}</td><td>${(item.price * item.quantity).toFixed(0)} FCFA</td>`;
             orderItems.appendChild(row);
             subtotal += item.price * item.quantity;
         });
 
-        subtotalPriceElement.textContent = subtotal.toFixed(2) + " FCFA";
+        subtotalPriceElement.textContent = subtotal.toFixed(0) + " FCFA";
 
         // Récupération de la méthode de livraison depuis localStorage
         let selectedDeliveryMethod = localStorage.getItem("shipping_method") || "Retirer au Magasin";
@@ -115,11 +115,11 @@
 
         // Mise à jour des valeurs cachées dans le formulaire
         document.getElementById("cart_data").value = JSON.stringify(cart);
-        document.getElementById("total_price").value = subtotal.toFixed(2);
+        document.getElementById("total_price").value = subtotal.toFixed(0);
 
         // Debug console
         console.log("Méthode de livraison :", selectedDeliveryMethod);
-        console.log("Sous-total de la commande :", subtotal.toFixed(2) + " FCFA");
+        console.log("Sous-total de la commande :", subtotal.toFixed(0) + " FCFA");
         console.log("Adresse complète de livraison :", document.getElementById("shipping_address").value);
     }
 
