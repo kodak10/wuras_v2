@@ -57,7 +57,7 @@ Route::prefix('administration')->middleware(['auth', 'role:Administrateur'])->gr
     Route::put('commandes/{order}/update-status', [OrderController::class, 'updateStatus'])->name('commandes.updateStatus');
 
     Route::get('/users', [AdminController::class, 'userIndex'])->name('users.index');
-    Route::get('/users/create', [AdminController::class, 'userStore'])->name('users.create');
+    Route::get('/users/create', [AdminController::class, 'userCreate'])->name('users.create');
     Route::post('/users/create', [AdminController::class, 'userStore'])->name('users.store');
     Route::put('/users/{id}/', [AdminController::class, 'userUpdate'])->name('users.update');
 

@@ -9,9 +9,13 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="d-flex card-header justify-content-between align-items-center">
-                    <div>
-                        <h4 class="card-title">Tous les utilisateurs</h4>
-                    </div>
+                   
+                    <div class="card-header d-flex justify-content-between align-items-center gap-1">
+                        <h4 class="card-title flex-grow-1">Tous les utilisateurs</h4>
+                        <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary">
+                            Ajouter un Utilisateur
+                        </a>
+                   </div>
                 </div>
 
                 <div>

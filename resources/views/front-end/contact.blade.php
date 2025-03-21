@@ -15,7 +15,7 @@
                         <div class="grey-section d-flex align-items-center h-100">
                             <div>
                                 <h4 class="mb-2 text-capitalize">Adresse</h4>
-                                <p>*Adresse</p>
+                                <p>Abidjan, Adjamé Liberté Hassan 220 logement non loin du rond point</p>
     
                                 <h4 class="mb-2 text-capitalize">Numéro de téléphone</h4>
                                 <p>
@@ -23,7 +23,6 @@
                                     <a href="tel:0749667007">07 49 66 70 07</a>
                                 </p>
     
-                                <h4 class="mb-2 text-capitalize">Abidjan, Adjamé Liberté Hassan 220 logement non loin du rond point</h4>
                                 <p class="mb-4">
                                     <a href="#">Contact@wuras.ci</a><br>
                                     </a>
