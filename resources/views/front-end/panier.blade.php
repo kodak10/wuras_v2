@@ -22,36 +22,26 @@
                         </tr>
                     </thead>
                     <tbody id="cart-items">
-                        <!-- Les produits seront injectés ici via JavaScript -->
+                        <!-- Produits injectés ici via JavaScript -->
                     </tbody>
                 </table>
-                
+
                 <div class="cart-actions mb-6 pt-4">
-                    <a href="{{ route('magasin') }}" class="btn btn-dark btn-md btn-rounded btn-icon-left mr-4 mb-4"><i
-                            class="d-icon-arrow-left"></i>Continuer vos achats</a>
-
-                            
-
-                    <button type="button" id="update-cart-button" class="btn btn-outline btn-dark btn-md btn-rounded btn-disabled" disabled>Mettre à jour</button>
-
-                    {{-- <button type="submit"
-                        class="btn btn-outline btn-dark btn-md btn-rounded btn-disabled">Update
-                        Cart</button> --}}
+                    <a href="{{ route('magasin') }}" class="btn btn-dark btn-md btn-rounded btn-icon-left mr-4 mb-4">
+                        <i class="d-icon-arrow-left"></i>Continuer vos achats
+                    </a>
+                    <button id="update-cart-button" class="btn btn-primary btn-md btn-rounded" onclick="refreshPage()">Mettre à jour</button>
                 </div>
-                
             </div>
+
             <aside class="col-lg-4 sticky-sidebar-wrapper">
                 <div class="sticky-sidebar" data-sticky-options="{'bottom': 20}">
                     <div class="summary mb-4">
                         <h3 class="summary-title text-left">Total du Panier</h3>
                         <table class="shipping">
                             <tr class="summary-subtotal">
-                                <td>
-                                    <h4 class="summary-subtitle">Sous-Total</h4>
-                                </td>
-                                <td>
-                                    <p class="summary-subtotal-price" id="subtotal-price">0</p>
-                                </td>
+                                <td><h4 class="summary-subtitle">Total</h4></td>
+                                <td><p class="summary-subtotal-price" id="subtotal-price">0</p></td>
                             </tr>
                             <tr class="sumnary-shipping shipping-row-last">
                                 <td colspan="2">
@@ -59,26 +49,24 @@
                                     <ul>
                                         <li>
                                             <div class="custom-radio">
-                                                <input type="radio" id="flat_rate" name="shipping" class="custom-control-input" value="Retirer au Magasin" checked>
-                                                <label class="custom-control-label" for="flat_rate">Retirer au Magasin</label>
+                                                <input type="radio" id="free-shipping" name="shipping" class="custom-control-input" value="Retirer au Magasin">
+                                                <label class="custom-control-label" for="free-shipping">Retirer au Magasin</label>
                                             </div>
                                         </li>
-                                        <li>
+                                        <li class="mb-5">
                                             <div class="custom-radio">
-                                                <input type="radio" id="free-shipping" name="shipping" class="custom-control-input" value="Livraison / Expédition">
-                                                <label class="custom-control-label" for="free-shipping">Livraison / Expédition</label>
+                                                <input type="radio" id="flat_rate" name="shipping" class="custom-control-input" value="Livraison / Expédition">
+                                                <label class="custom-control-label" for="flat_rate">Livraison / Expédition</label>
                                             </div>
                                         </li>
-                                        
                                     </ul>
                                 </td>
                             </tr>
                         </table>
-                        
-                        <!-- Section de livraison qui sera affichée si l'utilisateur sélectionne "Livraison" -->
-                        <div class="shipping-address mt-3" name="shipping_adresse" id="shipping-address" style="display: none;">
+
+                        <div class="shipping-address mt-3" id="shipping-address" style="display: none;">
                             <div class="select-box">
-                                <select name="commune" class="form-control" id="commune" onchange="updateShippingAddress()">
+                                <select name="commune" class="form-control" id="commune">
                                     <option selected>Lieu</option>
                                     <option value="Abobo">Abobo</option>
                                     <option value="Cocody">Cocody</option>
@@ -91,34 +79,15 @@
                                     <option value="Treichville">Treichville</option>
                                     <option value="Port-Bouët">Port-Bouët</option>
                                     <option value="Attécoubé">Attécoubé</option>
-                                    <option value="Koumassi">Koumassi</option>
                                     <option value="Songon">Songon</option>
                                     <option value="Intérieur du Pays">Intérieur du Pays</option>
                                 </select>
                             </div>
-                            <input type="text" class="form-control" name="quartier" placeholder="Quartier" id="quartier" onkeyup="updateShippingAddress()"/>
-                            <input type="text" class="form-control" name="phone" placeholder="Numéro de téléphone" id="phone" />
-                        
-                            <!-- Champ caché ou visible qui contient l'adresse complète -->
-                            <input type="hidden" name="shipping_adresse" id="shipping_adresse" />
+                            <input type="text" class="form-control" name="quartier" placeholder="Quartier" id="quartier"/>
+                            <input type="text" class="form-control" name="phone" placeholder="Numéro de téléphone" id="phone"/>
+                            <input type="hidden" name="shipping_adresse" id="shipping_adresse"/>
                         </div>
-            
-                        <table class="total">
-                            
 
-
-                            <tr class="summary-subtotal">
-                                
-                                <td>
-                                    <h4 class="summary-subtitle">Total</h4>
-                                </td>
-                                <td>
-                                    <p class="summary-total-price ls-s" id="total-price">0</p>
-                                </td>
-                            </tr>
-                            
-                        </table>
-                        
                         <a href="{{ route('checkout') }}" class="btn btn-dark btn-rounded btn-checkout">Passer la commande</a>
                     </div>
                 </div>
@@ -127,30 +96,74 @@
     </div>
 </div>
 
-
-
 @endsection
 
 @push('scripts')
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-    // Variables de gestion du panier
+        const savedShippingMethod = localStorage.getItem("shipping_method");
+
+        if (savedShippingMethod === "Livraison / Expédition") {
+            document.getElementById("flat_rate").checked = true;
+            document.getElementById("shipping-address").style.display = 'block';
+        } else {
+            document.getElementById("free-shipping").checked = true;
+            document.getElementById("shipping-address").style.display = 'none';
+        }
+
+        const savedShippingAdresse = localStorage.getItem("shipping_address");
+
+
+        document.querySelectorAll('input[name="shipping"]').forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                const shippingAddressSection = document.getElementById('shipping-address');
+
+                if (this.value === 'Livraison / Expédition') {
+                    shippingAddressSection.style.display = 'block';
+                    localStorage.setItem("shipping_method", "Livraison / Expédition");
+                } else {
+                    shippingAddressSection.style.display = 'none';
+                    localStorage.setItem("shipping_method", "Retirer au Magasin");
+                }
+            });
+        });
+
+        // Chargement des valeurs sauvegardées dans localStorage pour l'adresse
+        if (localStorage.getItem('commune')) document.getElementById('commune').value = localStorage.getItem('commune');
+        if (localStorage.getItem('quartier')) document.getElementById('quartier').value = localStorage.getItem('quartier');
+        if (localStorage.getItem('phone')) document.getElementById('phone').value = localStorage.getItem('phone');
+        
+        updateShippingAddress();
+    });
+
+    function updateShippingAddress() {
+        const commune = document.getElementById('commune').value;
+        const quartier = document.getElementById('quartier').value;
+        const phone = document.getElementById('phone').value;
+        const fullAddress = `${commune}, ${quartier}, ${phone}`;
+
+        localStorage.setItem('commune', commune);
+        localStorage.setItem('quartier', quartier);
+        localStorage.setItem('phone', phone);
+
+        // Correction ici
+        document.getElementById('shipping_address').value = fullAddress;
+    }
+
+    // Mise à jour automatique de l'adresse lorsque l'utilisateur change un champ
+    document.getElementById('commune').addEventListener('change', updateShippingAddress);
+    document.getElementById('quartier').addEventListener('keyup', updateShippingAddress);
+    document.getElementById('phone').addEventListener('keyup', updateShippingAddress);
+</script>
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     const cartItems = document.getElementById("cart-items");
-    const updateCartButton = document.getElementById("update-cart-button");
     const subtotalPriceElement = document.getElementById("subtotal-price");
-    const totalPriceElement = document.getElementById("total-price");
-    const freeShippingRadio = document.getElementById("free-shipping");
-    const flatRateRadio = document.getElementById("flat_rate");
-    const shippingAddress = document.getElementById("shipping-address");
-    const shippingFeeRow = document.getElementById("shipping-fee-row");
-    const shippingFeeElement = document.getElementById("shipping-fee");
-    const shippingFee = 2000;
 
-    // Initialisation de l'affichage du panier et des totaux
-    updateCartDisplay();
-
-    // Mise à jour de l'affichage du panier
     function updateCartDisplay() {
         cartItems.innerHTML = "";
         let totalPrice = 0;
@@ -169,31 +182,29 @@
             row.innerHTML = `
                 <td class="product-thumbnail">
                     <figure>
-                        <a href="#">
+                        <a href="/magasin/${item.slug}">
                             <img src="${item.image}" width="100" height="100" alt="product">
                         </a>
                     </figure>
                 </td>
                 <td class="product-name">
-                    <div class="product-name-section">
-                        <a href="#">${item.name}</a>
-                    </div>
+                    <a href="/magasin/${item.slug}">${item.name}</a>
                 </td>
                 <td class="product-price">
                     <span class="amount">${item.price} FCFA</span>
                 </td>
                 <td class="product-quantity">
                     <div class="input-group">
-                        <button class="quantity-minus d-icon-minus" onclick="updateQuantity('${item.id}', -1)"></button>
-                        <input class="quantity form-control" type="number" min="1" value="${item.quantity}" onchange="enableUpdateButton()">
-                        <button class="quantity-plus d-icon-plus" onclick="updateQuantity('${item.id}', 1)"></button>
+                        <button class="quantity-minus" data-id="${item.id}" data-change="-1">-</button>
+                        <input class="form-control quantity-input" type="number" min="1" value="${item.quantity}" data-id="${item.id}">
+                        <button class="quantity-plus" data-id="${item.id}" data-change="1">+</button>
                     </div>
                 </td>
                 <td class="product-subtotal">
-                    <span class="amount">${subtotal.toFixed(2)} FCFA</span>
+                    <span class="amount subtotal">${subtotal.toFixed(2)} FCFA</span>
                 </td>
                 <td class="product-close">
-                    <a href="#" class="product-remove" onclick="removeFromCart('${item.id}')">
+                    <a href="#" class="product-remove" data-id="${item.id}">
                         <i class="fas fa-times"></i>
                     </a>
                 </td>
@@ -201,114 +212,85 @@
             cartItems.appendChild(row);
         });
 
-        // Mise à jour du total global
         subtotalPriceElement.textContent = totalPrice.toFixed(2) + " FCFA";
-        updateTotal();
     }
 
-    // Fonction de mise à jour de la quantité
-    window.updateQuantity = function(productId, change) {
-        let product = cart.find(item => item.id === productId);
+    function updateQuantity(productId, change) {
+        let product = cart.find(item => item.id.toString() === productId.toString());
         if (product) {
             product.quantity = Math.max(1, product.quantity + change);
             localStorage.setItem("cart", JSON.stringify(cart));
             updateCartDisplay();
         }
-    };
-
-    // Fonction pour supprimer un produit du panier
-    window.removeFromCart = function(productId) {
-        cart = cart.filter(item => item.id !== productId);
-        localStorage.setItem("cart", JSON.stringify(cart));
-        updateCartDisplay();
-    };
-
-    // Active le bouton "Update Cart" quand la quantité est modifiée
-    window.enableUpdateButton = function() {
-        updateCartButton.disabled = false;
-    };
-
-    // Fonction pour mettre à jour les sous-totaux lors de l'édition de la quantité
-    updateCartButton.addEventListener("click", function() {
-        let cartItems = document.querySelectorAll(".quantity");
-        cartItems.forEach(item => {
-            let productId = item.closest('tr').getAttribute('data-product-id');
-            let newQuantity = parseInt(item.value);
-            let product = cart.find(p => p.id === productId);
-            if (product) {
-                product.quantity = newQuantity;
-            }
-        });
-
-        localStorage.setItem("cart", JSON.stringify(cart));
-        updateCartDisplay();
-        this.disabled = true;
-    });
-
-    // Écouteurs pour le changement d'option de livraison
-    freeShippingRadio.addEventListener('change', function () {
-        if (freeShippingRadio.checked) {
-            shippingAddress.style.display = 'block'; // Afficher les champs de livraison
-            shippingFeeRow.style.display = 'table-row'; // Afficher la ligne de frais de livraison
-        }
-        updateTotal();
-    });
-
-    flatRateRadio.addEventListener('change', function () {
-        if (flatRateRadio.checked) {
-            shippingAddress.style.display = 'none'; // Cacher les champs de livraison
-            shippingFeeRow.style.display = 'none'; // Cacher la ligne de livraison
-        }
-        updateTotal();
-    });
-
-    // Fonction pour mettre à jour le total
-    function updateTotal() {
-        const subtotal = parseFloat(subtotalPriceElement.textContent.replace(' FCFA', ''));
-        let total = subtotal;
-
-        if (freeShippingRadio.checked) {
-            total += shippingFee;
-            shippingFeeElement.textContent = shippingFee + " FCFA";
-        }
-
-        totalPriceElement.textContent = total.toFixed(2) + " FCFA";
     }
 
-    
+    function removeFromCart(productId) {
+        cart = cart.filter(item => item.id.toString() !== productId.toString());
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCartDisplay();
+    }
 
+    cartItems.addEventListener("click", function (event) {
+        if (event.target.matches(".quantity-minus, .quantity-plus")) {
+            const productId = event.target.getAttribute("data-id");
+            const change = parseInt(event.target.getAttribute("data-change"), 10);
+            updateQuantity(productId, change);
+        }
 
-    // Initialisation du total au chargement de la page
-    updateTotal();
+        // Vérifie si le bouton cliqué est pour supprimer
+        const removeButton = event.target.closest(".product-remove");
+        if (removeButton) {
+            const productId = removeButton.getAttribute("data-id");
+            removeFromCart(productId);
+        }
+    });
+
+    cartItems.addEventListener("input", function (event) {
+        if (event.target.matches(".quantity-input")) {
+            const productId = event.target.getAttribute("data-id");
+            const newQuantity = parseInt(event.target.value, 10) || 1;
+            let product = cart.find(p => p.id.toString() === productId.toString());
+            if (product) {
+                product.quantity = Math.max(1, newQuantity);
+                localStorage.setItem("cart", JSON.stringify(cart));
+                updateCartDisplay();
+            }
+        }
+    });
+
+    updateCartDisplay();
 });
 
 </script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Charger la valeur sélectionnée depuis le localStorage
-        let selectedShipping = localStorage.getItem("shipping_method") || "flat_rate";
-        document.getElementById(selectedShipping).checked = true;
 
-        // Écouter le changement et sauvegarder la sélection
-        document.querySelectorAll("input[name='shipping']").forEach(input => {
-            input.addEventListener("change", function () {
-                localStorage.setItem("shipping_method", this.id);
-            });
-        });
-    });
-</script>
 
 <script>
-    function updateShippingAddress() {
-        var commune = document.getElementById('commune').value;
-        var quartier = document.getElementById('quartier').value;
+    // Fonction pour activer le bouton de mise à jour
+    function enableUpdateButton() {
+        const updateButton = document.getElementById('update-cart-button');
+        updateButton.classList.remove('disabled');
+
+        updateQuantity();
+    }
+
+    // Fonction pour mettre à jour la quantité (ajouter ou soustraire)
+    function updateQuantity(itemId, change) {
+        const quantityInput = document.getElementById(`quantity-${itemId}`);
+        let currentQuantity = parseInt(quantityInput.value, 10);
+        currentQuantity += change;
         
-        // Créez l'adresse complète en combinant la commune et le quartier
-        var fullAddress = commune + (quartier ? ', ' + quartier : '');
+        // Assurer que la quantité ne soit jamais inférieure à 1
+        if (currentQuantity < 1) currentQuantity = 1;
+        
+        quantityInput.value = currentQuantity;
+        enableUpdateButton();
+    }
 
-        // Mettre à jour le champ shipping_adresse
-        document.getElementById('shipping_adresse').value = fullAddress;
+    // Fonction pour actualiser la page
+    function refreshPage() {
+        location.reload();  // Recharge la page actuelle
     }
 </script>
+
 @endpush

@@ -462,7 +462,7 @@
                 }
             }">
                 @foreach($relatedProducts as $relatedProduct)
-                    <div class="product" data-id="{{ $product->id }}">
+                    <div class="product" data-id="{{ $relatedProduct->id }}" data-slug="{{ $relatedProduct->slug }}">
                         <figure class="product-media">
                             <a href="{{ route('products.details', ['slug' => $relatedProduct->slug]) }}">
                                 @php

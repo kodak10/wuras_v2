@@ -43,7 +43,7 @@
                             <div class="slide-animate" data-animation-options="{
                                 'name': 'fadeInRightShorter', 'duration': '1s'
                             }">
-                                <h5 class="banner-subtitle text-capitalize font-weight-normal">Accessoires informatiques</h5>
+                                <h5 class="banner-subtitle text-capitalize font-weight-normal text-primary">Accessoires informatiques</h5>
                                 <h3 class="banner-title text-uppercase font-weight-bold ls-m text-white">de qualité
                                 </h3>
                                 <p class="text-white font-weight-normal">Pour des performances au quotidien
@@ -121,7 +121,7 @@
                 data-marque="{{ $product->marque }}" 
                 data-stock="{{ $product->stock }}"
                 data-description="{{ $product->description }}"
-                
+                data-slug="{{ $product->slug }}"
                 >
                 <figure class="product-media">
                     <a href="{{ route('products.details', ['slug' => $product->slug]) }}">
@@ -274,6 +274,7 @@
                 data-marque="{{ $product->marque }}" 
                 data-stock="{{ $product->stock }}"
                 data-description="{{ $product->description }}"
+                data-slug="{{ $product->slug }}"
                 >
                 <figure class="product-media">
                     <a href="{{ route('products.details', ['slug' => $product->slug]) }}">
@@ -381,6 +382,7 @@
                 data-marque="{{ $product->marque }}" 
                 data-stock="{{ $product->stock }}"
                 data-description="{{ $product->description }}"
+                data-slug="{{ $product->slug }}"
                 >
                 <figure class="product-media">
                     <a href="{{ route('products.details', ['slug' => $product->slug]) }}">
@@ -456,6 +458,7 @@
                 data-marque="{{ $product->marque }}" 
                 data-stock="{{ $product->stock }}"
                 data-description="{{ $product->description }}"
+                data-slug="{{ $product->slug }}"
                 >
                 <figure class="product-media">
                     <a href="#">
@@ -510,6 +513,7 @@
                     data-marque="{{ $firstProduct->marque }}" 
                     data-stock="{{ $firstProduct->stock }}"
                     data-description="{{ $firstProduct->description }}"
+                    data-slug="{{ $firstProduct->slug }}"
                     >
                     <div class="row product-gallery align-items-center mb-0">
                         <div class="col-md-6 p-relative mb-4 mb-md-0">

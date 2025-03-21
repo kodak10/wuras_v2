@@ -91,6 +91,7 @@
                                 data-marque="{{ $product->marque }}" 
                                 data-stock="{{ $product->stock }}"
                                 data-description="{{ $product->description }}"
+                                data-slug="{{ $product->slug }}"
                                 >
                 
                                 <figure class="product-media">

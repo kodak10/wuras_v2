@@ -89,6 +89,12 @@
             color: #000000!important;
         }
 
+        .banner-group .banner {
+            background: linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5));
+            padding: 20px;
+            border-radius: 10px;
+        }
+
     </style>
 </head>
 
@@ -290,32 +296,34 @@
                 button.addEventListener("click", function (e) {
                     e.preventDefault();
                     let productElement = this.closest(".product");
-    
+
                     // Debug: Afficher l'élément produit pour vérifier sa structure
                     console.log("Élément produit:", productElement);
-    
+
                     let productId = productElement ? productElement.dataset.id : undefined;
                     let productName = productElement.querySelector(".product-name a").textContent;
                     let productPrice = parseFloat(productElement.querySelector(".new-price").textContent.replace(/\D/g, ''));
                     let productImage = productElement.querySelector("img").src;
-    
-                    // Debug: Afficher l'ID du produit, son nom, prix et image
+                    let productSlug = productElement.dataset.slug;  // Récupération du slug
+
+                    // Debug: Afficher l'ID du produit, son nom, prix, image, et slug
                     console.log('ID du produit:', productId);
                     console.log('Nom du produit:', productName);
                     console.log('Prix du produit:', productPrice);
                     console.log('Image du produit:', productImage);
-    
+                    console.log('Slug du produit:', productSlug);  // Affiche le slug
+
                     // Vérification si le produit est déjà dans le panier
                     let existingProduct = cart.find(item => item.id === productId);
-    
+
                     if (existingProduct) {
                         existingProduct.quantity++;
                         console.log('Produit existant trouvé, quantité mise à jour');
                     } else {
-                        cart.push({ id: productId, name: productName, price: productPrice, image: productImage, quantity: 1 });
+                        cart.push({ id: productId, name: productName, price: productPrice, image: productImage, slug: productSlug, quantity: 1 });
                         console.log('Produit ajouté au panier');
                     }
-    
+
                     // Sauvegarder les données dans le localStorage
                     localStorage.setItem("cart", JSON.stringify(cart));
                     updateCartDisplay();
@@ -348,7 +356,7 @@
                                 </button>
                             </figure>
                             <div class="product-detail">
-                                <a href="#" class="product-name">${item.name}</a>
+                                <a href="/magasin/${item.slug}" class="product-name">${item.name}</a>
                                 <div class="price-box">
                                     <span class="product-quantity">${item.quantity}</span>
                                     <span class="product-price">${item.price} FCFA</span>
@@ -380,7 +388,6 @@
 
 
             // Comparaison
-           
             document.querySelectorAll(".btn-compare").forEach(button => {
                 button.addEventListener("click", function (e) {
                     e.preventDefault();
@@ -394,8 +401,13 @@
                     let productMarque = productElement.dataset.marque;  // Récupération du poids
                     let productStock = productElement.dataset.stock;  // Récupération du stock
                     let productColor = productElement.dataset.color;  // Récupération des couleurs
-                    let productDescription = productElement.dataset.description;  // Récupération du stock
+                    let productDescription = productElement.dataset.description;  // Récupération de la description
+                    let productSlug = productElement.dataset.slug;  // Récupération du slug
 
+                    // Debug: Afficher les informations du produit pour vérifier
+                    console.log('Slug du produit:', productSlug);
+
+                    // Vérifie si le produit n'est pas déjà dans la liste de comparaison
                     if (!compareList.some(item => item.id === productId)) {
                         compareList.push({
                             id: productId,
@@ -406,15 +418,18 @@
                             marque: productMarque,
                             stock: productStock,
                             color: productColor,
-                            productDescription: productDescription
+                            productDescription: productDescription,
+                            slug: productSlug  // Ajoute le slug à l'objet
                         });
 
+                        // Sauvegarde les modifications dans le cookie et localStorage
                         document.cookie = "compareList=" + JSON.stringify(compareList) + "; path=/";
                         localStorage.setItem("compareList", JSON.stringify(compareList));
                         updateCompareDisplay();
                     }
                 });
             });
+
 
 
     
@@ -432,13 +447,13 @@
                     compareDropdown.innerHTML = compareList.map(item => `
                         <div class="product product-compare">
                             <figure class="product-media">
-                                <a href="#"><img src="${item.image}" width="80" height="88" alt="${item.name}"></a>
+                                <a href="/magasin/${item.slug}"><img src="${item.image}" width="80" height="88" alt="${item.name}"></a>
                                 <button class="btn btn-link btn-close" onclick="removeFromCompare('${item.id}')">
                                     <i class="fas fa-times"></i>
                                 </button>
                             </figure>
                             <div class="product-detail">
-                                <a href="#" class="product-name">${item.name}</a>
+                                <a href="/magasin/${item.slug}" class="product-name">${item.name}</a>
                                 
                             </div>
                         </div>

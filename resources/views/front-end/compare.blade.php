@@ -80,16 +80,16 @@
                 // Ajouter une colonne pour chaque produit dans chaque ligne correspondante
                 rows.products.innerHTML += `
                     <div class="compare-col">
-                        <div class="product product-classic text-center"  data-id="${item.id}" >
-                            <figure class="product-media">
-                                <a href="${item.url}">
+                        <div class="product product-classic text-center " data-id="${item.id}">
+                            <figure class="product-media product-name">
+                                <a href="/magasin/${item.slug}">
                                     <img src="${item.image}" alt="${item.name}" width="100">
                                 </a>
                             </figure>
 
                             <div class="product-details">
-                                    <div class="product-action">
-                                        <a href="#" class="btn-product-icon btn-cart" title="Ajouter au panier"><i class="d-icon-bag"></i></a>
+                                    <div class="product-action ">
+                                         <!-- <a href="#" class="btn-product-icon btn-cart" title="Ajouter au panier"><i class="d-icon-bag"></i></a> -->
 
                                         <a href="#" class="btn-product-icon btn-default btn-remove" title="Remove from comparison" onclick="removeFromCompare('${item.id}')">
                                             <i class="d-icon-close"></i>
@@ -121,5 +121,12 @@
             updateCompareDisplay();
         };
     });
+
+
+
+
+    
 </script>
+
+
 @endpush

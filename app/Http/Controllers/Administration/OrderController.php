@@ -100,13 +100,13 @@ public function updateStatus(Request $request, $id)
         // Valider les données envoyées
         $request->validate([
             'shipping_method' => 'required|string',
+            'shipping_address' => 'string',
+
             'cart_data' => 'required|json',
         ]);
 
         $cart = json_decode($request->cart_data, true);
-        // dd($request); // Débogue le contenu de $cart
 
-        // dd($cart); // Affichez la structure du panier
 
         if (!$cart || count($cart) === 0) {
             return redirect()->back()->withErrors(['cart' => 'Votre panier est vide.']);
