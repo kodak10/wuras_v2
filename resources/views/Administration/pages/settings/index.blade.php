@@ -10,6 +10,11 @@
                             <iconify-icon icon="solar:shop-2-bold-duotone" class="text-primary fs-20"></iconify-icon>
                             Paramètres généraux
                         </h4>
+                        @if (session('success'))
+                            <div class="alert alert-success mt-4">
+                                {{ session('success') }}
+                            </div>
+                        @endif
                     </div>
                     <div class="card-body">
                         <form action="{{ route('parametres.update') }}" method="POST">
@@ -81,11 +86,7 @@
                             </div>
                         </form>
 
-                        @if (session('success'))
-                            <script>
-                                Swal.fire('Succès', '{{ session('success') }}', 'success');
-                            </script>
-                        @endif
+                        
                     </div>
                 </div>
             </div>

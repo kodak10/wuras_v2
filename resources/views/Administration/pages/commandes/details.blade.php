@@ -4,6 +4,12 @@
 <div class="container-xxl">
     <a class="btn btn-outline-secondary bg-outline" href="{{ route('commandes.index') }}"><iconify-icon icon="solar:arrow-left-line-duotone"></iconify-icon>
          Retour</a>
+
+         @if (session('success'))
+                            <div class="alert alert-success mt-4">
+                                {{ session('success') }}
+                            </div>
+                        @endif
     <div class="row">
          <div class="col-xl-9 col-lg-8">
               <div class="row">

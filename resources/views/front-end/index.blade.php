@@ -513,7 +513,7 @@
                     >
                     <div class="row product-gallery align-items-center mb-0">
                         <div class="col-md-6 p-relative mb-4 mb-md-0">
-                            <div class="">
+                            <div class="w-100">
                                 <figure class="product-media">
                                     {{-- <a href="{{ route('products.details', ['slug' => $product->slug]) }}"> --}}
                                         {{-- @php
@@ -534,7 +534,7 @@
                                         @endphp
 
                                         <a href="{{ route('products.details', ['slug' => $firstProduct->slug]) }}">                                        
-                                            <img src="{{ $imageUrl }}" alt="{{ $firstProduct->name }}" width="280" height="315">
+                                            <img class="w-100" src="{{ $imageUrl }}" alt="{{ $firstProduct->name }}" width="280" height="315">
                                         </a>
                                         {{-- </a> --}}
                                     

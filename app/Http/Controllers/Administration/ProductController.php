@@ -206,6 +206,36 @@ class ProductController extends Controller
     return redirect()->back()->with('error', 'Image non trouvée');
 }
 
+// public function updateThumbnail(Request $request, $id)
+// {
+//     // Validation de l'image
+//     $request->validate([
+//         'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+//     ]);
+
+//     // Trouver le produit
+//     $product = Product::findOrFail($id);
+
+//     // Trouver et supprimer l'ancienne vignette
+//     $oldThumbnail = $product->images()->where('is_thumbnail', true)->first();
+//     if ($oldThumbnail) {
+//         // Supprimer le fichier de stockage
+//         Storage::disk('public')->delete($oldThumbnail->path);
+//         // Supprimer l'entrée de la base de données
+//         $product->images()->detach($oldThumbnail->id);
+//         $oldThumbnail->delete();
+//     }
+
+//     // Ajouter la nouvelle vignette
+//     $path = $request->file('thumbnail')->store('products', 'public');
+//     $newThumbnail = Image::create(['path' => $path, 'is_thumbnail' => true]);
+
+//     // Associer la nouvelle vignette au produit
+//     $product->images()->attach($newThumbnail->id);
+
+//     return redirect()->back()->with('success', 'Vignette mise à jour avec succès !');
+// }
+
 public function updateThumbnail(Request $request, $id)
 {
     // Validation de l'image
@@ -213,25 +243,54 @@ public function updateThumbnail(Request $request, $id)
         'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
 
+    Log::info('Début de la mise à jour de la vignette', ['product_id' => $id]);
+
     // Trouver le produit
-    $product = Product::findOrFail($id);
+    $product = Product::find($id);
+    if (!$product) {
+        Log::error('Produit non trouvé', ['product_id' => $id]);
+        return redirect()->back()->with('error', 'Produit non trouvé');
+    }
+    Log::info('Produit trouvé', ['product' => $product]);
 
     // Trouver et supprimer l'ancienne vignette
     $oldThumbnail = $product->images()->where('is_thumbnail', true)->first();
     if ($oldThumbnail) {
-        // Supprimer le fichier de stockage
-        Storage::disk('public')->delete($oldThumbnail->path);
+        Log::info('Ancienne vignette trouvée', ['old_thumbnail' => $oldThumbnail]);
+
+        // Vérifier si le fichier existe avant de supprimer
+        if (Storage::disk('public')->exists($oldThumbnail->path)) {
+            Storage::disk('public')->delete($oldThumbnail->path);
+            Log::info('Ancienne vignette supprimée du stockage');
+        } else {
+            Log::warning('Fichier de l\'ancienne vignette introuvable', ['path' => $oldThumbnail->path]);
+        }
+
         // Supprimer l'entrée de la base de données
         $product->images()->detach($oldThumbnail->id);
         $oldThumbnail->delete();
+        Log::info('Ancienne vignette supprimée de la base de données');
+    } else {
+        Log::info('Aucune ancienne vignette trouvée');
     }
 
     // Ajouter la nouvelle vignette
-    $path = $request->file('thumbnail')->store('products', 'public');
+    $file = $request->file('thumbnail');
+    if (!$file) {
+        Log::error('Fichier de vignette non reçu');
+        return redirect()->back()->with('error', 'Fichier de vignette non reçu');
+    }
+
+    $path = $file->store('products', 'public');
+    Log::info('Nouvelle vignette enregistrée', ['path' => $path]);
+
+    // Créer une nouvelle entrée d'image
     $newThumbnail = Image::create(['path' => $path, 'is_thumbnail' => true]);
+    Log::info('Nouvelle vignette créée', ['new_thumbnail' => $newThumbnail]);
 
     // Associer la nouvelle vignette au produit
     $product->images()->attach($newThumbnail->id);
+    Log::info('Nouvelle vignette associée au produit');
 
     return redirect()->back()->with('success', 'Vignette mise à jour avec succès !');
 }

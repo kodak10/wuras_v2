@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Administration;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
-use Illuminate\Http\Request;
+use App\Models\User;
 use Carbon\Carbon; 
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
 {
@@ -36,5 +38,69 @@ class AdminController extends Controller
             'paidOrderGrowthWeek',
             'orders'
         ));
+    }
+
+    public function userIndex()
+    {
+        $roles = Role::all();
+
+        $users = User::role(['Administrateur', 'Manager'])->get();
+
+        return view('Administration.pages.users.index', compact('users', 'roles'));
+    }
+
+    public function userCreate()
+    {
+        return view('Administration.pages.users.create');
+    }
+
+    public function userStore(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|string|min:8|confirmed',
+        'role' => 'required|in:Administrateur,Manager',
+    ]);
+
+    // Création de l'utilisateur
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => bcrypt($request->password),
+    ]);
+
+    // Attribution du rôle via Spatie
+    $user->assignRole($request->role);
+
+    return redirect()->route('users.index')->with('success', 'Utilisateur créé avec succès');
+    }
+
+    public function userUpdate(Request $request, $id)
+    {
+        // Valider les données envoyées par le formulaire
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'roles' => 'required|array',
+            'roles.*' => 'exists:roles,id', // S'assurer que les rôles existent dans la table des rôles
+        ]);
+
+        // Trouver l'utilisateur par ID
+        $user = User::findOrFail($id);
+
+        // Mettre à jour les informations de l'utilisateur
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+        ]);
+
+        // Synchroniser les rôles de l'utilisateur
+        // Si l'utilisateur a des rôles existants, les supprimer et ajouter les nouveaux
+        $user->syncRoles($request->roles);
+
+        // Retourner à la vue avec un message de succès
+        return redirect()->route('users.index')->with('success', 'Utilisateur mis à jour avec succès.');
     }
 }

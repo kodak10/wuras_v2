@@ -20,13 +20,19 @@
                         </a>
                     @endif
                    
-                   
-                    <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                    <a href="#" onclick="document.getElementById('logout-form').submit();" class="help d-lg-show">
+                        <i class="d-icon-user"></i> Se Déconnecter
+                    </a>
+                    
+                    <form id="logout-form" method="POST" action="{{ route('logout') }}" style="display: none;">
+                        @csrf
+                    </form>
+                    {{-- <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                         @csrf
                         <button type="submit" class="text-white" style="border: none; background: none; cursor: pointer;">
                             <i class="d-icon-user"></i> Se Déconnecter
                         </button>
-                    </form>
+                    </form> --}}
                 @endauth
             
                 @guest
@@ -70,7 +76,7 @@
             <div class="header-right">
                 <div class="icon-box icon-box-side">
                     <div class="icon-box-icon mr-0 mr-lg-2">
-                        <i class="d-icon-phone"></i>
+                        <i class="d-icon-phone" style="font-size: 36px; color:#f80409;"></i>
                     </div>
                     <div class="icon-box-content d-lg-show">
                         <h2 class="icon-box-title text-dark text-normal">

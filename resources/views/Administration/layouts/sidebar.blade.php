@@ -92,14 +92,25 @@
                </div>
                </li> --}}
 
-               <li class="nav-item {{ request()->is('administration/settings') ? 'active' : '' }}">
-               <a class="nav-link" href="{{ url('/administration/settings') }}">
-                    <span class="nav-icon">
-                         <iconify-icon icon="solar:settings-bold-duotone"></iconify-icon>
-                    </span>
-                    <span class="nav-text"> Paramétrage </span>
-               </a>
+               <li class="nav-item {{ request()->is('administration/users') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/administration/users') }}">
+                         <span class="nav-icon">
+                              <iconify-icon icon="solar:user-bold-duotone"></iconify-icon>
+                         </span>
+                         <span class="nav-text"> Utilisateurs </span>
+                    </a>
                </li>
+
+               <li class="nav-item {{ request()->is('administration/settings') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/administration/settings') }}">
+                         <span class="nav-icon">
+                              <iconify-icon icon="solar:settings-bold-duotone"></iconify-icon>
+                         </span>
+                         <span class="nav-text"> Paramétrage </span>
+                    </a>
+               </li>
+
+               
 
                {{-- <li class="menu-title mt-2">Users</li>
 

@@ -39,7 +39,7 @@ class CategorySeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'Disque de Stockage',
+                'name' => 'Disque Dur & Ram',
                 'path' => 'disque-de-stockage',
                 'created_at' => now(),
                 'updated_at' => now(),

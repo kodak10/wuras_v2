@@ -58,12 +58,22 @@
                                  </div>
                                  <div class="col-lg-6">
                                    <label for="product-category" class="form-label">Catégorie <span class="text-danger">*</span></label>
-                                   <select name="category_id" class="form-control" required>
+                                   {{-- <select name="category_id" class="form-control" required>
                                        <option value="">Sélectionnez une catégorie</option>
                                        @foreach($categories as $category)
                                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                                        @endforeach
+                                   </select> --}}
+                                   <select name="category_id" class="form-control" required>
+                                        <option value="">Sélectionnez une catégorie</option>
+                                        @foreach($categories as $index => $category)
+                                            <option value="{{ $category->id }}" 
+                                                {{ old('category_id', $index === 0 ? $category->id : '') == $category->id ? 'selected' : '' }}>
+                                                {{ $category->name }}
+                                            </option>
+                                        @endforeach
                                    </select>
+                                    
                                    @error('category_id')
                                        <div class="text-danger">{{ $message }}</div>
                                    @enderror
@@ -123,7 +133,7 @@
                                  <div class="col-lg-6">
                                       <div class="mb-3">
                                            <label for="product-stock" class="form-label">Stock <span class="text-danger">*</span></label>
-                                           <input type="number" name="stock" class="form-control" placeholder="Quantité" value="{{ old('stock') }}">
+                                           <input type="number" name="stock" class="form-control" placeholder="Quantité" value="{{ old('stock', 3) }}">
                                            @error('stock')
                                                <div class="text-danger">{{ $message }}</div>
                                            @enderror
@@ -180,7 +190,7 @@
                                  <button type="submit" class="btn btn-outline-secondary w-100">Créer un produit</button>
                             </div>
                             <div class="col-lg-2">
-                                 <a href="#!" class="btn btn-primary w-100">Annuler</a>
+                                 <a href="{{ route('products.index') }}" class="btn btn-primary w-100">Annuler</a>
                             </div>
                        </div>
                   </div>

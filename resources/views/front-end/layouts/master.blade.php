@@ -126,7 +126,7 @@
             <i class="d-icon-bag"></i>
             <span>Panier</span>
         </a>
-        <a href="#" class="sticky-link">
+        <a href="/home" class="sticky-link">
             <i class="d-icon-user"></i>
             <span>Compte</span>
         </a>
@@ -142,6 +142,7 @@
                 </button>
             </form>
         </div>
+        
     </div>
     <!-- Scroll Top -->
     <a id="scroll-top" href="#top" title="Top" role="button" class="scroll-top"><i class="d-icon-arrow-up"></i></a>
@@ -198,13 +199,15 @@
                    
                     
                     <li>
-                        <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                        <a href="#" onclick="document.getElementById('logout-form').submit();" class="">
+                            Se Déconnecter
+                        </a>
+                    
+                        <form id="logout-form" method="POST" action="{{ route('logout') }}" style="display: none;">
                             @csrf
-                            <button type="submit" class=" text-white" style="border: none; background: none; cursor: pointer;">
-                               Se Déconnecter
-                            </button>
                         </form>
                     </li>
+                    
                 
                 @endauth
             </ul>
