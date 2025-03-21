@@ -31,4 +31,11 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class); // Relation "Un produit appartient à une catégorie"
     }
+
+    // Dans le modèle Product
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class); // Relation avec les détails de la commande
+    }
+
 }

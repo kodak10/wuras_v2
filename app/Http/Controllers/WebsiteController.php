@@ -50,6 +50,11 @@ class WebsiteController extends Controller
         $otherProducts = $productsWithDiscount->take(6); // Les 6 autres produits
 
 
+        $topProducts = Product::whereHas('orderDetails.order', function ($query) {
+            $query->where('status', '!=', 'En attente');
+        })->get();
+
+
         $recentProducts = session()->get('recent_products', []);
 
         // Récupérer les produits récemment consultés en fonction des IDs
@@ -58,8 +63,9 @@ class WebsiteController extends Controller
         ->take(8)                        // Limiter à 8 produits
         ->orderBy('created_at', 'desc')
         ->get();
+
     
-        return view('front-end.index', compact('categories', 'computers', 'computerCount', 'EcransImprimantes', 'accessoires', 'accessoiresCount', 'firstProduct', 'otherProducts', 'recentlyViewedProducts'));
+        return view('front-end.index', compact('categories', 'computers', 'computerCount', 'EcransImprimantes', 'accessoires', 'accessoiresCount', 'firstProduct', 'otherProducts', 'recentlyViewedProducts', 'topProducts'));
 
     }
 

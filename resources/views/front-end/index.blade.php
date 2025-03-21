@@ -201,7 +201,7 @@
             <div class="col-lg-4 col-sm-6 mb-4">
                 <div class="banner banner-3 overlay-zoom banner-fixed banner-radius content-middle appear-animate" data-animation-options="{'name': 'fadeInLeftShorter', 'duration': '1s', 'delay': '.2s'}">
                     <figure>
-                        <img src="{{ asset('front/images/banner/card_01.webp') }}" alt="banner" width="380" height="207" style="background-color: #000000;height:177px ">
+                        <img src="{{ asset('front/images/banner/card_01.webp') }}" alt="banner" width="380" height="207" style="height:177px ">
                     </figure>
                     <div class="banner-content">
                         <h3 class="banner-title text-dark mb-1">Imprimantes</h3>
@@ -452,7 +452,7 @@
                 }
             }
         }">
-            <div class="product text-center" data-id="{{ $product->id }}" 
+            {{-- <div class="product text-center" data-id="{{ $product->id }}" 
                 data-category="{{ $product->category ? $product->category->name : 'N/A' }}" 
                 data-price="{{ $product->price }}" 
                 data-marque="{{ $product->marque }}" 
@@ -488,7 +488,51 @@
                     </div>
                     
                 </div>
+            </div> --}}
+            @foreach($topProducts as $product)
+            <div class="product text-center" data-id="{{ $product->id }}"
+                 data-category="{{ $product->category ? $product->category->name : 'N/A' }}"
+                 data-price="{{ $product->price }}"
+                 data-marque="{{ $product->marque }}"
+                 data-stock="{{ $product->stock }}"
+                 data-description="{{ $product->description }}"
+                 data-slug="{{ $product->slug }}">
+                <figure class="product-media">
+                    <a href="{{ route('products.details', ['slug' => $product->slug]) }}">
+                        @php
+                        // Récupérer l'image principale (vignette) associée au produit
+                        $thumbnail = $product->images()->where('is_thumbnail', true)->first();
+                    @endphp
+
+                    @if($thumbnail)
+                        <img src="{{ asset('storage/' . $thumbnail->path) }}" alt="{{ $product->name }}" width="280" height="315">
+                    @else
+                        <p>Pas d'image disponible</p>
+                    @endif
+                    </a>
+                    <div class="product-action-vertical">
+                        <a href="#" class="btn-product-icon btn-cart" title="Ajouter au panier"><i class="d-icon-bag"></i></a>
+                        <a href="#" class="btn-product-icon btn-compare" title="Ajouter à la comparaison"><i class="d-icon-compare"></i></a>
+                    </div>
+                    <div class="product-action">
+                        <a href="{{ route('products.details', ['slug' => $product->slug]) }}" class="btn-product" title="Aperçu">Aperçu</a>
+                    </div>
+                </figure>
+                <div class="product-details">
+                    <h3 class="product-name">
+                        <a href="{{ route('products.details', ['slug' => $product->slug]) }}">{{ $product->name }}</a>
+                    </h3>
+                    <div class="product-price">
+                        @if($product->discount && $product->discount > 0)
+                            <ins class="new-price">{{ number_format($product->price - $product->discount, 2) }} FCFA</ins>
+                            <del class="old-price">{{ number_format($product->price, 2) }} FCFA</del>
+                        @else
+                            <ins class="new-price">{{ number_format($product->price, 2) }} FCFA</ins>
+                        @endif
+                    </div>
+                </div>
             </div>
+        @endforeach
            
         </div>
     </div>
