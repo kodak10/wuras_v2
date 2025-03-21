@@ -19,7 +19,7 @@ return new class extends Migration
                   ->constrained('products') // Contrainte vers la table `articles`
                   ->onDelete('cascade'); // Suppression en cascade de l'article
            
-            $table->text('barcode_path')->nullable()->change();
+            $table->text('barcode_path')->nullable();
 
             $table->timestamps(); // Colonnes `created_at` et `updated_at`
         });
