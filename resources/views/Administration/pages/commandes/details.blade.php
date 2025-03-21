@@ -190,8 +190,8 @@
                                                     </td>
                                                    
                                                     <td>{{ $orderDetail->quantity }}</td>
-                                                    <td>{{ number_format($orderDetail->price, 2) }}</td>
-                                                    <td>{{ number_format($orderDetail->quantity * $orderDetail->price, 2) }}</td>
+                                                    <td>{{ number_format($orderDetail->price, 0) }}</td>
+                                                    <td>{{ number_format($orderDetail->quantity * $orderDetail->price, 0) }}</td>
                                                   </tr>
                                             @endforeach
                                         </tbody>
@@ -219,7 +219,7 @@
                                               <iconify-icon icon="solar:clipboard-text-broken"></iconify-icon> Sous Total :
                                           </p>
                                       </td>
-                                      <td class="text-end text-dark fw-medium px-0">{{ number_format($subTotal, 2) }} FCFA</td>
+                                      <td class="text-end text-dark fw-medium px-0">{{ number_format($subTotal, 0) }} FCFA</td>
                                   </tr>
                                   <tr>
                                       <td class="px-0">
@@ -227,7 +227,7 @@
                                               <iconify-icon icon="solar:kick-scooter-broken" class="align-middle"></iconify-icon> Coût de livraison / Expédition :
                                           </p>
                                       </td>
-                                      <td class="text-end text-dark fw-medium px-0">{{ number_format($deliveryCost, 2) }} FCFA</td>
+                                      <td class="text-end text-dark fw-medium px-0">{{ number_format($deliveryCost, 0) }} FCFA</td>
                                   </tr>
                                   <tr>
                                       <td class="px-0">
@@ -235,7 +235,7 @@
                                               <iconify-icon icon="solar:ticket-broken" class="align-middle"></iconify-icon> Réduction :
                                           </p>
                                       </td>
-                                      <td class="text-end text-dark fw-medium px-0">-{{ number_format($discount, 2) }} FCFA</td>
+                                      <td class="text-end text-dark fw-medium px-0">-{{ number_format($discount, 0) }} FCFA</td>
                                   </tr>
                                   
                               </tbody>
@@ -249,7 +249,7 @@
                              <p class="fw-medium text-dark mb-0">Total</p>
                         </div>
                         <div>
-                             <p class="fw-medium text-dark mb-0">{{ number_format($total, 2) }} FCFA</p>
+                             <p class="fw-medium text-dark mb-0">{{ number_format($total, 0) }} FCFA</p>
                         </div>
                    </div>
               </div>
@@ -269,24 +269,19 @@
                     </div>
                 
                     <div class="d-flex justify-content-between mt-3">
-                        <h5 class="">Numéro</h5>
-                        <div>
-                            <a href="#!"><i class="bx bx-edit-alt fs-18"></i></a>
-                        </div>
+                        <h5 class="">Téléphone</h5>
+                       
                     </div>
                     <p class="mb-1">{{ $order->user->phone ?? 'Non fourni' }}</p>
                 
                     <div class="d-flex justify-content-between mt-3">
                         <h5 class="">Adresse de livraison</h5>
-                        <div>
-                            <a href="#!"><i class="bx bx-edit-alt fs-18"></i></a>
-                        </div>
+                        
                     </div>
                 
                     <div>
                         <p class="mb-1">{{ $order->shipping_address ?? 'Adresse non fournie' }}</p>
-                        <p class="mb-1">{{ $order->shipping_city ?? 'Ville non spécifiée' }}</p>
-                        <p class="mb-1">{{ $order->user->phone ?? 'Téléphone non fourni' }}</p>
+                        
                     </div>
                 </div>
                 
