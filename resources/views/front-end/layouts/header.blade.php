@@ -8,7 +8,7 @@
                 <span class="divider"></span>
             
                 @auth
-                    @if(Auth::user()->hasRole('Administrateur'))
+                    @if(Auth::user()->hasRole(['Administrateur','Manager']))
                         <a href="/administration" class="help d-lg-show">
                             <i class="d-icon-home"></i> Administration
                         </a>

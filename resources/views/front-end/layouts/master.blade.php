@@ -89,12 +89,16 @@
             color: #000000!important;
         }
 
-        .banner-group .banner {
-            background: linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5));
-            
-            padding: 20px;
-            border-radius: 10px;
+        .banner-group .img1{
+            width: 300px; /* Ajuste la largeur selon ton besoin */
+            height: 200px; /* Ajuste la hauteur selon ton besoin */
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                        url({{ asset('front/images/banner/card_01.webp') }});
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px; /* Optionnel pour des bords arrondis */
         }
+
 
     </style>
 </head>
@@ -192,7 +196,7 @@
             
                 <!-- Si l'utilisateur est authentifié -->
                 @auth
-                    @if(Auth::user()->hasRole('Administrateur'))
+                    @if(Auth::user()->hasRole(['Administrateur','Manager']))
                         <li class="{{ Request::is('mon-compte*') ? 'active' : '' }}">
                             <a href="/administration">Administration</a>
                         </li>

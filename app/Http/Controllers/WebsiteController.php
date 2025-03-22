@@ -71,95 +71,41 @@ class WebsiteController extends Controller
 
     
     
- 
-// public function magasin(Request $request)
-// {
-//     // Récupérer toutes les catégories
-//     $categories = Category::all();
-
-//     // Récupérer le nom de la catégorie depuis la requête, ou par défaut 'Ordinateur'
-//     $categoryName = $request->input('category_name');
-
-//     // Récupérer la catégorie correspondante
-//     $category = Category::where('name', $categoryName)->first();
-
-//     // Construire la requête pour les produits
-//     $productsQuery = Product::with('category')
-//         ->when($category, function ($queryBuilder) use ($category) {
-//             return $queryBuilder->where('category_id', $category->id);
-//         })
-//         ->when($request->input('orderby', 'date'), function ($queryBuilder) use ($request) {
-//             switch ($request->orderby) {
-//                 case 'price-low':
-//                     $queryBuilder->orderBy('price', 'asc');
-//                     break;
-//                 case 'price-high':
-//                     $queryBuilder->orderBy('price', 'desc');
-//                     break;
-//                 default:
-//                     $queryBuilder->orderBy('created_at', 'desc');
-//                     break;
-//             }
-//         });
-
-//     // Paginer les résultats
-//     $products = $productsQuery->paginate($request->input('count', 12));
-
-//     // Si c'est une requête AJAX, renvoyer les produits et la pagination en JSON
-//     if ($request->ajax()) {
-//         $html = view('front-end.shop-list', compact('products'))->render();
-//         $pagination = $products->links('pagination::bootstrap-4')->render();
-
-//         return response()->json([
-//             'products' => $html,
-//             'pagination' => $pagination
-//         ]);
-//     }
-
-//     // Retourner la vue avec les variables
-//     return view('front-end.shop', compact('products', 'categories', 'category'));
-// }
 
 
 public function magasin(Request $request)
 {
-    // Récupérer toutes les catégories
     $categories = Category::all();
-
-    // Récupérer le nom de la catégorie depuis la requête, ou par défaut 'Ordinateur'
     $categoryName = $request->input('category_name');
-
-    // Récupérer la catégorie correspondante
     $category = Category::where('name', $categoryName)->first();
 
-    // Construire la requête pour les produits
     $productsQuery = Product::with('category')
-        ->when($category, function ($queryBuilder) use ($category) {
-            return $queryBuilder->where('category_id', $category->id);
+        ->when($category, function ($query) use ($category) {
+            return $query->where('category_id', $category->id);
         })
-        ->when($request->input('search'), function ($queryBuilder) use ($request) {
-            return $queryBuilder->where('name', 'like', '%' . $request->input('search') . '%');
+        ->when($request->input('search'), function ($query) use ($request) {
+            return $query->where('name', 'like', '%' . $request->input('search') . '%');
         })
-        ->when($request->input('orderby', 'date'), function ($queryBuilder) use ($request) {
+        ->when($request->input('orderby', 'date'), function ($query) use ($request) {
             switch ($request->orderby) {
                 case 'price-low':
-                    $queryBuilder->orderBy('price', 'asc');
+                    $query->orderBy('price', 'asc');
                     break;
                 case 'price-high':
-                    $queryBuilder->orderBy('price', 'desc');
+                    $query->orderBy('price', 'desc');
                     break;
                 default:
-                    $queryBuilder->orderBy('created_at', 'desc');
+                    $query->orderBy('created_at', 'desc');
                     break;
             }
         });
 
-    // Paginer les résultats
-    $products = $productsQuery->paginate($request->input('count', 12));
+    $products = $productsQuery->paginate($request->input('count', 8))->appends($request->all());
 
-    // Si c'est une requête AJAX, renvoyer les produits et la pagination en JSON
+    $viewMode = $request->input('view_mode', 'grid'); // Valeur par défaut "grid"
+
     if ($request->ajax()) {
-        $html = view('front-end.shop-list', compact('products'))->render();
+        $html = view("front-end.partials.product-$viewMode", compact('products'))->render();
         $pagination = $products->links('pagination::bootstrap-4')->render();
 
         return response()->json([
@@ -168,9 +114,9 @@ public function magasin(Request $request)
         ]);
     }
 
-    // Retourner la vue avec les variables
-    return view('front-end.shop', compact('products', 'categories', 'category'));
+    return view('front-end.shop', compact('products', 'categories', 'category', 'viewMode'));
 }
+
 
     
     public function productDetails($slug)
