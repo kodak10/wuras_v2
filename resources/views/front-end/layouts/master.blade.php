@@ -101,6 +101,7 @@
 
 
     </style>
+    
 </head>
 
 <body class="home market">
@@ -275,52 +276,60 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @if(session('successOrder'))
-    <script>
-        Swal.fire({
-            icon: 'success',
-            title: 'Succès!',
-            text: '{!! session('successOrder') !!}',
-            confirmButtonText: 'Ok'  // Pas de point-virgule ici
-        });
-    </script>
-@endif
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Succès!',
+                text: '{!! session('successOrder') !!}',
+                confirmButtonText: 'Ok'  // Pas de point-virgule ici
+            });
+        </script>
+    @endif
 
 
-    <script>
+   
+     <script>
         document.addEventListener("DOMContentLoaded", function () {
-
+            console.log("Script chargé");
+            console.log("DOM entièrement chargé");
 
             let cart = JSON.parse(localStorage.getItem("cart")) || [];
             let compareList = JSON.parse(localStorage.getItem("compareList")) || [];
+        
+            // Débogage: Vérifier l'état initial du panier et de la liste de comparaison
+            console.log("État initial du panier:", cart);
+            console.log("État initial de la liste de comparaison:", compareList);
     
             updateCartDisplay();
             updateCompareDisplay();
-            
     
             document.querySelectorAll(".btn-cart").forEach(button => {
-                button.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    let productElement = this.closest(".product");
+                // button.addEventListener("click", function (e) {
+                    $(document).on("click", ".btn-cart", function (e) {
 
+                    e.preventDefault();
+                    console.log("Bouton cliqué");
+                    let productElement = this.closest(".product");
+    
                     // Debug: Afficher l'élément produit pour vérifier sa structure
                     console.log("Élément produit:", productElement);
-
+    
                     let productId = productElement ? productElement.dataset.id : undefined;
                     let productName = productElement.querySelector(".product-name a").textContent;
                     let productPrice = parseFloat(productElement.querySelector(".new-price").textContent.replace(/\D/g, ''));
                     let productImage = productElement.querySelector("img").src;
                     let productSlug = productElement.dataset.slug;  // Récupération du slug
-
+    
                     // Debug: Afficher l'ID du produit, son nom, prix, image, et slug
                     console.log('ID du produit:', productId);
                     console.log('Nom du produit:', productName);
                     console.log('Prix du produit:', productPrice);
                     console.log('Image du produit:', productImage);
                     console.log('Slug du produit:', productSlug);  // Affiche le slug
-
+    
                     // Vérification si le produit est déjà dans le panier
                     let existingProduct = cart.find(item => item.id === productId);
-
+    
                     if (existingProduct) {
                         existingProduct.quantity++;
                         console.log('Produit existant trouvé, quantité mise à jour');
@@ -328,19 +337,22 @@
                         cart.push({ id: productId, name: productName, price: productPrice, image: productImage, slug: productSlug, quantity: 1 });
                         console.log('Produit ajouté au panier');
                     }
-
+    
                     // Sauvegarder les données dans le localStorage
                     localStorage.setItem("cart", JSON.stringify(cart));
                     updateCartDisplay();
                 });
             });
-    
+        
             function updateCartDisplay() {
                 let cartCount = document.querySelector(".cart-count");
                 let cartPrice = document.querySelector(".cart-price");
                 let carSousTotal = document.querySelector(".sous-price")
                 let cartDropdown = document.querySelector(".cart-dropdown .products");
     
+                // Débogage: Vérifier l'état du panier avant la mise à jour
+                console.log("Panier actuel:", cart);
+        
                 if (cart.length === 0) {
                     cartCount.textContent = "0";
                     cartPrice.textContent = "0 FCFA";
@@ -351,7 +363,7 @@
                     cartCount.textContent = cart.length;
                     cartPrice.textContent = totalPrice.toFixed(0) + " FCFA";
                     carSousTotal.textContent = totalPrice.toFixed(0) + " FCFA";
-    
+        
                     cartDropdown.innerHTML = cart.map(item => `
                         <div class="product product-cart">
                             <figure class="product-media">
@@ -371,33 +383,34 @@
                     `).join("");
                 }
             }
-
-            
+    
             window.removeFromCart = function(productId) {
                 cart = cart.filter(item => item.id !== productId);
                 localStorage.setItem("cart", JSON.stringify(cart));
                 updateCartDisplay();
+                // Débogage: Afficher quel produit a été supprimé
                 console.log('Produit supprimé du panier:', productId);
             };
-
-
+    
             window.updateQuantity = function(productId, change) {
                 let product = cart.find(item => item.id == productId);
                 if (product) {
                     product.quantity = Math.max(1, product.quantity + change);
                     localStorage.setItem("cart", JSON.stringify(cart));
                     updateCartDisplay();
+                    // Débogage: Afficher les informations sur le produit dont la quantité a été mise à jour
                     console.log('Quantité mise à jour pour le produit:', productId, 'Nouvelle quantité:', product.quantity);
                 }
             };
-
-
+    
             // Comparaison
             document.querySelectorAll(".btn-compare").forEach(button => {
-                button.addEventListener("click", function (e) {
+                // button.addEventListener("click", function (e) {
+                    $(document).on("click", ".btn-compare", function (e) {
+
                     e.preventDefault();
                     let productElement = this.closest(".product");
-
+    
                     let productId = productElement.dataset.id;
                     let productName = productElement.querySelector(".product-name a").textContent;
                     let productImage = productElement.querySelector("img").src;
@@ -408,10 +421,13 @@
                     let productColor = productElement.dataset.color;  // Récupération des couleurs
                     let productDescription = productElement.dataset.description;  // Récupération de la description
                     let productSlug = productElement.dataset.slug;  // Récupération du slug
-
+    
                     // Debug: Afficher les informations du produit pour vérifier
                     console.log('Slug du produit:', productSlug);
-
+                    console.log('Nom du produit:', productName);
+                    console.log('Image du produit:', productImage);
+                    console.log('Prix du produit:', productPrice);
+    
                     // Vérifie si le produit n'est pas déjà dans la liste de comparaison
                     if (!compareList.some(item => item.id === productId)) {
                         compareList.push({
@@ -426,7 +442,7 @@
                             productDescription: productDescription,
                             slug: productSlug  // Ajoute le slug à l'objet
                         });
-
+    
                         // Sauvegarde les modifications dans le cookie et localStorage
                         document.cookie = "compareList=" + JSON.stringify(compareList) + "; path=/";
                         localStorage.setItem("compareList", JSON.stringify(compareList));
@@ -434,18 +450,15 @@
                     }
                 });
             });
-
-
-
     
             function updateCompareDisplay() {
                 let compareDropdown = document.querySelector(".compare-dropdown .products");
-
+    
                 if (!compareDropdown) {
                     console.warn("Élément .compare-dropdown .products introuvable.");
                     return;
                 }
-
+    
                 if (compareList.length === 0) {
                     compareDropdown.innerHTML = "<p>Aucun produit en comparaison.</p>";
                 } else {
@@ -465,24 +478,18 @@
                     `).join("");
                 }
             }
-
-
-
     
             window.removeFromCompare = function(productId) {
                 compareList = compareList.filter(item => item.id !== productId);
                 document.cookie = "compareList=" + JSON.stringify(compareList) + "; path=/";
                 localStorage.setItem("compareList", JSON.stringify(compareList));
                 updateCompareDisplay();
+                // Débogage: Afficher quel produit a été supprimé de la comparaison
                 console.log('Produit supprimé de la comparaison:', productId);
             };
-
-    
-           
         });
     </script>
     
-
     
    
         @stack('scripts')

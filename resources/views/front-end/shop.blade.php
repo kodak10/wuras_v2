@@ -82,9 +82,9 @@
                 </nav>
                
                
-                <div>
+                {{-- <div>
                     Mode actuel : {{ $viewMode }}
-                </div>
+                </div> --}}
                 
                 
                     <!-- Dynamically change the classes based on viewMode -->
@@ -113,7 +113,8 @@
 
 @push('scripts')
 <script>
-    $(document).ready(function() {
+           document.addEventListener("DOMContentLoaded", function () {
+
  
      // Lorsqu'un filtre est appliqué, on met à jour les produits
      $('.filter-update').on('change', function() {
@@ -160,5 +161,6 @@
      updateProducts(); // Charger les produits au démarrage
  });
  </script>
+ 
  
 @endpush
