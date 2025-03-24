@@ -304,8 +304,8 @@
             updateCompareDisplay();
     
             document.querySelectorAll(".btn-cart").forEach(button => {
-                // button.addEventListener("click", function (e) {
-                    $(document).on("click", ".btn-cart", function (e) {
+                button.addEventListener("click", function (e) {
+                    // $(document).on("click", ".btn-cart", function (e) {
                         console.log("✅ Événement 'click' sur .btn-cart déclenché");
 
                     e.preventDefault();
@@ -406,8 +406,8 @@
     
             // Comparaison
             document.querySelectorAll(".btn-compare").forEach(button => {
-                // button.addEventListener("click", function (e) {
-                    $(document).on("click", ".btn-compare", function (e) {
+                button.addEventListener("click", function (e) {
+                    // $(document).on("click", ".btn-compare", function (e) {
 
                     e.preventDefault();
                     let productElement = this.closest(".product");

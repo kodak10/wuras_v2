@@ -111,7 +111,7 @@
 
 @endsection
 
-@push('scripts')
+{{-- @push('scripts')
 <script>
      document.addEventListener("DOMContentLoaded", function () {
     console.log("Script shop chargé");
@@ -185,4 +185,4 @@
  </script>
  
  
-@endpush
+@endpush --}}
