@@ -45,8 +45,8 @@ class ProductController extends Controller
             'discount' => 'nullable|numeric',
             'colors' => 'nullable|array',
             'tags' => 'nullable|array',
-            'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
     
         // Générer le slug à partir du nom du produit
@@ -119,9 +119,9 @@ class ProductController extends Controller
             'tags' => 'nullable|array',
             'price' => 'required|numeric',
             'discount' => 'nullable|numeric',
-            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Vignette
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048', // Vignette
             'images' => 'nullable|array', // Autres images
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validation pour chaque image
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048', // Validation pour chaque image
         ]);
     
         // Récupérer le produit
