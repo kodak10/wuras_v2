@@ -589,13 +589,15 @@
                                 <div class="product-price mb-2">
                                     @if($firstProduct->discount && $firstProduct->discount > 0)
                                         <!-- Afficher le prix barré et le nouveau prix si la réduction est valide -->
-                                        <ins class="new-price">{{ number_format($firstProduct->price - $firstProduct->discount, 2) }} FCFA</ins>
+                                        <ins class="new-price">{{ number_format($firstProduct->price - $firstProduct->discount, 0) }} FCFA</ins>
                                         <del class="old-price">{{ number_format($firstProduct->price, 0) }} FCFA</del>
                                     @else
                                         <!-- Afficher uniquement le prix normal si la réduction n'est pas valide -->
                                         <ins class="new-price">{{ number_format($firstProduct->price, 0) }} FCFA</ins>
                                     @endif
                                 </div>
+
+                                
                                 
                                 <div class="product-form product-color">
                                     <label>Marque</label>
