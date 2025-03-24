@@ -47,7 +47,7 @@ class WebsiteController extends Controller
 
         // Le premier produit avec un discount sera affiché dans product-single-wrap
         $firstProduct = $productsWithDiscount->shift(); // Déplace le premier produit de la collection
-        $otherProducts = $productsWithDiscount->take(6); // Les 6 autres produits
+        $otherProducts = $productsWithDiscount->take(8); // Les 6 autres produits
 
 
         $topProducts = Product::whereHas('orderDetails.order', function ($query) {
