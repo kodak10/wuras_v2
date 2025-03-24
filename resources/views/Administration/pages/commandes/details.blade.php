@@ -33,7 +33,7 @@
 
                                         
                                         <div>
-                                            @if($order->shipping_method === 'free-shipping')
+                                            @if($order->shipping_method === 'Retirer au Magasin')
                                                 <span class="badge bg-primary">À retirer au magasin</span>
                                             @else
                                                 <span class="badge bg-success">Livraison / Expédition</span>

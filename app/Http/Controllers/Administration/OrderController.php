@@ -97,10 +97,11 @@ public function updateStatus(Request $request, $id)
 
     public function store(Request $request)
     {
+        // dd($request);
         // Valider les données envoyées
         $request->validate([
             'shipping_method' => 'required|string',
-            'shipping_address' => 'string',
+            'shipping_address' => '',
 
             'cart_data' => 'required|json',
         ]);

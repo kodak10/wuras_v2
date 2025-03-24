@@ -91,6 +91,23 @@
                                         @endif
                                     </span>
                                 </li>
+
+                                <li>
+                                    <label class="shipping-title text-dark font-weight-bold"> Status de la commande :</label>
+
+                                    
+                                    <span class="border {{ $order->status == 'en attente' || $order->status == 'confirmée' ? 'border-warning text-warning' : ($order->status == 'livrée' || $order->status == 'expédiée' ? 'border-success text-success' : 'border-danger text-danger') }} fs-13 px-2 py-1 rounded">
+                                        {{ ucfirst($order->status) }}
+                                    </span>
+                                </li>
+
+                                <li>
+                                    <label class="shipping-title text-dark font-weight-bold">Status de payement :</label>
+
+                                    <span class="badge {{ $order->payment_status == 'payé' ? 'bg-success-subtle text-success' : ($order->payment_status == 'non payé' ? 'bg-danger-subtle text-danger' : 'bg-warning-subtle text-warning') }} px-2 py-1 fs-13">
+                                         {{ ucfirst($order->payment_status) }}
+                                    </span>
+                                </li>
                                 
                                 
                             </ul>
