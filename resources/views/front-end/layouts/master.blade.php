@@ -306,6 +306,7 @@
             document.querySelectorAll(".btn-cart").forEach(button => {
                 // button.addEventListener("click", function (e) {
                     $(document).on("click", ".btn-cart", function (e) {
+                        console.log("✅ Événement 'click' sur .btn-cart déclenché");
 
                     e.preventDefault();
                     console.log("Bouton cliqué");
