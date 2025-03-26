@@ -1,151 +1,140 @@
 @extends('Administration.layouts.master')
 
 @section('content')
-<div class="container-xxl">
-
+<div class="page-titles mb-7 mb-md-5">
     <div class="row">
-         <div class="col-md-6 col-xl-3">
-              <div class="card">
-                   <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-between">
-                             <div>
-                                  <h4 class="card-title mb-2">Total Commandes</h4>
-                                  <p class="text-muted fw-medium fs-22 mb-0">490</p>
-                             </div>
-                             <div>
-                                  <div class="avatar-md bg-primary bg-opacity-10 rounded">
-                                       <iconify-icon icon="solar:chat-round-money-broken" class="fs-32 text-primary avatar-title"></iconify-icon>
-                                  </div>
-                             </div>
-                        </div>
-                   </div>
-              </div>
-         </div>
-         <div class="col-md-6 col-xl-3">
-              <div class="card">
-                   <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-between">
-                             <div>
-                                  <h4 class="card-title mb-2">Commande Annulé</h4>
-                                  <p class="text-muted fw-medium fs-22 mb-0">241</p>
-                             </div>
-                             <div>
-                                  <div class="avatar-md bg-primary bg-opacity-10 rounded">
-                                       <iconify-icon icon="solar:cart-cross-broken" class="fs-32 text-primary avatar-title"></iconify-icon>
-                                  </div>
-                             </div>
-                        </div>
-                   </div>
-              </div>
-         </div>
-
-         <div class="col-md-6 col-xl-3">
-              <div class="card">
-                   <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-between">
-                             <div>
-                                  <h4 class="card-title mb-2">Commande en Attente</h4>
-                                  <p class="text-muted fw-medium fs-22 mb-0">630</p>
-                             </div>
-                             <div>
-                                  <div class="avatar-md bg-primary bg-opacity-10 rounded">
-                                       <iconify-icon icon="solar:box-broken" class="fs-32 text-primary avatar-title"></iconify-icon>
-                                  </div>
-                             </div>
-                        </div>
-                   </div>
-              </div>
-         </div>
-
-         <div class="col-md-6 col-xl-3">
-              <div class="card">
-                   <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-between">
-                             <div>
-                                  <h4 class="card-title mb-2">Commandes Terminée</h4>
-                                  <p class="text-muted fw-medium fs-22 mb-0">170</p>
-                             </div>
-                             <div>
-                                  <div class="avatar-md bg-primary bg-opacity-10 rounded">
-                                       <iconify-icon icon="solar:tram-broken" class="fs-32 text-primary avatar-title"></iconify-icon>
-                                  </div>
-                             </div>
-                        </div>
-                   </div>
-              </div>
-         </div>
-
+      <div class="col-lg-8 col-md-6 col-12 align-self-center">
         
+        <h2 class="mb-0 fw-bolder fs-8">Liste des ventes du magasin</h2>
+      </div>
+      
     </div>
+  </div>
 
-    <div class="row">
-         <div class="col-xl-12">
-              <div class="card">
-                   <div class="d-flex card-header justify-content-between align-items-center">
-                        <div>
-                             <h4 class="card-title">Liste de toutes les commandes</h4>
+  <div class="product-list">
+    <div class="card">
+      <div class="card-body p-3">
+        @if(session('success'))
+            <div class="alert customize-alert alert-dismissible text-primary text-primary alert-light-primary bg-primary-subtle fade show remove-close-icon" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <div class="d-flex align-items-center me-3 me-md-0">
+                    <i class="ti ti-info-circle fs-5 me-2 flex-shrink-0 text-primary"></i>
+                    {{ session('success') }}
+                </div>
+            </div>
+        @endif
+        @if ($errors->any())
+      <div class="alert alert-danger">
+          <ul>
+              @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+              @endforeach
+          </ul>
+      </div>
+      @endif
+        
+      <div class="table-responsive">
+        <table id="lang_file" class="table w-100 table-striped table-bordered display">
+            <thead>
+                <tr>
+                    <th>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                         </div>
-                        
-                   </div>
-                   <div class="card-body p-0">
-                        <div class="table-responsive">
-                             <table class="table align-middle mb-0 table-hover table-centered">
-                                  <thead class="bg-light-subtle">
-                                       <tr>
-                                            <th>N° Commande</th>
-                                            <th>Date</th>
-                                            <th>Client</th>
-                                            <th>Nombre articles</th>
-                                            <th>Total</th>
-                                            <th>Status Commande</th>
-                                            <th>Statut de Paiement</th>
-                                            <th>Action</th>
-                                       </tr>
-                                  </thead>
-                                  <tbody>
-                                       <tr>
-                                            <td>
-                                                 #583488/80
-                                            </td>
-                                            <td>Apr 23 , 2024</td>
-                                            <td>
-                                                 <a href="#!" class="link-primary fw-medium">Gail C. Anderson</a>
-                                            </td>
-                                            <td> 4</td>
-                                            <td> $1,230.00</td>
-                                            <td> <span class="badge bg-light text-dark  px-2 py-1 fs-13">Unpaid</span></td>
-                                            <td> <span class="badge border border-secondary text-secondary  px-2 py-1 fs-13">Draft</span></td>
-                                            <td>
-                                                 <div class="d-flex gap-2">
-                                                      <a href="#!" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
-                                                      <a href="#!" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
-                                                      <a href="#!" class="btn btn-soft-danger btn-sm"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>
-                                                 </div>
-                                            </td>
-                                       </tr>
-
-
-
-                                  </tbody>
-                             </table>
+                    </th>
+                    <th>Date</th>
+                    <th>Articles</th>
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                    <th>Réduction</th>
+                    <th>Total</th>
+                    <th>Vendu par</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($ventes as $vente)
+                    <tr>
+                        <td>
+                            <div class="form-check mb-0">
+                                <input class="form-check-input" type="checkbox" value="{{ $vente->id }}" id="flexCheckDefault{{ $vente->id }}">
+                            </div>
+                        </td>
+                        <td> {{ $vente->created_at }}</td>
+                        <td>
+                            <p class="mb-0">{{ $vente->produit->name }}</p>
+                        </td>
+                        <td class="order-total">
+                            <span class="order-quantity">{{ $vente->produit->price }}</span>
+                        </td>
+                        <td class="order-total">
+                            <span class="order-quantity">{{ $vente->quantity }}</span>
+                        </td>
+                        <td class="order-total">
+                            <span class="order-quantity">{{ $vente->discount }}</span>
+                        </td>
+                        <td class="order-total">
+                            <span class="order-quantity">{{ $vente->total }}</span>
+                        </td>
+                        <td>{{ $vente->user->name }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                         </div>
-                        <!-- end table-responsive -->
-                   </div>
-                   <div class="card-footer border-top">
-                        <nav aria-label="Page navigation example">
-                             <ul class="pagination justify-content-end mb-0">
-                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a></li>
-                                  <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
-                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
-                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
-                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>
-                             </ul>
-                        </nav>
-                   </div>
-              </div>
-         </div>
-
+                    </th>
+                    <th>Date</th>
+                    <th>Articles</th>
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                    <th>Réduction</th>
+                    <th>Total</th>
+                    <th>Vendu par</th>
+                </tr>
+            </tfoot>
+        </table>
     </div>
+    
 
-</div>
+      </div>
+    </div>
+  </div>
+   
+
+
+
+
+@push('scripts')
+
+<script>
+    $(document).ready(function() {
+        $('#lang_file').DataTable({
+            responsive: true, // Rendre la table responsive
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/French.json' // Traduction en français
+            },
+            columnDefs: [
+                { orderable: false, targets: 0 }, // Désactiver le tri sur la première colonne (les checkboxes)
+            ],
+            ordering: true, // Activer le tri
+            pageLength: 10, // Nombre de lignes par page
+        });
+    });
+</script>
+
+
+<script>
+    function confirmDelete(articleId) {
+        // Afficher une boîte de confirmation avant de soumettre le formulaire
+        if (confirm("Êtes-vous sûr de vouloir supprimer cet article ?")) {
+            // Si l'utilisateur clique sur "OK", soumettre le formulaire
+            document.getElementById('delete-form-' + articleId).submit();
+        }
+    }
+</script>
+@endpush
+
 @endsection

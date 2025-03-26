@@ -4,6 +4,7 @@ use App\Http\Controllers\Administration\AdminController;
 use App\Http\Controllers\Administration\OrderController;
 use App\Http\Controllers\Administration\ParametreController;
 use App\Http\Controllers\Administration\ProductController;
+use App\Http\Controllers\Administration\VentesController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\WebsiteController;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,7 @@ Route::get('/magasin', [WebsiteController::class, 'magasin'])->name('magasin');
 Route::get('/magasin/{slug}', [WebsiteController::class, 'productDetails'])->name('products.details');
 Route::get('/politique-de-confidentialite', [WebsiteController::class, 'politique'])->name('politique');
 Route::get('/contact', [WebsiteController::class, 'contact'])->name('contact');
+Route::post('/contact', [WebsiteController::class, 'sendEmail'])->name('contact.send');
 
 
 Route::get('/compare', [WebsiteController::class, 'compare'])->name('compare');
@@ -28,7 +30,10 @@ Route::get('order/success', [OrderController::class, 'success'])->name('order.su
 
 
 
-Route::prefix('administration')->middleware(['auth', 'role:Administrateur'])->group(function () {
+// Route::prefix('administration')->middleware(['auth', 'role:['Administrateur'Manager'])->group(function () {
+Route::prefix('administration')->middleware(['auth', 'role:Administrateur|Manager'])->group(function () {
+      
+    
     Route::get('/', [AdminController::class, 'index']);
 
     // Paramètres
@@ -66,22 +71,30 @@ Route::prefix('administration')->middleware(['auth', 'role:Administrateur'])->gr
         return view('Administration.pages.commandes.details');
     });
 
-    Route::get('/commandes/recu', function () {
-        return view('Administration.pages.commandes.recu');
-    });
+
+
+    Route::resource('ventes', VentesController::class);
+
+    Route::get('/profil', [AdminController::class, 'profil'])->name('profil.index');
+
+    Route::put('/profil/update', [AdminController::class, 'profilUpdate'])->name('profil.update');
+
+    // Route::get('/commandes/recu', function () {
+    //     return view('Administration.pages.commandes.recu');
+    // });
 
     // Pages de gestion des ventes
-    Route::get('/ventes', function () {
-        return view('Administration.pages.commandes.index');
-    });
+    // Route::get('/ventes', function () {
+    //     return view('Administration.pages.commandes.index');
+    // });
 
-    Route::get('/ventes/details', function () {
-        return view('Administration.pages.commandes.details');
-    });
+    // Route::get('/ventes/details', function () {
+    //     return view('Administration.pages.commandes.details');
+    // });
 
-    Route::get('/ventes/recu', function () {
-        return view('Administration.pages.commandes.recu');
-    });
+    // Route::get('/ventes/recu', function () {
+    //     return view('Administration.pages.commandes.recu');
+    // });
 });
 
 Route::post('/newsletter/subscribe', [WebsiteController::class, 'subscribe'])->name('newsletter.subscribe');

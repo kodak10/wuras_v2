@@ -103,4 +103,32 @@ class AdminController extends Controller
         // Retourner à la vue avec un message de succès
         return redirect()->route('users.index')->with('success', 'Utilisateur mis à jour avec succès.');
     }
+
+    public function profil()
+    {
+        // Récupère l'utilisateur authentifié
+        $user = auth()->user();
+        
+        // Retourne la vue avec les informations de l'utilisateur
+        return view('Administration.pages.users.profil', compact('user'));
+    }
+
+    public function profilUpdate(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . auth()->id(),
+            'phone' => 'nullable|string|max:20',
+        ]);
+
+        $user = auth()->user();
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+        ]);
+
+        return redirect()->route('profil.index')->with('success', 'Profil mis à jour avec succès.');
+    }
+
 }

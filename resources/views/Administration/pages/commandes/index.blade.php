@@ -111,13 +111,9 @@
                                         <td><span class="badge border border-secondary text-secondary px-2 py-1 fs-13">{{ ucfirst($order->payment_status) }}</span></td>
                                         <td>
                                             <div class="d-flex gap-2">
-                                                {{-- <a href="{{ route('orders.show', $order->id) }}" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a> --}}
-                                                <a href="{{ route('commandes.edit', $order->id) }}" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
-                                                {{-- <form action="{{ route('orders.destroy', $order->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette commande ?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-soft-danger btn-sm"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></button>
-                                                </form> --}}
+                                                <a href="{{ route('commandes.edit', $order->id) }}" class="btn btn-soft-primary btn-sm">
+                                                    <iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon>
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>
@@ -125,17 +121,30 @@
                             </tbody>
                         </table>
                     </div>
+                    
                 </div>
-                <div class="card-footer border-top">
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination justify-content-end mb-0">
-                            {{ $orders->links('pagination::bootstrap-4') }}
-                        </ul>
-                    </nav>
-                </div>
+                
                 
             </div>
         </div>
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        // Initialisation de DataTable
+        $('.table').DataTable({
+            responsive: true, // Rendre la table responsive
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/French.json' // Traduction en français
+            },
+            columnDefs: [
+                { orderable: false, targets: 7 } // Désactiver le tri sur la colonne des actions
+            ]
+        });
+    });
+</script>
+
+@endpush

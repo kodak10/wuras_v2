@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Administration;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,7 +22,7 @@ class OrderController extends Controller
 
         // Liste des commandes
         
-        $orders = Order::with('details')->latest()->paginate(10);// Charger la relation 'details' avec les commandes
+        $orders = Order::with('details')->latest()->get();
 
         // Passer ces données à la vue
         return view('Administration.pages.commandes.index', compact('totalOrders', 'cancelledOrders', 'pendingOrders', 'completedOrders', 'orders'));
@@ -51,46 +52,84 @@ class OrderController extends Controller
     return view('Administration.pages.commandes.details', compact('order', 'subTotal', 'deliveryCost', 'discount', 'total'));
 }
 
-public function update(Request $request, $id)
-{
-    $order = Order::findOrFail($id);
+    public function update(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
 
-    // Valider les données envoyées
-    $request->validate([
-        'shipping_price' => 'required|numeric',
-        'discount' => 'required|numeric',
-    ]);
+        // Valider les données envoyées
+        $request->validate([
+            'shipping_price' => 'required|numeric',
+            'discount' => 'required|numeric',
+        ]);
 
-    // Mettre à jour les informations de la commande
-    $order->update([
-        'shipping_price' => $request->shipping_price,
-        'discount' => $request->discount,
-    ]);
+        // Mettre à jour les informations de la commande
+        $order->update([
+            'shipping_price' => $request->shipping_price,
+            'discount' => $request->discount,
+        ]);
 
-    // Rediriger avec un message de succès
-    return redirect()->route('commandes.edit', $id)->with('success', 'Commande mise à jour avec succès.');
+        // Rediriger avec un message de succès
+        return redirect()->route('commandes.edit', $id)->with('success', 'Commande mise à jour avec succès.');
 
-}
+    }
 
-public function updateStatus(Request $request, $id)
-{
-    $order = Order::findOrFail($id);
+    // public function updateStatus(Request $request, $id)
+    // {
+    //     $order = Order::findOrFail($id);
 
-    // Validation des champs
-    $request->validate([
-        'status' => 'required|in:en attente,confirmée,expédiée,livrée,annulée',
-        'payment_status' => 'required|in:non payé,payé,remboursé',
-    ]);
+    //     // Validation des champs
+    //     $request->validate([
+    //         'status' => 'required|in:en attente,confirmée,expédiée,livrée,annulée',
+    //         'payment_status' => 'required|in:non payé,payé,remboursé',
+    //     ]);
 
-    // Mise à jour du statut et du statut de paiement
-    $order->update([
-        'status' => $request->status,
-        'payment_status' => $request->payment_status,
-    ]);
+    //     // Mise à jour du statut et du statut de paiement
+    //     $order->update([
+    //         'status' => $request->status,
+    //         'payment_status' => $request->payment_status,
+    //     ]);
 
-    // Rediriger vers la page d'édition de la commande avec un message de succès
-    return redirect()->route('commandes.edit', $id)->with('success', 'Statut et statut de paiement mis à jour avec succès.');
-}
+    //     // Rediriger vers la page d'édition de la commande avec un message de succès
+    //     return redirect()->route('commandes.edit', $id)->with('success', 'Statut et statut de paiement mis à jour avec succès.');
+    // }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+
+        // Validation des champs
+        $request->validate([
+            'status' => 'required|in:en attente,confirmée,expédiée,livrée,annulée',
+            'payment_status' => 'required|in:non payé,payé,remboursé',
+        ]);
+
+        // Mise à jour du statut et du statut de paiement
+        $order->update([
+            'status' => $request->status,
+            'payment_status' => $request->payment_status,
+        ]);
+
+        // Vérifier si la commande est "livrée" et "payée"
+        if ($request->status === 'livrée' && $request->payment_status === 'payé') {
+            foreach ($order->orderDetails as $detail) {
+                $product = Product::find($detail->product_id);
+                if ($product) {
+                    // Vérifier si le stock est suffisant
+                    if ($product->stock >= $detail->quantity) {
+                        $product->stock -= $detail->quantity;
+                        $product->save();
+                    } else {
+                        return redirect()->route('commandes.edit', $id)
+                            ->with('error', "Stock insuffisant pour le produit : {$product->name}");
+                    }
+                }
+            }
+        }
+
+        return redirect()->route('commandes.edit', $id)
+            ->with('success', 'Statut et statut de paiement mis à jour avec succès.');
+    }
+
 
 
 

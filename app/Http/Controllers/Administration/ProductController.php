@@ -3,21 +3,24 @@
 namespace App\Http\Controllers\Administration;
 
 use App\Http\Controllers\Controller;
+use App\Mail\DiscountNotification;
 use App\Models\ArticleBarcode;
 use App\Models\Category;
 use App\Models\Image;
+use App\Models\Newsletter;
 use App\Models\Product;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::orderBy('created_at', 'desc')->paginate(10);
+        $products = Product::orderBy('created_at', 'desc')->get();
         return view('Administration.pages.produits.index', compact('products'));
     }
 
@@ -86,6 +89,17 @@ class ProductController extends Controller
                 $product->images()->attach($img->id);
             }
         }
+
+        // 🚀 **Envoyer un email aux abonnés si une remise est appliquée**
+        if ($product->discount > 0) {
+            // Récupérer les abonnés à la newsletter
+            $subscribers = Newsletter::pluck('email');
+    
+            // Envoyer un email à chaque abonné
+            foreach ($subscribers as $email) {
+                Mail::to($email)->send(new DiscountNotification($product));
+            }
+        }
     
         // Retourner à la page de la liste des produits avec un message de succès
         return redirect()->route('products.index')->with('success', 'Produit créé avec succès!');
@@ -149,6 +163,25 @@ class ProductController extends Controller
     
         // Sauvegarder les modifications du produit
         $product->save();
+
+         // 🚀 **Envoyer un email aux abonnés si une remise est appliquée**
+         if ($product->discount > 0) {
+            // Récupérer les abonnés à la newsletter
+            $subscribers = Newsletter::pluck('email');
+        
+            // Envoyer un email à chaque abonné
+            foreach ($subscribers as $email) {
+                try {
+                    Mail::to($email)->send(new DiscountNotification($product));
+                    // Si l'email est envoyé, tu peux ajouter un message de log
+                    Log::info("Email envoyé à : " . $email);
+                } catch (\Exception $e) {
+                    // En cas d'échec, log l'erreur
+                    Log::error("Erreur lors de l'envoi de l'email à : " . $email . " - Erreur : " . $e->getMessage());
+                }
+            }
+        }
+        
     
         // Retourner une réponse ou rediriger avec un message
         return redirect()->route('products.index', $product->id)->with('success', 'Produit mis à jour avec succès');
@@ -330,7 +363,7 @@ public function addImages(Request $request, $id)
         $outOfStockProducts = Product::where('stock', 0)->count(); // Epuisé
 
         $categories = Category::get();
-        $products = Product::orderBy('created_at', 'desc')->paginate(10);
+        $products = Product::orderBy('created_at', 'desc')->get();
         
         return view('Administration.pages.stocks.index', compact('categories', 'products', 'totalProducts', 'lowStockProducts', 'outOfStockProducts'));
     }

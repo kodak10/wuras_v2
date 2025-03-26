@@ -115,17 +115,29 @@
                         </div>
                    </div>
 
-                   <div class="card-footer border-top">
-                    <nav aria-label="Pagination">
-                        <ul class="pagination justify-content-center">
-                            {{-- Vérifie si la pagination existe et personnalise les liens --}}
-                            {{ $products->links('pagination::bootstrap-5') }}
-                        </ul>
-                    </nav>
-                </div>
+                   
                 
               </div>
          </div>
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+     $(document).ready(function() {
+         // Initialisation de DataTable
+         $('.table').DataTable({
+             responsive: true, // Rendre la table responsive
+             language: {
+                 url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/French.json' // Traduction en français
+             },
+             columnDefs: [
+                 // Si tu veux que la première colonne (checkbox) ne soit pas triée
+                 { orderable: false, targets: 0 }
+             ]
+         });
+     });
+ </script>
+ 
+@endpush

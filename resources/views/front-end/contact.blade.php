@@ -32,24 +32,48 @@
                     </div>
                     <div class="col-lg-9 col-md-8 col-sm-6 d-flex align-items-center mb-4">
                         <div class="w-100">
-                            <form class="pl-lg-2" action="#">
+                            <form class="pl-lg-2" action="{{ route('contact.send') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
                                 <h4 class="ls-m font-weight-bold">Connectons-nous</h4>
                                 <p>Votre adresse e-mail ne sera pas publiée. Les champs obligatoires sont marqués d'un astérisque (*).</p>
                                 <div class="row mb-2">
                                     <div class="col-12 mb-4">
-                                        <textarea class="form-control" required
-                                            placeholder="Message*"></textarea>
+                                        <textarea class="form-control" name="message" required placeholder="Message*"></textarea>
                                     </div>
                                     <div class="col-md-6 mb-4">
-                                        <input class="form-control" type="text" placeholder="Nom *" required>
+                                        <input class="form-control" type="text" name="name" placeholder="Nom *" required>
                                     </div>
                                     <div class="col-md-6 mb-4">
-                                        <input class="form-control" type="email" placeholder="Email *" required>
+                                        <input class="form-control" type="email" name="email" placeholder="Email *" required>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <input class="form-control" type="tel" name="telephone" placeholder="Téléphone">
+                                    </div>
+                                    <!-- Ajouter un champ pour télécharger un fichier -->
+                                    <div class="col-6 mb-4">
+                                        <input class="form-control" type="file" name="attachments[]" accept="image/*,application/pdf" multiple>
                                     </div>
                                 </div>
-                                <button class="btn btn-dark btn-rounded">Envoyer<i
-                                        class="d-icon-arrow-right"></i></button>
+                                <button class="btn btn-dark btn-rounded" type="submit">Envoyer<i class="d-icon-arrow-right"></i></button>
                             </form>
+                            
+                            @if (session('success'))
+                                <div class="alert alert-success mt-4 text-white">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+                            @if ($errors->any())
+                                <div class="alert alert-danger mt-4 text-white">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+
+                            
                         </div>
                     </div>
                 </div>

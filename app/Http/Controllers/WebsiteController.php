@@ -3,16 +3,20 @@
 namespace App\Http\Controllers;
 
 use \Log;
+use App\Mail\ContactFormMail;
 use App\Models\Category;
 use App\Models\Newsletter;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class WebsiteController extends Controller
 {
 
     public function index()
     {
+        // dd(Auth::user()->roles);
 
         $categories = Category::all();
 
@@ -222,6 +226,33 @@ public function magasin(Request $request)
        {
         return view('front-end.contact');
        }
+
+
+       public function sendEmail(Request $request)
+    {
+        // Validation des données du formulaire
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'telephone' => 'required',
+            'message' => 'required|string',
+            'attachments.*' => 'nullable|file|mimes:jpeg,png,jpg,pdf,webp|max:10240', // Valider plusieurs fichiers
+        ]);
+
+        // Gérer les fichiers téléchargés
+        $attachmentPaths = [];
+        if ($request->hasFile('attachments')) {
+            foreach ($request->file('attachments') as $file) {
+                $attachmentPaths[] = $file->store('attachments', 'public');
+            }
+        }
+
+        // Envoi de l'email
+        Mail::to('contact@wuras.ci')->send(new ContactFormMail($request, $attachmentPaths));
+
+        // Retourner une réponse après l'envoi
+        return back()->with('success', 'Votre message a été envoyé avec succès.');
+    }
        
        
        public function subscribe(Request $request)

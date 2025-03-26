@@ -207,11 +207,7 @@
                         </div>
                         <!-- end table-responsive -->
                    </div>
-                   <div class="card-footer border-top">
-                    <nav aria-label="Page navigation example">
-                        {{ $products->links('pagination::bootstrap-4') }}
-                    </nav>
-                </div>
+                   
                 
               </div>
          </div>
@@ -222,3 +218,21 @@
 </div>
 @endsection
 
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        // Initialisation de DataTable
+        $('.table').DataTable({
+            responsive: true, // Rendre la table responsive
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/French.json' // Traduction en français
+            },
+            columnDefs: [
+                { orderable: false, targets: 0 }, // Désactiver le tri sur la première colonne (checkbox)
+                { orderable: false, targets: 3 }  // Désactiver le tri sur la colonne des actions
+            ]
+        });
+    });
+</script>
+
+@endpush

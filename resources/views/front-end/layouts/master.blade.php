@@ -11,7 +11,7 @@
     <meta name="author" content="D-THEMES">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ asset('fav') }}">
+    <link rel="icon" type="image/png" href="{{ asset('front/favicon.png') }}">
     <!-- Preload Font -->
     {{-- <link rel="preload" href="{{ asset() }} fonts/riode.ttf?5gap68" as="font" type="font/woff2" crossorigin="anonymous"> --}}
     <link rel="preload" href="{{ asset('front/vendor/fontawesome-free/webfonts/fa-solid-900.woff2') }} " as="font" type="font/woff2" crossorigin="anonymous">

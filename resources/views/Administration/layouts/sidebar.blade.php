@@ -48,67 +48,99 @@
                          <li class="sub-nav-item {{ request()->is('administration/products/create') ? 'active' : '' }}">
                               <a class="sub-nav-link" href="{{ url('/administration/products/create') }}">Ajouter</a>
                          </li>
+
+                         <li class="sub-nav-item {{ request()->is('administration/stocks*') ? 'active' : '' }}">
+                              <a class="sub-nav-link" href="{{ url('/administration/stocks') }}">Stock / Code Barres</a>
+                         </li>
+
+                        
                     </ul>
                </div>
                </li>
 
-               <li class="nav-item {{ request()->is('administration/stocks*') ? 'active' : '' }}">
-               <a class="nav-link" href="{{ url('/administration/stocks') }}">
-                    <span class="nav-icon">
-                         <iconify-icon icon="solar:box-bold-duotone"></iconify-icon>
-                    </span>
-                    <span class="nav-text"> Stock / Code Barres </span>
-               </a>
-               </li>
+              
 
-               <li class="nav-item {{ request()->is('administration/commandes*') ? 'active' : '' }}">
+               <li class="nav-item {{ request()->is('administration/commandes/*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/administration/commandes') }}">
                          <span class="nav-icon">
                               <iconify-icon icon="solar:bag-smile-bold-duotone"></iconify-icon>
                          </span>
                          <span class="nav-text">Commandes </span>
                     </a>
-                    </li>
-
-               {{-- <li class="nav-item ">
-               <a class="nav-link menu-arrow" href="#sidebarOrders" data-bs-toggle="collapse">
-                    <span class="nav-icon">
-                         
-                    </span>
-                    <span class="nav-text">  </span>
-               </a>
-               <div class="collapse {{ request()->is('administration/commandes*') ? 'show' : '' }}" id="sidebarOrders">
-                    <ul class="nav sub-navbar-nav">
-                         <li class="sub-nav-item {{ request()->is('administration/commandes') ? 'active' : '' }}">
-                              <a class="sub-nav-link" href="{{ url('/administration/commandes') }}">Liste</a>
-                         </li>
-                         <li class="sub-nav-item {{ request()->is('administration/commandes/details') ? 'active' : '' }}">
-                              <a class="sub-nav-link" href="{{ url('/administration/commandes/details') }}">Détails</a>
-                         </li>
-                         <li class="sub-nav-item {{ request()->is('administration/commandes/recu') ? 'active' : '' }}">
-                              <a class="sub-nav-link" href="{{ url('/administration/commandes/recu') }}">Reçu de commande</a>
-                         </li>
-                    </ul>
-               </div>
-               </li> --}}
-
-               <li class="nav-item {{ request()->is('administration/users') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('/administration/users') }}">
-                         <span class="nav-icon">
-                              <iconify-icon icon="solar:user-bold-duotone"></iconify-icon>
-                         </span>
-                         <span class="nav-text"> Utilisateurs </span>
-                    </a>
                </li>
 
-               <li class="nav-item {{ request()->is('administration/settings') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('/administration/settings') }}">
+             
+
+               <li class="nav-item {{ request()->is('administration/ventes*') ? 'active' : '' }}">
+                    <a class="nav-link menu-arrow" href="#sidebarVentes" data-bs-toggle="collapse">
                          <span class="nav-icon">
-                              <iconify-icon icon="solar:settings-bold-duotone"></iconify-icon>
+                              <iconify-icon icon="solar:t-shirt-bold-duotone"></iconify-icon>
                          </span>
-                         <span class="nav-text"> Paramétrage </span>
+                         <span class="nav-text"> Ventes </span>
                     </a>
+                    <div class="collapse {{ request()->is('administration/ventes*') ? 'show' : '' }}" id="sidebarVentes">
+                         <ul class="nav sub-navbar-nav">
+                              
+
+                              <li class="sub-nav-item {{ url('/administration/ventes') }}">
+                                   <a class="sub-nav-link" href="{{ url('/administration/ventes') }}">Liste</a>
+                              </li>
+
+                             
+                              
+                              <li class="sub-nav-item {{ request()->is('administration/ventes/create') ? 'active' : '' }}">
+                                   <a class="sub-nav-link" href="{{ url('/administration/ventes/create') }}">Faire une Vente</a>
+                              </li>
+     
+                             
+                             
+                         </ul>
+                    </div>
                </li>
+
+
+               <li class="nav-item {{ request()->is('administration/users*') ? 'active' : '' }}">
+                    <a class="nav-link menu-arrow" href="#sidebarParametrage" data-bs-toggle="collapse">
+                         <span class="nav-icon">
+                              <iconify-icon icon="solar:t-shirt-bold-duotone"></iconify-icon>
+                         </span>
+                         <span class="nav-text"> Parametrage </span>
+                    </a>
+                    <div class="collapse {{ request()->is('administration/users*') ? 'show' : '' }}" id="sidebarParametrage">
+                         <ul class="nav sub-navbar-nav">
+                              
+                              <li class="sub-nav-item">
+                                   <a class="sub-nav-link" href="https://diablo.hostns.io:2096/webmaillogout.cgi">Consulter les mails</a>
+                              </li>
+
+                              @if(Auth::user()->hasRole('Administrateur'))
+                                   <li class="sub-nav-item {{ request()->is('administration/users') ? 'active' : '' }}">
+                                        <a class="sub-nav-link" href="{{ url('/administration/users') }}">Utilisateurs</a>
+                                   </li>
+                              @endif
+
+                              
+
+                              <li class="sub-nav-item {{ request()->is('administration/users/profil') ? 'active' : '' }}">
+                                   <a class="sub-nav-link" href="{{ route('profil.index') }}">Mon Profil</a>
+                              </li>
+
+                             
+                              
+                              <li class="sub-nav-item {{ request()->is('administration/settings') ? 'active' : '' }}">
+                                   <a class="sub-nav-link" href="{{ url('/administration/settings') }}">Magasin</a>
+                              </li>
+     
+                             
+                             
+                         </ul>
+                    </div>
+               </li>
+
+
+               
+
+               
 
                
 

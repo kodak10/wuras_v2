@@ -75,9 +75,9 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
                              <!-- item-->
-                             {{-- <a class="dropdown-item" href="#">
-                                  <i class="bx bx-user-circle text-muted fs-18 align-middle me-1"></i><span class="align-middle">Profil</span>
-                             </a> --}}
+                             <a class="dropdown-item" href="{{ route('profil.index') }}">
+                                  <i class="bx bx-user-circle text-muted fs-18 align-middle me-1"></i><span class="align-middle">Mon Profil</span>
+                             </a>
                             
 
                              <div class="dropdown-divider my-1"></div>
