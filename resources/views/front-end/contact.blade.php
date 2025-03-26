@@ -38,16 +38,16 @@
                                 <p>Votre adresse e-mail ne sera pas publiée. Les champs obligatoires sont marqués d'un astérisque (*).</p>
                                 <div class="row mb-2">
                                     <div class="col-12 mb-4">
-                                        <textarea class="form-control" name="message" required placeholder="Message*"></textarea>
+                                        <textarea class="form-control" name="message" required placeholder="Message*">{{ old('message') }}</textarea>
                                     </div>
                                     <div class="col-md-6 mb-4">
-                                        <input class="form-control" type="text" name="name" placeholder="Nom *" required>
+                                        <input class="form-control" type="text" name="name" placeholder="Nom *" required value="{{ old('name') }}">
                                     </div>
                                     <div class="col-md-6 mb-4">
-                                        <input class="form-control" type="email" name="email" placeholder="Email *" required>
+                                        <input class="form-control" type="email" name="email" placeholder="Email *" required value="{{ old('email') }}">
                                     </div>
                                     <div class="col-md-6 mb-4">
-                                        <input class="form-control" type="tel" name="telephone" placeholder="Téléphone">
+                                        <input class="form-control" type="tel" name="telephone" placeholder="Téléphone *" value="{{ old('telephone') }}">
                                     </div>
                                     <!-- Ajouter un champ pour télécharger un fichier -->
                                     <div class="col-6 mb-4">
@@ -56,6 +56,7 @@
                                 </div>
                                 <button class="btn btn-dark btn-rounded" type="submit">Envoyer<i class="d-icon-arrow-right"></i></button>
                             </form>
+                            
                             
                             @if (session('success'))
                                 <div class="alert alert-success mt-4 text-white">
