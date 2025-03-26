@@ -73,26 +73,6 @@ class OrderController extends Controller
 
     }
 
-    // public function updateStatus(Request $request, $id)
-    // {
-    //     $order = Order::findOrFail($id);
-
-    //     // Validation des champs
-    //     $request->validate([
-    //         'status' => 'required|in:en attente,confirmée,expédiée,livrée,annulée',
-    //         'payment_status' => 'required|in:non payé,payé,remboursé',
-    //     ]);
-
-    //     // Mise à jour du statut et du statut de paiement
-    //     $order->update([
-    //         'status' => $request->status,
-    //         'payment_status' => $request->payment_status,
-    //     ]);
-
-    //     // Rediriger vers la page d'édition de la commande avec un message de succès
-    //     return redirect()->route('commandes.edit', $id)->with('success', 'Statut et statut de paiement mis à jour avec succès.');
-    // }
-
     public function updateStatus(Request $request, $id)
     {
         $order = Order::findOrFail($id);
@@ -111,7 +91,7 @@ class OrderController extends Controller
 
         // Vérifier si la commande est "livrée" et "payée"
         if ($request->status === 'livrée' && $request->payment_status === 'payé') {
-            foreach ($order->orderDetails as $detail) {
+            foreach ($order->details as $detail) {
                 $product = Product::find($detail->product_id);
                 if ($product) {
                     // Vérifier si le stock est suffisant
