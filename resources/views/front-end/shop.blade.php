@@ -110,79 +110,48 @@
 
 
 @endsection
+@push('scripts')
+    <script>
+        $(document).ready(function() { // ✅ S'assurer que le DOM est chargé
+            console.log("Script shop chargé");
 
-{{-- @push('scripts')
-<script>
-     document.addEventListener("DOMContentLoaded", function () {
-    console.log("Script shop chargé");
+            function updateProducts() {
+                var orderBy = $('select[name="orderby"]').val();
+                var count = $('select[name="count"]').val();
+                var viewMode = localStorage.getItem('view_mode') || 'grid';
 
-    function updateProducts() {
-        var orderBy = $('select[name="orderby"]').val();
-        var count = $('select[name="count"]').val();
-        var viewMode = localStorage.getItem('view_mode') || 'grid'; // Récupérer le mode de vue
+                console.log('Mode:', viewMode);
 
-        console.log('Mode:', viewMode);
+                $.ajax({
+                    url: $('#magasin-route').val(), // ✅ Vérifie que cet élément existe dans ton HTML
+                    type: 'GET',
+                    data: { orderby: orderBy, count: count, view_mode: viewMode },
+                    success: function(response) {
+                        $('.product-wrapper')
+                            .removeClass('row cols-2 cols-sm-4 product-lists')
+                            .addClass(viewMode === 'grid' ? 'row cols-2 cols-sm-4' : 'product-lists')
+                            .html(response.products);
 
-        $.ajax({
-            url: '{{ route('magasin') }}',
-            type: 'GET',
-            data: { orderby: orderBy, count: count, view_mode: viewMode },
-            success: function(response) {
-                $('.product-wrapper')
-                    .removeClass('row cols-2 cols-sm-4 product-lists') // Supprimer les classes existantes
-                    .addClass(viewMode === 'grid' ? 'row cols-2 cols-sm-4' : 'product-lists') // Ajouter la classe appropriée
-                    .html(response.products);
+                        $('.pagination').html(response.pagination);
 
-                $('.pagination').html(response.pagination);
-
-                // 🔹 Re-attacher les événements après mise à jour AJAX
-                attachCartEvents();
-            },
-            error: function() {
-                alert('Une erreur s\'est produite.');
-            }
-        });
-    }
-
-    function attachCartEvents() {
-        console.log("Réattachement des événements panier");
-
-        $(document).off("click", ".btn-cart").on("click", ".btn-cart", function (e) {
-            e.preventDefault();
-
-            let productId = $(this).data("id");
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-            let existingProduct = cart.find(item => item.id === productId);
-            if (existingProduct) {
-                existingProduct.quantity += 1; // 🔹 Incrémente correctement
-            } else {
-                cart.push({ id: productId, quantity: 1 });
+                        console.log("Produits mis à jour, réattachement des événements");
+                    },
+                    error: function() {
+                        alert('Une erreur s\'est produite.');
+                    }
+                });
             }
 
-            localStorage.setItem("cart", JSON.stringify(cart));
-            console.log("Panier mis à jour après AJAX : ", cart);
+            // ✅ Délégation des événements
+            $(document).on('change', '.filter-update, select[name="count"]', updateProducts);
+            $(document).on('click', '.toolbox-layout a', function(e) {
+                e.preventDefault();
+                localStorage.setItem('view_mode', $(this).data('view-mode'));
+                updateProducts();
+            });
+
+            updateProducts(); // ✅ Charger les produits au démarrage
         });
-    }
+    </script>
+@endpush
 
-    // Attacher les événements au chargement initial
-    attachCartEvents();
-
-    // Lorsqu'un filtre est appliqué, on met à jour les produits
-    $('.filter-update, select[name="count"]').on('change', updateProducts);
-
-    // Lorsque l'utilisateur change le mode d'affichage (liste/grille)
-    $('.toolbox-layout a').on('click', function(e) {
-        e.preventDefault();
-        var viewMode = $(this).data('view-mode');
-        localStorage.setItem('view_mode', viewMode);
-        updateProducts();
-    });
-
-    updateProducts(); // Charger les produits au démarrage
-});
-
- </script>
- 
- 
-@endpush --}}

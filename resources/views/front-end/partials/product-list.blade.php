@@ -30,7 +30,7 @@
                     <label class="product-label label-sale">{{ number_format($product->discount, 0, '.', '') }} en réduction</label>
                 @endif
             </div>
-        </figure>
+        </figure> 
         <div class="product-details">
             <div class="product-cat">
                 <a href="{{ route('products.details', ['slug' => $product->slug]) }}">{{ $product->category->name }}</a>

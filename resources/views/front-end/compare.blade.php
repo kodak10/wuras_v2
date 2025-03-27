@@ -80,33 +80,42 @@
                 // Ajouter une colonne pour chaque produit dans chaque ligne correspondante
                 rows.products.innerHTML += `
                     <div class="compare-col">
-                        <div class="product product-classic text-center " data-id="${item.id}">
-                            <figure class="product-media product-name">
+                        <div class="product product-classic text-center"
+                        data-id="${item.id}"
+                        data-category="${item.category}" 
+                        data-name="${item.name}"
+                        data-price="${item.price}" 
+                        data-marque="${item.marque}" 
+                        data-stock="${item.stock}"
+                        data-description="${item.description}"
+                        data-slug="${item.slug}"
+                        >
+                            <figure class="product-media ">
                                 <a href="/magasin/${item.slug}">
                                     <img src="${item.image}" alt="${item.name}" width="100">
                                 </a>
                             </figure>
 
                             <div class="product-details">
-                                    <div class="product-action ">
-                                         <!-- <a href="#" class="btn-product-icon btn-cart" title="Ajouter au panier"><i class="d-icon-bag"></i></a> -->
+                                <div class="product-action">
+                                     <a href="#" class="btn-product-icon btn-cart" title="Ajouter au panier">
+                                         <i class="d-icon-bag"></i>
+                                     </a>
 
-                                        <a href="#" class="btn-product-icon btn-default btn-remove" title="Remove from comparison" onclick="removeFromCompare('${item.id}')">
-                                            <i class="d-icon-close"></i>
-                                        </a>
-
-                                    </div>
+                                    <a href="#" class="btn-product-icon btn-default btn-remove remove-from-compare" title="Supprimer de la comparaison" data-id="${item.id}">
+                                        <i class="d-icon-close"></i>
+                                    </a>
                                 </div>
+                            </div>
                         </div>
                     </div>
                 `;
 
-                rows.titles.innerHTML += `<div class="compare-col">${item.name}</div>`;
-                rows.prices.innerHTML += `<div class="compare-col">${item.price}</div>`;
+                rows.titles.innerHTML += `<div class="compare-col product-name"><a href="wuras.ci/magasin/${item.slug}">${item.name}</a> </div>`;
+                rows.prices.innerHTML += `<div class="compare-col product-price">${item.price}</div>`;
                 rows.category.innerHTML += `<div class="compare-col">${item.category}</div>`;
                 rows.stock.innerHTML += `<div class="compare-col">${item.stock}</div>`;
                 rows.description.innerHTML += `<div class="compare-col">${item.description ?? 'Aucune description'}</div>`;
-                
                 rows.colors.innerHTML += `<div class="compare-col">${item.color ?? 'N/A'}</div>`;
                 rows.marque.innerHTML += `<div class="compare-col">${item.marque}</div>`;
             });
@@ -114,19 +123,39 @@
 
         updateCompareDisplay();
 
-        
-        window.removeFromCompare = function (productId) {
+        // Suppression de la comparaison
+        $(document).on("click", ".remove-from-compare", function (e) {
+            let productId = $(this).data("id"); // On récupère l'ID depuis l'attribut data-id
+            console.log("🔴 Suppression du produit de la comparaison:", productId);
+
             compareList = compareList.filter(item => item.id !== productId);
             localStorage.setItem("compareList", JSON.stringify(compareList));
             updateCompareDisplay();
-        };
+        });
+
+        // Ajout au panier
+        $(document).on("click", ".btn-cart", function (e) {
+            let productElement = $(this).closest(".product");
+            let productId = productElement.data("id");
+            let productName = productElement.find(".product-name a").text();
+            let productPrice = parseFloat(productElement.find(".new-price").text().replace(/\D/g, ''));
+            let productImage = productElement.find("img").attr("src");
+            let productSlug = productElement.data("slug");
+
+            console.log("Produit ajouté au panier:", { productId, productName, productPrice, productImage, productSlug });
+
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let existingProduct = cart.find(item => item.id === productId);
+
+            if (existingProduct) {
+                existingProduct.quantity++;
+            } else {
+                cart.push({ id: productId, name: productName, price: productPrice, image: productImage, slug: productSlug, quantity: 1 });
+            }
+
+            localStorage.setItem("cart", JSON.stringify(cart));
+            alert("Produit ajouté au panier");
+        });
     });
-
-
-
-
-    
 </script>
-
-
 @endpush

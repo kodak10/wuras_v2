@@ -207,8 +207,8 @@
         <div class="row justify-content-center">
             <div class="col-lg-4 col-sm-6 mb-4">
                 <div class="banner banner-3 overlay-zoom banner-fixed banner-radius content-middle appear-animate" data-animation-options="{'name': 'fadeInLeftShorter', 'duration': '1s', 'delay': '.2s'}">
-                    <figure class="img1">
-                        
+                    <figure>
+                        <img src="{{ asset('front/images/banner/card_01.webp') }}" alt="banner" width="350" height="177" style="background-color: #1e1e1e;height:177px">
                     </figure>
                     <div class="banner-content">
                         <h3 class="banner-title text-dark mb-1">Imprimantes</h3>

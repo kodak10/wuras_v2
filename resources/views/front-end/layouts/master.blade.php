@@ -89,15 +89,7 @@
             color: #000000!important;
         }
 
-        .banner-group .img1{
-            width: 300px; /* Ajuste la largeur selon ton besoin */
-            height: 200px; /* Ajuste la hauteur selon ton besoin */
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-                        url({{ asset('front/images/banner/card_01.webp') }});
-            background-size: cover;
-            background-position: center;
-            border-radius: 10px; /* Optionnel pour des bords arrondis */
-        }
+       
 
 
     </style>
@@ -287,7 +279,7 @@
     @endif
 
 
-   
+{{--    
      <script>
         document.addEventListener("DOMContentLoaded", function () {
             console.log("Script chargé");
@@ -304,8 +296,8 @@
             updateCompareDisplay();
     
             document.querySelectorAll(".btn-cart").forEach(button => {
-                button.addEventListener("click", function (e) {
-                    // $(document).on("click", ".btn-cart", function (e) {
+                // button.addEventListener("click", function (e) {
+                    $(document).on("click", ".btn-cart", function (e) {
                         console.log("✅ Événement 'click' sur .btn-cart déclenché");
 
                     e.preventDefault();
@@ -488,6 +480,326 @@
                 // Débogage: Afficher quel produit a été supprimé de la comparaison
                 console.log('Produit supprimé de la comparaison:', productId);
             };
+        });
+    </script>
+    
+     --}}
+
+     {{-- <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log("Script chargé");
+    
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let compareList = JSON.parse(localStorage.getItem("compareList")) || [];
+    
+            console.log("État initial du panier:", cart);
+            console.log("État initial de la liste de comparaison:", compareList);
+    
+            updateCartDisplay();
+            updateCompareDisplay();
+    
+            // Écouteur d'événement global pour le bouton "Ajouter au panier"
+            $(document).on("click", ".btn-cart", function (e) {
+                console.log("✅ Événement 'click' sur .btn-cart déclenché");
+    
+                e.preventDefault();
+                let productElement = $(this).closest(".product");
+    
+                if (!productElement.length) return;
+    
+                let productId = productElement.data("id");
+                let productName = productElement.find(".product-name a").text();
+                let productPrice = parseFloat(productElement.find(".new-price").text().replace(/\D/g, ''));
+                let productImage = productElement.find("img").attr("src");
+                let productSlug = productElement.data("slug");
+    
+                console.log("Produit ajouté:", { productId, productName, productPrice, productImage, productSlug });
+    
+                let existingProduct = cart.find(item => item.id === productId);
+    
+                if (existingProduct) {
+                    existingProduct.quantity++;
+                } else {
+                    cart.push({ id: productId, name: productName, price: productPrice, image: productImage, slug: productSlug, quantity: 1 });
+                }
+    
+                localStorage.setItem("cart", JSON.stringify(cart));
+                updateCartDisplay();
+            });
+    
+            function updateCartDisplay() {
+                let cartCount = $(".cart-count");
+                let cartPrice = $(".cart-price");
+                let cartSousTotal = $(".sous-price");
+                let cartDropdown = $(".cart-dropdown .products");
+    
+                console.log("Mise à jour du panier:", cart);
+    
+                if (cart.length === 0) {
+                    cartCount.text("0");
+                    cartPrice.text("0 FCFA");
+                    cartSousTotal.text("0 FCFA");
+                    cartDropdown.html("<p>Votre panier est vide.</p>");
+                } else {
+                    let totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                    cartCount.text(cart.length);
+                    cartPrice.text(totalPrice.toFixed(0) + " FCFA");
+                    cartSousTotal.text(totalPrice.toFixed(0) + " FCFA");
+    
+                    cartDropdown.html(cart.map(item => `
+                        <div class="product product-cart">
+                            <figure class="product-media">
+                                <a href="#"><img src="${item.image}" width="80" height="88"></a>
+                                <button class="btn btn-link btn-close" onclick="removeFromCart('${item.id}')">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </figure>
+                            <div class="product-detail">
+                                <a href="/magasin/${item.slug}" class="product-name">${item.name}</a>
+                                <div class="price-box">
+                                    <span class="product-quantity">${item.quantity}</span>
+                                    <span class="product-price">${item.price} FCFA</span>
+                                </div>
+                            </div>
+                        </div>
+                    `).join(""));
+                }
+            }
+    
+            window.removeFromCart = function(productId) {
+                cart = cart.filter(item => item.id !== productId);
+                localStorage.setItem("cart", JSON.stringify(cart));
+                updateCartDisplay();
+                // Débogage: Afficher quel produit a été supprimé
+                console.log('Produit supprimé du panier:', productId);
+            };
+    
+            window.updateQuantity = function (productId, change) {
+                let product = cart.find(item => item.id == productId);
+                if (product) {
+                    product.quantity = Math.max(1, product.quantity + change);
+                    localStorage.setItem("cart", JSON.stringify(cart));
+                    updateCartDisplay();
+                    console.log('Quantité mise à jour:', productId, 'Nouvelle quantité:', product.quantity);
+                }
+            };
+    
+            // Gestion de la comparaison des produits
+            $(document).on("click", ".btn-compare", function (e) {
+                e.preventDefault();
+                let productElement = $(this).closest(".product");
+    
+                let productId = productElement.data("id");
+                let productName = productElement.find(".product-name a").text();
+                let productImage = productElement.find("img").attr("src");
+                let productCategory = productElement.data("category");
+                let productPrice = productElement.data("price");
+                let productMarque = productElement.data("marque");
+                let productStock = productElement.data("stock");
+                let productColor = productElement.data("color");
+                let productDescription = productElement.data("description");
+                let productSlug = productElement.data("slug");
+    
+                console.log("Produit à comparer:", { productId, productName, productPrice, productImage, productSlug });
+    
+                if (!compareList.some(item => item.id === productId)) {
+                    compareList.push({ id: productId, name: productName, image: productImage, category: productCategory, price: productPrice, marque: productMarque, stock: productStock, color: productColor, description: productDescription, slug: productSlug });
+    
+                    document.cookie = "compareList=" + JSON.stringify(compareList) + "; path=/";
+                    localStorage.setItem("compareList", JSON.stringify(compareList));
+                    updateCompareDisplay();
+                }
+            });
+    
+            function updateCompareDisplay() {
+                let compareDropdown = $(".compare-dropdown .products");
+    
+                if (!compareDropdown.length) {
+                    console.warn("Élément .compare-dropdown .products introuvable.");
+                    return;
+                }
+    
+                if (compareList.length === 0) {
+                    compareDropdown.html("<p>Aucun produit en comparaison.</p>");
+                } else {
+                    compareDropdown.html(compareList.map(item => `
+                        <div class="product product-compare">
+                            <figure class="product-media">
+                                <a href="/magasin/${item.slug}"><img src="${item.image}" width="80" height="88" alt="${item.name}"></a>
+                                <button class="btn btn-link btn-close" onclick="removeFromCompare('${item.id}')">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </figure>
+                            <div class="product-detail">
+                                <a href="/magasin/${item.slug}" class="product-name">${item.name}</a>
+                            </div>
+                        </div>
+                    `).join(""));
+                }
+            }
+    
+            window.removeFromCompare = function(productId) {
+                compareList = compareList.filter(item => item.id !== productId);
+                document.cookie = "compareList=" + JSON.stringify(compareList) + "; path=/";
+                localStorage.setItem("compareList", JSON.stringify(compareList));
+                updateCompareDisplay();
+                // Débogage: Afficher quel produit a été supprimé de la comparaison
+                console.log('Produit supprimé de la comparaison:', productId);
+            };
+        });
+    </script> --}}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log("Script chargé");
+    
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let compareList = JSON.parse(localStorage.getItem("compareList")) || [];
+    
+            console.log("État initial du panier:", cart);
+            console.log("État initial de la liste de comparaison:", compareList);
+    
+            updateCartDisplay();
+            updateCompareDisplay();
+    
+            // Ajout au panier
+            $(document).on("click", ".btn-cart", function (e) {
+                e.preventDefault();
+                let productElement = $(this).closest(".product");
+    
+                let productId = Number(productElement.data("id")); // Correction : convertir en nombre
+                let productName = productElement.find(".product-name a").text();
+                let productPrice = parseFloat(productElement.find(".new-price").text().replace(/\D/g, ''));
+                let productImage = productElement.find("img").attr("src");
+                let productSlug = productElement.data("slug");
+    
+                console.log("Produit ajouté:", { productId, productName, productPrice, productImage, productSlug });
+    
+                let existingProduct = cart.find(item => item.id === productId);
+                if (existingProduct) {
+                    existingProduct.quantity++;
+                } else {
+                    cart.push({ id: productId, name: productName, price: productPrice, image: productImage, slug: productSlug, quantity: 1 });
+                }
+    
+                localStorage.setItem("cart", JSON.stringify(cart));
+                updateCartDisplay();
+            });
+    
+            function updateCartDisplay() {
+                let cartCount = $(".cart-count");
+                let cartPrice = $(".cart-price");
+                let cartSousTotal = $(".sous-price");
+                let cartDropdown = $(".cart-dropdown .products");
+    
+                console.log("Mise à jour du panier:", cart);
+    
+                if (cart.length === 0) {
+                    cartCount.text("0");
+                    cartPrice.text("0 FCFA");
+                    cartSousTotal.text("0 FCFA");
+                    cartDropdown.html("<p>Votre panier est vide.</p>");
+                } else {
+                    let totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                    cartCount.text(cart.length);
+                    cartPrice.text(totalPrice.toFixed(0) + " FCFA");
+                    cartSousTotal.text(totalPrice.toFixed(0) + " FCFA");
+    
+                    cartDropdown.html(cart.map(item => `
+                        <div class="product product-cart" data-id="${item.id}">
+                            <figure class="product-media">
+                                <a href="#"><img src="${item.image}" width="80" height="88"></a>
+                                <button class="btn btn-link btn-close remove-from-cart">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </figure>
+                            <div class="product-detail">
+                                <a href="/magasin/${item.slug}" class="product-name">${item.name}</a>
+                                <div class="price-box">
+                                    <span class="product-quantity">${item.quantity}</span>
+                                    <span class="product-price">${item.price} FCFA</span>
+                                </div>
+                            </div>
+                        </div>
+                    `).join(""));
+                }
+            }
+    
+            // Suppression du panier
+            $(document).on("click", ".remove-from-cart", function () {
+                let productId = Number($(this).closest(".product-cart").data("id")); // Correction : conversion en nombre
+                console.log("🔴 Suppression du produit du panier:", productId);
+    
+                cart = cart.filter(item => item.id !== productId);
+                localStorage.setItem("cart", JSON.stringify(cart));
+                updateCartDisplay();
+            });
+    
+            // Gestion de la comparaison des produits
+            $(document).on("click", ".btn-compare", function (e) {
+                e.preventDefault();
+                let productElement = $(this).closest(".product");
+    
+                // let productId = Number(productElement.data("id"));
+                // let productName = productElement.find(".product-name a").text();
+                // let productImage = productElement.find("img").attr("src");
+                // let productSlug = productElement.data("slug");
+                
+    
+                let productId = Number(productElement.data("id")); // Correction : convertir en nombre
+                let productName = productElement.find(".product-name a").text();
+                let productPrice = parseFloat(productElement.find(".new-price").text().replace(/\D/g, ''));
+                let productImage = productElement.find("img").attr("src");
+                let productSlug = productElement.data("slug");
+
+                console.log("Produit à comparer:", { productId, productName });
+    
+                if (!compareList.some(item => item.id === productId)) {
+                    compareList.push({ id: productId, name: productName, image: productImage, slug: productSlug });
+    
+                    localStorage.setItem("compareList", JSON.stringify(compareList));
+                    updateCompareDisplay();
+                }
+            });
+    
+            function updateCompareDisplay() {
+                let compareDropdown = $(".compare-dropdown .products");
+    
+                if (!compareDropdown.length) {
+                    console.warn("Élément .compare-dropdown .products introuvable.");
+                    return;
+                }
+    
+                console.log("Mise à jour de la liste de comparaison:", compareList);
+    
+                if (compareList.length === 0) {
+                    compareDropdown.html("<p>Aucun produit en comparaison.</p>");
+                } else {
+                    compareDropdown.html(compareList.map(item => `
+                        <div class="product product-compare" data-id="${item.id}">
+                            <figure class="product-media">
+                                <a href="/magasin/${item.slug}"><img src="${item.image}" width="80" height="88"></a>
+                                <button class="btn btn-link btn-close remove-from-compare">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </figure>
+                            <div class="product-detail">
+                                <a href="/magasin/${item.slug}" class="product-name">${item.name}</a>
+                            </div>
+                        </div>
+                    `).join(""));
+                }
+            }
+    
+            // Suppression de la comparaison
+            $(document).on("click", ".remove-from-compare", function () {
+                let productId = Number($(this).closest(".product-compare").data("id")); // Correction : conversion en nombre
+                console.log("🔴 Suppression du produit de la comparaison:", productId);
+    
+                compareList = compareList.filter(item => item.id !== productId);
+                localStorage.setItem("compareList", JSON.stringify(compareList));
+                updateCompareDisplay();
+            });
         });
     </script>
     
